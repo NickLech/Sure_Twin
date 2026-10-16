@@ -1,0 +1,33 @@
+OS: Ubuntu 26.04.1 LTS
+Python version: 3.11.17
+
+
+Password VM Ale: Password#1
+
+
+# Pacchetti di base
+sudo apt update
+sudo apt install -y git python3-venv python3-pip
+sudo apt install -y git curl unzip
+
+# uv (gestore di ambienti, scarica da solo Python 3.11)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+# chiudi e riapri il terminale
+
+# Cartella del progetto e ambiente Python 3.11
+mkdir -p ~/SURE-Twin/datasets
+cd ~/SURE-Twin
+uv venv --python 3.11 .venv
+source .venv/bin/activate
+Dopo l'ultimo comando vedrai (.venv) all'inizio della riga del terminale. Ripeti source ~/sure-twin/.venv/bin/activate ogni volta che apri un nuovo terminale.
+
+# PyTorch CPU, nella versione esatta richiesta da BasicTS
+uv pip install "torch==2.12.1" --index-url https://download.pytorch.org/whl/cpu
+
+# BasicTS
+uv pip install basicts
+
+Verifica:
+python --version
+python -c "import torch, basicts; print(torch.__version__, torch.cuda.is_available())"
+Se stampa la versione di torch e False, l'ambiente funziona e usi la CPU.
