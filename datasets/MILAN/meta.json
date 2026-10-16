@@ -1,0 +1,36 @@
+{
+  "name": "MILAN",
+  "domain": "mobile network traffic",
+  "frequency (minutes)": 10.0,
+  "shape": [
+    4320,
+    2500
+  ],
+  "timestamps_shape": [
+    4320,
+    4
+  ],
+  "timestamps_description": [
+    "time of day",
+    "day of week",
+    "day of month",
+    "day of year"
+  ],
+  "num_time_steps": 4320,
+  "num_vars": 2500,
+  "has_graph": false,
+  "regular_settings": {
+    "train_val_test_ratio": [
+      0.6,
+      0.2,
+      0.2
+    ],
+    "norm_each_channel": true,
+    "rescale": false,
+    "metrics": [
+      "MAE",
+      "MSE"
+    ],
+    "null_val": 0.0
+  }
+}
