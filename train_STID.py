@@ -3,6 +3,7 @@
 from basicts.models.STID import STID, STIDConfig
 from basicts.configs import BasicTSForecastingConfig
 from basicts import BasicTSLauncher
+from basicts.runners.callback import EarlyStopping
 
 def main():
     INPUT_LEN = 144
@@ -26,7 +27,12 @@ def main():
         output_len=OUTPUT_LEN,
         use_timestamps=True,
         gpus=None,
-        num_epochs=2,
+        batch_size=32,
+        optimizer_params={"lr": 0.001, "weight_decay": 0.0005},
+        seed=42,
+        num_epochs=60,
+        num_layers=3,
+        callbacks=[EarlyStopping(patience=20)],
     )
 
     # 3. Launch training
