@@ -1,8 +1,4 @@
-# Project Setup & Installation Guide
-
-This project requires **Python 3.11** and relies on [`uv`](https://github.com/astral-sh/uv) for fast, reliable Python dependency and environment management.
-
----
+# Setup & Installation Guide
 
 ## Prerequisites & Requirements
 
@@ -69,7 +65,7 @@ uv pip install basicts
 
 ---
 
-## Verification
+## Verify
 
 To verify that the installation succeeded and the virtual environment is working properly, run:
 
