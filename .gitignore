@@ -3,3 +3,6 @@ datasets/
 __pycache__/
 *.pyc
 .DS_Store
+checkpoints/
+out_*.log
+test_*.log
