@@ -215,6 +215,12 @@ if len(preds) > 1:
         "(nominal 0.90; low is expected with few members)"
     )
 
+    d = np.abs(targets - true)
+    bad = np.argwhere(d > 1e-2)
+    print("entries diff:", len(bad), "su", d.size)
+    print("nodi coinvolti:", np.unique(bad[:, 2])[:20])
+    print("step coinvolti:", np.unique(bad[:, 0])[:20])
+
 # ---------------------------------------------------------------------
 # Plots
 # ---------------------------------------------------------------------
@@ -320,12 +326,20 @@ tod = (
 ).round().astype(int) % 144
 
 mae_step = np.abs(main[:, 0] - true[:, 0]).mean(axis=1)
+
+s = 110
+node = np.abs(main[s, 0] - true[s, 0]).argmax()
+print("node", node, "pred", main[s, 0, node], "true", true[s, 0, node])
+inp = test[s:s + IN, node]
+print("input min/zeros/max:", inp.min(), (inp == 0).sum(), inp.max())
+print("diff targets vs true at s:", np.abs(targets[s] - true[s]).max())
+
 for s in np.sort(np.argsort(mae_step)[-10:]):
     print(s, tod[s], round(mae_step[s], 1))
 print(test[IN + 105: IN + 120].sum(axis=1).round())
 
 mae_by_slot = [
-    mae_t[tod == hour].mean() if np.any(tod == hour) else np.nan
+    mae_step[tod == hour].mean() if np.any(tod == hour) else np.nan
     for hour in range(144)
 ]
 
