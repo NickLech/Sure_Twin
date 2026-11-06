@@ -42,9 +42,17 @@ data = Path(args.data)
 # ---------------------------------------------------------------------
 # Ground truth in original units
 # ---------------------------------------------------------------------
-train = np.load(data / "train_data.npy")[..., 0]  # [T_train, N]
-test = np.load(data / "test_data.npy")[..., 0]    # [T_test, N]
-test_ts = np.load(data / "test_timestamps.npy")   # [T_test, 4]
+def load_series(path):
+    a = np.load(path)
+    if a.ndim == 3:      # [T, N, C] -> prima feature
+        a = a[..., 0]
+    elif a.ndim != 2:
+        raise ValueError(f"Unexpected shape {a.shape} in {path}")
+    return a            # [T, N]
+
+train = load_series(data / "train_data.npy")
+test = load_series(data / "test_data.npy")
+test_ts = np.load(data / "test_timestamps.npy")
 
 # Per-node z-score statistics, assuming norm_each_channel=True.
 mean = train.mean(axis=0)
