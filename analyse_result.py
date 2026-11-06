@@ -40,28 +40,30 @@ data = Path(args.data)
 
 
 # ---------------------------------------------------------------------
-# Ground truth in original units
+# Data loading (original units)
 # ---------------------------------------------------------------------
 def load_series(path):
+    """Load a [T, N] or [T, N, C] array and return [T, N] (first feature)."""
     a = np.load(path)
-    if a.ndim == 3:      # [T, N, C] -> prima feature
+    if a.ndim == 3:
         a = a[..., 0]
     elif a.ndim != 2:
         raise ValueError(f"Unexpected shape {a.shape} in {path}")
-    return a            # [T, N]
+    return a
 
-train = load_series(data / "train_data.npy")
-test = load_series(data / "test_data.npy")
+
+train = load_series(data / "train_data.npy")  # [T_train, N]
+test = load_series(data / "test_data.npy")    # [T_test, N]
 test_ts = np.load(data / "test_timestamps.npy")
 
-# Per-node z-score statistics, assuming norm_each_channel=True.
+# Per-node z-score statistics (norm_each_channel=True).
 mean = train.mean(axis=0)
 std = train.std(axis=0) + 1e-8
 
 N = test.shape[1]
-S = test.shape[0] - IN - OUT + 1
+S_ALL = test.shape[0] - IN - OUT + 1  # number of test windows
 
-if S <= 0:
+if S_ALL <= 0:
     raise ValueError(
         f"Test series is too short: T={test.shape[0]}, "
         f"input_len={IN}, output_len={OUT}"
@@ -73,8 +75,8 @@ def load_prediction_file(path):
     Load either a standard .npy file or a raw float32 memmap
     (BasicTS may save raw data with a .npy extension).
 
-    The saved values are assumed to be normalized and are converted
-    back to original units using the training-set mean and std.
+    The saved values are normalized and are converted back to original
+    units using the training-set mean and std.
     """
     path = Path(path)
 
@@ -88,16 +90,54 @@ def load_prediction_file(path):
 
     a = np.asarray(a, dtype=np.float32)
 
-    expected_size = S * OUT * N
+    expected_size = S_ALL * OUT * N
     if a.size != expected_size:
         raise ValueError(
             f"Unexpected size in {path}: got {a.size}, "
-            f"expected {expected_size} (= {S} x {OUT} x {N}). "
+            f"expected {expected_size} (= {S_ALL} x {OUT} x {N}). "
             "Check the prediction file format and input/output lengths."
         )
 
-    a = a.reshape(S, OUT, N)
+    a = a.reshape(S_ALL, OUT, N)
     return a * std[None, None, :] + mean[None, None, :]
+
+
+def fix_misplaced_last_batch(targets, preds, true, tol=1e-2):
+    """
+    Work around a saving bug: the last (partial) batch of test results is
+    written at the wrong offset, overwriting earlier windows.
+
+    Windows whose saved targets disagree with the raw test data come in two
+    equal blocks: the overwritten head block and the garbage tail block.
+    The tail's true content sits in the head block, so we move it back and
+    drop the (lost) head windows.
+
+    Returns (targets, preds, true, keep) restricted to the valid windows.
+    """
+    S = true.shape[0]
+    keep = np.ones(S, dtype=bool)
+
+    bad = np.flatnonzero(np.abs(targets - true).max(axis=(1, 2)) > tol)
+    if bad.size == 0:
+        return targets, preds, true, keep
+
+    half = bad.size // 2
+    head, tail = bad[:half], bad[half:]
+
+    if bad.size % 2 or not np.allclose(targets[head], true[tail], atol=tol):
+        raise RuntimeError(
+            f"Unexpected mismatch pattern between targets and raw test data "
+            f"(bad windows: {bad.tolist()}); cannot apply the last-batch fix."
+        )
+
+    print(f"[fix] last batch misplaced: windows {head.tolist()} hold "
+          f"the content of {tail.tolist()}; dropping {head.size} lost windows")
+
+    preds[:, tail] = preds[:, head]
+    targets[tail] = targets[head]
+    keep[head] = False
+
+    return targets[keep], preds[:, keep], true[keep], keep
 
 
 # ---------------------------------------------------------------------
@@ -118,38 +158,36 @@ print(f"Found {len(ckpt_dirs)} checkpoint(s):")
 for d in ckpt_dirs:
     print(f"  {d}")
 
-targets = load_prediction_file(
-    Path(ckpt_dirs[0]) / "test_results" / "targets.npy"
-)
-
 # ---------------------------------------------------------------------
-# Sanity check 1: targets versus raw test windows
+# Targets, predictions, sanity check 1 (+ last-batch fix)
 # ---------------------------------------------------------------------
 win = sliding_window_view(test, IN + OUT, axis=0)  # [S, N, IN+OUT]
 true = win[:, :, IN:].transpose(0, 2, 1)            # [S, OUT, N]
 
-target_error = np.abs(targets - true).max()
-print(
-    f"[check] max |targets - raw test| = {target_error:.6g} "
-    "(should be approximately 0)"
+targets = load_prediction_file(
+    Path(ckpt_dirs[0]) / "test_results" / "targets.npy"
 )
-
-# ---------------------------------------------------------------------
-# Predictions: individual seeds and ensemble
-# ---------------------------------------------------------------------
 preds = np.stack([
     load_prediction_file(Path(d) / "test_results" / "prediction.npy")
     for d in ckpt_dirs
 ])  # [M, S, OUT, N]
 
-# l'ultimo batch è stato scritto a 110:115 invece che a 704:709
-preds[:, 704:709] = preds[:, 110:115]
-targets[704:709] = targets[110:115]
-keep = np.ones(S, bool)
-keep[110:115] = False
-targets, preds, true = targets[keep], preds[:, keep], true[keep]
-print(f"[check] dopo fix: {np.abs(targets - true).max():.6g}")  # deve essere ~0
+print(
+    f"[check] max |targets - raw test| = {np.abs(targets - true).max():.6g} "
+    "(should be approximately 0)"
+)
 
+targets, preds, true, keep = fix_misplaced_last_batch(targets, preds, true)
+S = true.shape[0]  # number of valid windows from here on
+
+print(
+    f"[check] after fix: max |targets - raw test| = "
+    f"{np.abs(targets - true).max():.6g}"
+)
+
+# ---------------------------------------------------------------------
+# Ensemble
+# ---------------------------------------------------------------------
 ens_mean = preds.mean(axis=0)
 ens_std = preds.std(axis=0)
 
@@ -178,8 +216,7 @@ rows = {
 }
 
 for d, prediction in zip(ckpt_dirs, preds):
-    seed_name = Path(d).parent.name
-    rows[seed_name] = prediction
+    rows[Path(d).parent.name] = prediction
 
 if len(preds) > 1:
     rows["ensemble mean"] = ens_mean
@@ -218,12 +255,6 @@ if len(preds) > 1:
         f"[ensemble] coverage of mean +/- 1.645 std = {coverage:.3f} "
         "(nominal 0.90; low is expected with few members)"
     )
-
-    d = np.abs(targets - true)
-    bad = np.argwhere(d > 1e-2)
-    print("entries diff:", len(bad), "su", d.size)
-    print("nodi coinvolti:", np.unique(bad[:, 2])[:20])
-    print("step coinvolti:", np.unique(bad[:, 0])[:20])
 
 # ---------------------------------------------------------------------
 # Plots
@@ -325,24 +356,15 @@ ax[1, 0].set(
 ax[1, 0].legend(fontsize=6)
 
 # (e) Error by time of day, horizon 1
-tod = ((test_ts[IN:IN + len(keep), 0] * 144).round().astype(int) % 144)[keep]
+tod = (
+    (test_ts[IN:IN + S_ALL, 0] * 144).round().astype(int) % 144
+)[keep]
 
 mae_step = np.abs(main[:, 0] - true[:, 0]).mean(axis=1)
 
-s = true.shape[0]
-node = np.abs(main[s, 0] - true[s, 0]).argmax()
-print("node", node, "pred", main[s, 0, node], "true", true[s, 0, node])
-inp = test[s:s + IN, node]
-print("input min/zeros/max:", inp.min(), (inp == 0).sum(), inp.max())
-print("diff targets vs true at s:", np.abs(targets[s] - true[s]).max())
-
-for s in np.sort(np.argsort(mae_step)[-10:]):
-    print(s, tod[s], round(mae_step[s], 1))
-print(test[IN + 105: IN + 120].sum(axis=1).round())
-
 mae_by_slot = [
-    mae_step[tod == hour].mean() if np.any(tod == hour) else np.nan
-    for hour in range(144)
+    mae_step[tod == slot].mean() if np.any(tod == slot) else np.nan
+    for slot in range(144)
 ]
 
 ax[1, 1].plot(mae_by_slot)
