@@ -319,7 +319,10 @@ tod = (
     test_ts[IN:IN + S, 0] * 144
 ).round().astype(int) % 144
 
-mae_t = np.abs(main[:, 0] - true[:, 0]).mean(axis=1)
+mae_step = np.abs(main[:, 0] - true[:, 0]).mean(axis=1)
+for s in np.sort(np.argsort(mae_step)[-10:]):
+    print(s, tod[s], round(mae_step[s], 1))
+print(test[IN + 105: IN + 120].sum(axis=1).round())
 
 mae_by_slot = [
     mae_t[tod == hour].mean() if np.any(tod == hour) else np.nan
