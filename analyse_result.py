@@ -142,18 +142,22 @@ preds = np.stack([
     for d in ckpt_dirs
 ])  # [M, S, OUT, N]
 
+# l'ultimo batch è stato scritto a 110:115 invece che a 704:709
+preds[:, 704:709] = preds[:, 110:115]
+targets[704:709] = targets[110:115]
+keep = np.ones(S, bool)
+keep[110:115] = False
+targets, preds, true = targets[keep], preds[:, keep], true[keep]
+print(f"[check] dopo fix: {np.abs(targets - true).max():.6g}")  # deve essere ~0
+
 ens_mean = preds.mean(axis=0)
 ens_std = preds.std(axis=0)
 
 # ---------------------------------------------------------------------
 # Baselines
 # ---------------------------------------------------------------------
-last = np.repeat(
-    win[:, :, IN - 1][:, None, :],
-    OUT,
-    axis=1,
-)
-seasonal = win[:, :, :OUT].transpose(0, 2, 1)
+last = np.repeat(win[:, :, IN - 1][keep][:, None, :], OUT, axis=1)
+seasonal = win[:, :, :OUT][keep].transpose(0, 2, 1)
 
 
 def metrics(prediction):
@@ -321,13 +325,11 @@ ax[1, 0].set(
 ax[1, 0].legend(fontsize=6)
 
 # (e) Error by time of day, horizon 1
-tod = (
-    test_ts[IN:IN + S, 0] * 144
-).round().astype(int) % 144
+tod = ((test_ts[IN:IN + len(keep), 0] * 144).round().astype(int) % 144)[keep]
 
 mae_step = np.abs(main[:, 0] - true[:, 0]).mean(axis=1)
 
-s = 110
+s = true.shape[0]
 node = np.abs(main[s, 0] - true[s, 0]).argmax()
 print("node", node, "pred", main[s, 0, node], "true", true[s, 0, node])
 inp = test[s:s + IN, node]
