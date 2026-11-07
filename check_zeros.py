@@ -33,7 +33,8 @@ def runs(mask):
 
 
 for split in ["train", "val", "test"]:
-    x = np.load(Path(args.data) / f"{split}_data.npy")[..., 0]  # [T, N]
+    x = np.load(Path(args.data) / f"{split}_data.npy")
+    x = x[..., 0] if x.ndim == 3 else x  # accept [T, N] and [T, N, 1]
     T, N = x.shape
     zero = x == 0
     print(f"\n=== {split}: T={T}, N={N} ===")
