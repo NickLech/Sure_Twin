@@ -33,6 +33,10 @@ def parse_args():
     ap.add_argument("--input_len", type=int, default=144)
     ap.add_argument("--output_len", type=int, default=12)
     ap.add_argument("--out", default="analysis.png")
+    ap.add_argument("--exclude", type=int, nargs="*", default=[858, 808],
+                    help="cell_ids excluded from evaluation (no data in test)")
+    ap.add_argument("--csv", default="milan_raw.csv",
+                    help="raw csv, only used to map cell_id -> column")
     return ap.parse_args()
 
 
@@ -43,6 +47,21 @@ def load_series(path):
     """Load [T, N] or [T, N, C] and return [T, N] (first feature)."""
     a = np.load(path)
     return a[..., 0] if a.ndim == 3 else a
+
+
+def kept_columns(args, n_cells):
+    """Column indices of the cells to evaluate (all except --exclude)."""
+    if not args.exclude:
+        return np.arange(n_cells)
+    import pandas as pd
+    # same column order as the converter: sorted cell_id
+    ids = np.sort(pd.read_csv(args.csv, usecols=["cell_id"])["cell_id"].unique())
+    if len(ids) != n_cells:
+        raise ValueError(f"{args.csv} has {len(ids)} cells, the dataset has {n_cells}")
+    unknown = set(args.exclude) - set(ids.tolist())
+    if unknown:
+        raise ValueError(f"cell_id not found in {args.csv}: {sorted(unknown)}")
+    return np.flatnonzero(~np.isin(ids, args.exclude))
 
 
 def find_run_dirs(pattern):
@@ -182,10 +201,17 @@ def main():
     print(f"[check] windows evaluated: {S} of {S_all}; "
           f"max |targets - raw test| = {np.abs(targets - true).max():.4g}")
 
-    # --- baselines (same windows as the models) ---
-    last = np.repeat(win[:, :, IN - 1][keep][:, None, :], OUT, axis=1)           # last observed value
+    # --- check against BasicTS on ALL cells, then drop the excluded ones ---
+    cross_check_with_basicts(run_dirs, preds, true, std)
+    cols = kept_columns(args, N)
+    true, preds = true[..., cols], preds[..., cols]
+    print(f"[check] cells evaluated: {len(cols)} of {N}")
+    N = len(cols)
+
+    # --- baselines (same windows and cells as the models) ---
+    last = np.repeat(win[:, cols, IN - 1][keep][:, None, :], OUT, axis=1)        # last observed value
     s0 = IN - STEPS_PER_DAY
-    seasonal = win[:, :, s0:s0 + OUT][keep].transpose(0, 2, 1)                   # same slot, 24h earlier
+    seasonal = win[:, cols, s0:s0 + OUT][keep].transpose(0, 2, 1)                # same slot, 24h earlier
 
     ens_mean, ens_std = preds.mean(0), preds.std(0)
     rows = {"last value": last, "seasonal naive (24h)": seasonal}
@@ -197,8 +223,6 @@ def main():
     for name, p in rows.items():
         m = metrics(p, true)
         print(f"{name:24s}{m['MAE']:10.3f}{m['RMSE']:10.3f}{m['WAPE']:10.3f}")
-
-    cross_check_with_basicts(run_dirs, preds, true, std)
 
     # --- ensemble spread vs error (preview of the uncertainty module) ---
     if len(preds) > 1:
