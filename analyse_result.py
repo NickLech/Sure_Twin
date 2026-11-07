@@ -2,13 +2,13 @@
 Post-training analysis for STID on MILAN.
 
 Usage:
-    python analyse_result.py
     python analyse_result.py --logs "out_1539399_*.log"
     python analyse_result.py --ckpts "checkpoints/STID_MILAN/seed*/*"
 """
 
 import argparse
 import glob
+import json
 import re
 from pathlib import Path
 
@@ -18,369 +18,236 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numpy.lib.stride_tricks import sliding_window_view
 
+STEPS_PER_DAY = 144  # 10-minute slots
 
-# ---------------------------------------------------------------------
+
+# ----------------------------------------------------------------------
 # Arguments
-# ---------------------------------------------------------------------
-ap = argparse.ArgumentParser()
-ap.add_argument(
-    "--ckpts",
-    default="checkpoints/STID_MILAN/seed*/*",
-    help="Glob matching the directories that contain test_results/",
-)
-ap.add_argument("--logs", default="out_*.log")
-ap.add_argument("--data", default="datasets/MILAN")
-ap.add_argument("--input_len", type=int, default=144)
-ap.add_argument("--output_len", type=int, default=12)
-ap.add_argument("--out", default="analysis.png")
-args = ap.parse_args()
-
-IN, OUT = args.input_len, args.output_len
-data = Path(args.data)
+# ----------------------------------------------------------------------
+def parse_args():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--ckpts", default="checkpoints/STID_MILAN/seed*/*",
+                    help="glob of run directories containing test_results/")
+    ap.add_argument("--logs", default="out_*.log")
+    ap.add_argument("--data", default="datasets/MILAN")
+    ap.add_argument("--input_len", type=int, default=144)
+    ap.add_argument("--output_len", type=int, default=12)
+    ap.add_argument("--out", default="analysis.png")
+    return ap.parse_args()
 
 
-# ---------------------------------------------------------------------
-# Data loading (original units)
-# ---------------------------------------------------------------------
+# ----------------------------------------------------------------------
+# Loading
+# ----------------------------------------------------------------------
 def load_series(path):
-    """Load a [T, N] or [T, N, C] array and return [T, N] (first feature)."""
+    """Load [T, N] or [T, N, C] and return [T, N] (first feature)."""
     a = np.load(path)
-    if a.ndim == 3:
-        a = a[..., 0]
-    elif a.ndim != 2:
-        raise ValueError(f"Unexpected shape {a.shape} in {path}")
-    return a
+    return a[..., 0] if a.ndim == 3 else a
 
 
-train = load_series(data / "train_data.npy")  # [T_train, N]
-test = load_series(data / "test_data.npy")    # [T_test, N]
-test_ts = np.load(data / "test_timestamps.npy")
-
-# Per-node z-score statistics (norm_each_channel=True).
-mean = train.mean(axis=0)
-std = train.std(axis=0) + 1e-8
-
-N = test.shape[1]
-S_ALL = test.shape[0] - IN - OUT + 1  # number of test windows
-
-if S_ALL <= 0:
-    raise ValueError(
-        f"Test series is too short: T={test.shape[0]}, "
-        f"input_len={IN}, output_len={OUT}"
-    )
+def find_run_dirs(pattern):
+    dirs = sorted(d for d in glob.glob(pattern)
+                  if (Path(d) / "test_results" / "prediction.npy").is_file())
+    if not dirs:
+        raise FileNotFoundError(f"No run with test_results/prediction.npy matches: {pattern}")
+    seeds = [Path(d).parent.name for d in dirs]
+    dup = sorted({s for s in seeds if seeds.count(s) > 1})
+    if dup:  # duplicates would be counted twice in the ensemble
+        raise ValueError(f"More than one run directory for: {dup}. Keep one per seed.")
+    return dirs
 
 
-def load_prediction_file(path):
+def load_results(path, shape, mean, std):
     """
-    Load either a standard .npy file or a raw float32 memmap
-    (BasicTS may save raw data with a .npy extension).
-
-    The saved values are normalized and are converted back to original
-    units using the training-set mean and std.
+    Load a BasicTS results file and convert it back to original units.
+    BasicTS may write a raw float32 memmap even with a .npy extension.
     """
-    path = Path(path)
-
-    with path.open("rb") as f:
-        has_npy_header = f.read(6) == b"\x93NUMPY"
-
-    if has_npy_header:
-        a = np.load(path, mmap_mode="r")
-    else:
-        a = np.memmap(path, dtype=np.float32, mode="r")
-
+    with open(path, "rb") as f:
+        has_header = f.read(6) == b"\x93NUMPY"
+    a = np.load(path, mmap_mode="r") if has_header else np.memmap(path, dtype=np.float32, mode="r")
     a = np.asarray(a, dtype=np.float32)
-
-    expected_size = S_ALL * OUT * N
-    if a.size != expected_size:
-        raise ValueError(
-            f"Unexpected size in {path}: got {a.size}, "
-            f"expected {expected_size} (= {S_ALL} x {OUT} x {N}). "
-            "Check the prediction file format and input/output lengths."
-        )
-
-    a = a.reshape(S_ALL, OUT, N)
-    return a * std[None, None, :] + mean[None, None, :]
+    if a.size != int(np.prod(shape)):
+        raise ValueError(f"{path}: got {a.size} values, expected {shape}")
+    return a.reshape(shape) * std + mean
 
 
+# ----------------------------------------------------------------------
+# Last-batch workaround
+# ----------------------------------------------------------------------
 def fix_misplaced_last_batch(targets, preds, true, tol=1e-2):
     """
-    Work around a saving bug: the last (partial) batch of test results is
-    written at the wrong offset, overwriting earlier windows.
-
-    Windows whose saved targets disagree with the raw test data come in two
-    equal blocks: the overwritten head block and the garbage tail block.
-    The tail's true content sits in the head block, so we move it back and
-    drop the (lost) head windows.
-
-    Returns (targets, preds, true, keep) restricted to the valid windows.
+    Some BasicTS versions write the last (partial) test batch at the wrong
+    offset: it overwrites the first windows and leaves garbage at the end.
+    Bad windows then form two equal blocks (head = overwritten, tail = garbage).
+    The tail's real content sits in the head block: move it back and drop
+    the lost head windows. Returns the arrays restricted to valid windows
+    and the boolean mask of kept windows.
     """
-    S = true.shape[0]
-    keep = np.ones(S, dtype=bool)
-
+    keep = np.ones(true.shape[0], dtype=bool)
     bad = np.flatnonzero(np.abs(targets - true).max(axis=(1, 2)) > tol)
     if bad.size == 0:
         return targets, preds, true, keep
 
-    half = bad.size // 2
-    head, tail = bad[:half], bad[half:]
-
+    head, tail = bad[: bad.size // 2], bad[bad.size // 2:]
     if bad.size % 2 or not np.allclose(targets[head], true[tail], atol=tol):
         raise RuntimeError(
-            f"Unexpected mismatch pattern between targets and raw test data "
-            f"(bad windows: {bad.tolist()}); cannot apply the last-batch fix."
+            f"{bad.size} windows differ from the raw test data and do not match the "
+            "last-batch pattern. Check that mean/std match the scaler used by BasicTS."
         )
 
-    print(f"[fix] last batch misplaced: windows {head.tolist()} hold "
-          f"the content of {tail.tolist()}; dropping {head.size} lost windows")
-
+    print(f"[fix] last batch misplaced: moving windows {head[0]}-{head[-1]} to "
+          f"{tail[0]}-{tail[-1]}, dropping {head.size} lost windows")
     preds[:, tail] = preds[:, head]
     targets[tail] = targets[head]
     keep[head] = False
-
     return targets[keep], preds[:, keep], true[keep], keep
 
 
-# ---------------------------------------------------------------------
-# Find checkpoint directories
-# ---------------------------------------------------------------------
-ckpt_dirs = sorted(
-    d for d in glob.glob(args.ckpts)
-    if (Path(d) / "test_results" / "prediction.npy").is_file()
-)
-
-if not ckpt_dirs:
-    raise FileNotFoundError(
-        f"No checkpoint directories containing test_results/prediction.npy "
-        f"were found with pattern: {args.ckpts}"
-    )
-
-print(f"Found {len(ckpt_dirs)} checkpoint(s):")
-for d in ckpt_dirs:
-    print(f"  {d}")
-
-# ---------------------------------------------------------------------
-# Targets, predictions, sanity check 1 (+ last-batch fix)
-# ---------------------------------------------------------------------
-win = sliding_window_view(test, IN + OUT, axis=0)  # [S, N, IN+OUT]
-true = win[:, :, IN:].transpose(0, 2, 1)            # [S, OUT, N]
-
-targets = load_prediction_file(
-    Path(ckpt_dirs[0]) / "test_results" / "targets.npy"
-)
-preds = np.stack([
-    load_prediction_file(Path(d) / "test_results" / "prediction.npy")
-    for d in ckpt_dirs
-])  # [M, S, OUT, N]
-
-print(
-    f"[check] max |targets - raw test| = {np.abs(targets - true).max():.6g} "
-    "(should be approximately 0)"
-)
-
-targets, preds, true, keep = fix_misplaced_last_batch(targets, preds, true)
-S = true.shape[0]  # number of valid windows from here on
-
-print(
-    f"[check] after fix: max |targets - raw test| = "
-    f"{np.abs(targets - true).max():.6g}"
-)
-
-# ---------------------------------------------------------------------
-# Ensemble
-# ---------------------------------------------------------------------
-ens_mean = preds.mean(axis=0)
-ens_std = preds.std(axis=0)
-
-# ---------------------------------------------------------------------
-# Baselines
-# ---------------------------------------------------------------------
-last = np.repeat(win[:, :, IN - 1][keep][:, None, :], OUT, axis=1)
-seasonal = win[:, :, :OUT][keep].transpose(0, 2, 1)
-
-
-def metrics(prediction):
-    error = prediction - true
-    denominator = np.abs(true).sum()
-    wape = np.abs(error).sum() / denominator if denominator > 0 else np.nan
-
+# ----------------------------------------------------------------------
+# Metrics
+# ----------------------------------------------------------------------
+def metrics(pred, true):
+    err = pred - true
     return {
-        "MAE": np.abs(error).mean(),
-        "RMSE": np.sqrt((error ** 2).mean()),
-        "WAPE": wape,
+        "MAE": np.abs(err).mean(),
+        "RMSE": np.sqrt((err ** 2).mean()),
+        "WAPE": np.abs(err).sum() / max(np.abs(true).sum(), 1e-12),
     }
 
 
-rows = {
-    "last value": last,
-    "seasonal naive (24h)": seasonal,
-}
+def cross_check_with_basicts(run_dirs, preds, true, std):
+    """BasicTS computes test_metrics.json during evaluation, unaffected by the saving issue."""
+    print("\n[check] normalized MAE: recomputed vs BasicTS test_metrics.json")
+    for d, p in zip(run_dirs, preds):
+        f = Path(d) / "test_metrics.json"
+        if not f.is_file():
+            print(f"  {Path(d).parent.name}: test_metrics.json not found")
+            continue
+        ref = json.load(open(f))["overall"]["MAE"]
+        mine = np.abs((p - true) / std).mean()
+        print(f"  {Path(d).parent.name}: {mine:.4f} vs {ref:.4f} (should agree within ~1%)")
 
-for d, prediction in zip(ckpt_dirs, preds):
-    rows[Path(d).parent.name] = prediction
 
-if len(preds) > 1:
-    rows["ensemble mean"] = ens_mean
-
-print(
-    f"\n{'model':24s}{'MAE':>10s}{'RMSE':>10s}{'WAPE':>10s}   "
-    "(original units)"
-)
-
-for name, prediction in rows.items():
-    result = metrics(prediction)
-    print(
-        f"{name:24s}"
-        f"{result['MAE']:10.3f}"
-        f"{result['RMSE']:10.3f}"
-        f"{result['WAPE']:10.3f}"
-    )
-
-# ---------------------------------------------------------------------
-# Sanity check 2: ensemble spread versus ensemble error
-# ---------------------------------------------------------------------
-if len(preds) > 1:
-    err = np.abs(ens_mean - true)
-    corr = np.corrcoef(
-        ens_std.ravel()[::50],
-        err.ravel()[::50],
-    )[0, 1]
-
-    print(f"\n[ensemble] corr(std, |err|) = {corr:.3f} (>0 = useful)")
-
-    coverage = (
-        np.abs(true - ens_mean) <= 1.645 * ens_std
-    ).mean()
-
-    print(
-        f"[ensemble] coverage of mean +/- 1.645 std = {coverage:.3f} "
-        "(nominal 0.90; low is expected with few members)"
-    )
-
-# ---------------------------------------------------------------------
+# ----------------------------------------------------------------------
 # Plots
-# ---------------------------------------------------------------------
-main = ens_mean if len(preds) > 1 else preds[0]
+# ----------------------------------------------------------------------
+def plot_learning_curves(ax, pattern):
+    files = sorted(glob.glob(pattern))
+    if not files:
+        print(f"[warning] no log files match: {pattern}")
+    for f in files:
+        txt = Path(f).read_text(errors="replace")
+        train = [float(x) for x in re.findall(r"train/loss: ([\d.eE+-]+)", txt)]
+        val = [float(x) for x in re.findall(r"val/MAE: ([\d.eE+-]+)", txt)]
+        if train:
+            ax.plot(train, "--", alpha=0.6)
+        if val:
+            ax.plot(val, label=Path(f).stem)
+    ax.set(title="train loss (--) vs val MAE (-), normalized", xlabel="epoch")
+    if files:
+        ax.legend(fontsize=6)
 
-fig, ax = plt.subplots(2, 3, figsize=(18, 9))
 
-# (a) Learning curves from logs: overfitting check
-log_files = sorted(glob.glob(args.logs))
+def main():
+    args = parse_args()
+    IN, OUT = args.input_len, args.output_len
+    if IN < STEPS_PER_DAY:
+        raise ValueError("input_len must cover at least one day for the seasonal baseline")
+    data = Path(args.data)
 
-if not log_files:
-    print(f"[warning] No log files matched: {args.logs}")
+    # --- ground truth (original units) ---
+    train = load_series(data / "train_data.npy")
+    test = load_series(data / "test_data.npy")
+    test_ts = np.load(data / "test_timestamps.npy")
+    mean, std = train.mean(0), train.std(0) + 1e-8  # per-node z-score (norm_each_channel=True)
+    N = test.shape[1]
+    S_all = test.shape[0] - IN - OUT + 1
+    if S_all <= 0:
+        raise ValueError("Test series shorter than input_len + output_len")
 
-for log_file in log_files:
-    txt = Path(log_file).read_text(errors="replace")
+    win = sliding_window_view(test, IN + OUT, axis=0)  # [S, N, IN+OUT]
+    true = win[:, :, IN:].transpose(0, 2, 1)           # [S, OUT, N]
 
-    tr = [
-        float(x)
-        for x in re.findall(r"train/loss: ([\d.eE+-]+)", txt)
-    ]
-    va = [
-        float(x)
-        for x in re.findall(r"val/MAE: ([\d.eE+-]+)", txt)
-    ]
+    # --- saved results ---
+    run_dirs = find_run_dirs(args.ckpts)
+    print(f"Found {len(run_dirs)} run(s): " + ", ".join(Path(d).parent.name for d in run_dirs))
+    shape = (S_all, OUT, N)
+    targets = load_results(Path(run_dirs[0]) / "test_results" / "targets.npy", shape, mean, std)
+    preds = np.stack([load_results(Path(d) / "test_results" / "prediction.npy", shape, mean, std)
+                      for d in run_dirs])  # [M, S, OUT, N]
 
-    if tr:
-        ax[0, 0].plot(tr, "--", alpha=0.6)
-    if va:
-        ax[0, 0].plot(va, "-", label=Path(log_file).stem)
+    print(f"[check] max |targets - raw test| = {np.abs(targets - true).max():.4g} (should be ~0)")
+    targets, preds, true, keep = fix_misplaced_last_batch(targets, preds, true)
+    S = true.shape[0]
+    print(f"[check] windows evaluated: {S} of {S_all}; "
+          f"max |targets - raw test| = {np.abs(targets - true).max():.4g}")
 
-ax[0, 0].set(
-    title="train loss (--) vs val MAE (-), normalized",
-    xlabel="epoch",
-)
-if log_files:
-    ax[0, 0].legend(fontsize=6)
+    # --- baselines (same windows as the models) ---
+    last = np.repeat(win[:, :, IN - 1][keep][:, None, :], OUT, axis=1)           # last observed value
+    s0 = IN - STEPS_PER_DAY
+    seasonal = win[:, :, s0:s0 + OUT][keep].transpose(0, 2, 1)                   # same slot, 24h earlier
 
-# (b) MAE per horizon versus baselines and ensemble
-for name, prediction in rows.items():
-    if name.startswith("seed"):
-        continue
+    ens_mean, ens_std = preds.mean(0), preds.std(0)
+    rows = {"last value": last, "seasonal naive (24h)": seasonal}
+    rows.update({Path(d).parent.name: p for d, p in zip(run_dirs, preds)})
+    if len(preds) > 1:
+        rows["ensemble mean"] = ens_mean
 
-    ax[0, 1].plot(
-        range(1, OUT + 1),
-        np.abs(prediction - true).mean(axis=(0, 2)),
-        marker="o",
-        label=name,
-    )
+    print(f"\n{'model':24s}{'MAE':>10s}{'RMSE':>10s}{'WAPE':>10s}   (original units)")
+    for name, p in rows.items():
+        m = metrics(p, true)
+        print(f"{name:24s}{m['MAE']:10.3f}{m['RMSE']:10.3f}{m['WAPE']:10.3f}")
 
-ax[0, 1].set(
-    title="MAE per horizon",
-    xlabel="horizon (x10 min)",
-)
-ax[0, 1].legend(fontsize=7)
+    cross_check_with_basicts(run_dirs, preds, true, std)
 
-# (c) Prediction versus truth scatter, horizon 1
-sample_size = min(20000, S * N)
-idx = np.random.default_rng(0).choice(
-    S * N,
-    sample_size,
-    replace=False,
-)
+    # --- ensemble spread vs error (preview of the uncertainty module) ---
+    if len(preds) > 1:
+        err = np.abs(ens_mean - true)
+        corr = np.corrcoef(ens_std.ravel()[::50], err.ravel()[::50])[0, 1]
+        cov = (err <= 1.645 * ens_std).mean()
+        print(f"\n[ensemble] corr(std, |err|) = {corr:.3f} (>0 = spread is informative)")
+        print(f"[ensemble] coverage of mean +/- 1.645 std = {cov:.3f} (nominal 0.90)")
 
-t1 = true[:, 0].ravel()[idx]
-p1 = main[:, 0].ravel()[idx]
+    # --- figure ---
+    best = ens_mean if len(preds) > 1 else preds[0]
+    fig, ax = plt.subplots(2, 3, figsize=(18, 9))
 
-ax[0, 2].scatter(t1, p1, s=2, alpha=0.3)
-lim = [min(0, t1.min(), p1.min()), max(t1.max(), p1.max())]
-ax[0, 2].plot(lim, lim, "r-")
-ax[0, 2].set(
-    title="pred vs true (h=1)",
-    xlabel="true",
-    ylabel="pred",
-)
+    plot_learning_curves(ax[0, 0], args.logs)
 
-# (d) Time series for busiest, median, and quietest nodes, horizon 1
-order = np.argsort(true[:, 0].mean(axis=0))
+    for name, p in rows.items():
+        if not name.startswith("seed"):
+            ax[0, 1].plot(range(1, OUT + 1), np.abs(p - true).mean((0, 2)), marker="o", label=name)
+    ax[0, 1].set(title="MAE per horizon", xlabel="horizon (x10 min)")
+    ax[0, 1].legend(fontsize=7)
 
-for node, label in [
-    (order[-1], "busiest"),
-    (order[N // 2], "median"),
-    (order[0], "quietest"),
-]:
-    ax[1, 0].plot(
-        true[:432, 0, node],
-        label=f"true {label}",
-    )
-    ax[1, 0].plot(
-        main[:432, 0, node],
-        "--",
-        label=f"pred {label}",
-    )
+    idx = np.random.default_rng(0).choice(S * N, min(20000, S * N), replace=False)
+    t1, p1 = true[:, 0].ravel()[idx], best[:, 0].ravel()[idx]
+    lim = [min(0, t1.min(), p1.min()), max(t1.max(), p1.max())]
+    ax[0, 2].scatter(t1, p1, s=2, alpha=0.3)
+    ax[0, 2].plot(lim, lim, "r-")
+    ax[0, 2].set(title="pred vs true (h=1)", xlabel="true", ylabel="pred")
 
-ax[1, 0].set(
-    title="h=1, first 3 test days",
-    xlabel="step (10 min)",
-)
-ax[1, 0].legend(fontsize=6)
+    order = np.argsort(true[:, 0].mean(0))
+    for node, label in [(order[-1], "busiest"), (order[N // 2], "median"), (order[0], "quietest")]:
+        ax[1, 0].plot(true[:432, 0, node], label=f"true {label}")
+        ax[1, 0].plot(best[:432, 0, node], "--", label=f"pred {label}")
+    ax[1, 0].set(title="h=1, first 432 evaluated windows", xlabel="step (10 min)")
+    ax[1, 0].legend(fontsize=6)
 
-# (e) Error by time of day, horizon 1
-tod = (
-    (test_ts[IN:IN + S_ALL, 0] * 144).round().astype(int) % 144
-)[keep]
+    slot = ((test_ts[IN:IN + S_all, 0] * STEPS_PER_DAY).round().astype(int) % STEPS_PER_DAY)[keep]
+    mae_step = np.abs(best[:, 0] - true[:, 0]).mean(1)
+    ax[1, 1].plot([mae_step[slot == s].mean() if (slot == s).any() else np.nan
+                   for s in range(STEPS_PER_DAY)])
+    ax[1, 1].set(title="MAE by time of day (h=1)", xlabel="slot (x10 min)")
 
-mae_step = np.abs(main[:, 0] - true[:, 0]).mean(axis=1)
+    res = (best[:, 0] - true[:, 0]).ravel()[idx]
+    ax[1, 2].hist(res, bins=100)
+    ax[1, 2].set(title=f"residuals h=1 (mean={res.mean():.2f})")
 
-mae_by_slot = [
-    mae_step[tod == slot].mean() if np.any(tod == slot) else np.nan
-    for slot in range(144)
-]
+    plt.tight_layout()
+    plt.savefig(args.out, dpi=130)
+    print(f"\nSaved {args.out}")
 
-ax[1, 1].plot(mae_by_slot)
-ax[1, 1].set(
-    title="MAE by time of day (h=1)",
-    xlabel="slot (x10 min)",
-)
 
-# (f) Signed residuals, horizon 1
-res = (main[:, 0] - true[:, 0]).ravel()[idx]
-
-ax[1, 2].hist(res, bins=100)
-ax[1, 2].set(
-    title=f"residuals h=1 (mean={res.mean():.2f})",
-)
-
-plt.tight_layout()
-plt.savefig(args.out, dpi=130)
-print(f"\nSaved {args.out}")
+if __name__ == "__main__":
+    main()
