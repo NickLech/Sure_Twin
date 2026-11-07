@@ -12,8 +12,9 @@
   so there are no network-wide gaps filled with zeros.
 - In test, 8 cells have a zero run of at least 6 hours (longest: 345 steps). Comparing with the raw CSV:
   - **Cells 858 and 808**: zeros are missing rows, not traffic (only 83/864 and 420/864 rows present,
-    none with `y=0`). They carry no information in test, so they are **excluded from evaluation**
-    (2498 of 2500 cells evaluated).
+    none with `y=0`). They carry no information in test. They are **kept in the reported evaluation**
+    (2500 cells, 0.17% zeros in test overall); `analyse_result.py --exclude 858 808` evaluates
+    without them (needs `datasets/MILAN/cell_ids.npy` or the raw csv).
   - **Cells 1194, 1243, 1343, 1293, 1292, 1244**: zeros are mostly recorded `y=0`
     (221-313 per cell). They are genuine low-traffic cells and are **kept**: they are natural
     sleep candidates.
@@ -32,5 +33,5 @@
 - Baselines: last value, and seasonal naive (same slot 24 h earlier).
 
 ## Open points
-- The exclusion of cells 858 and 808 is not applied yet in `analyse_result.py`.
+- Check that excluding cells 858 and 808 does not change the conclusions (run with `--exclude 858 808`).
 - Ensemble intervals are not calibrated: coverage of mean +/- 1.645 std is 0.149 (nominal 0.90).

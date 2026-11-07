@@ -4,6 +4,7 @@ Post-training analysis for STID on MILAN.
 Usage:
     python analyse_result.py --logs "out_1539399_*.log"
     python analyse_result.py --ckpts "checkpoints/STID_MILAN/seed*/*"
+    python analyse_result.py --exclude 858 808   # optional: needs cell_ids.npy or the raw csv
 """
 
 import argparse
@@ -34,9 +35,9 @@ def parse_args():
     ap.add_argument("--output_len", type=int, default=12)
     ap.add_argument("--out", default="analysis.png")
     ap.add_argument("--exclude", type=int, nargs="*", default=[],
-                    help="cell_ids excluded from evaluation (no data in test)")
+                    help="cell_ids to exclude from evaluation (default: none)")
     ap.add_argument("--csv", default="milan_raw.csv",
-                    help="raw csv, only used to map cell_id -> column")
+                    help="raw csv, only used with --exclude if datasets/MILAN/cell_ids.npy is missing")
     return ap.parse_args()
 
 
@@ -49,18 +50,34 @@ def load_series(path):
     return a[..., 0] if a.ndim == 3 else a
 
 
+def load_cell_ids(args):
+    """cell_id of each column (sorted, same order as the converter). No pandas needed."""
+    f = Path(args.data) / "cell_ids.npy"
+    if f.is_file():
+        return np.load(f)
+    if Path(args.csv).is_file():
+        import csv
+        with open(args.csv, newline="") as fh:
+            reader = csv.reader(fh)
+            col = next(reader).index("cell_id")
+            return np.array(sorted({int(float(row[col])) for row in reader}))
+    raise FileNotFoundError(
+        f"Need {f} or {args.csv}. Create the first where the csv lives:\n"
+        "  python -c \"import pandas as pd, numpy as np; np.save('datasets/MILAN/cell_ids.npy', "
+        "np.sort(pd.read_csv('milan_raw.csv', usecols=['cell_id']).cell_id.unique()))\""
+    )
+
+
 def kept_columns(args, n_cells):
     """Column indices of the cells to evaluate (all except --exclude)."""
     if not args.exclude:
         return np.arange(n_cells)
-    import pandas as pd
-    # same column order as the converter: sorted cell_id
-    ids = np.sort(pd.read_csv(args.csv, usecols=["cell_id"])["cell_id"].unique())
+    ids = load_cell_ids(args)
     if len(ids) != n_cells:
-        raise ValueError(f"{args.csv} has {len(ids)} cells, the dataset has {n_cells}")
+        raise ValueError(f"{len(ids)} cell ids but the dataset has {n_cells} cells")
     unknown = set(args.exclude) - set(ids.tolist())
     if unknown:
-        raise ValueError(f"cell_id not found in {args.csv}: {sorted(unknown)}")
+        raise ValueError(f"cell_id not found: {sorted(unknown)}")
     return np.flatnonzero(~np.isin(ids, args.exclude))
 
 
@@ -96,7 +113,7 @@ def load_results(path, shape, mean, std):
 def fix_misplaced_last_batch(targets, preds, true, tol=1e-2):
     """
     Some BasicTS versions write the last (partial) test batch at the wrong
-    offset: it overwrites the first windows and leaves garbage at the end.
+    offset: it overwrites earlier windows and leaves garbage at the end.
     Bad windows then form two equal blocks (head = overwritten, tail = garbage).
     The tail's real content sits in the head block: move it back and drop
     the lost head windows. Returns the arrays restricted to valid windows
