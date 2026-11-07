@@ -33,7 +33,7 @@ def parse_args():
     ap.add_argument("--input_len", type=int, default=144)
     ap.add_argument("--output_len", type=int, default=12)
     ap.add_argument("--out", default="analysis.png")
-    ap.add_argument("--exclude", type=int, nargs="*", default=[858, 808],
+    ap.add_argument("--exclude", type=int, nargs="*", default=[],
                     help="cell_ids excluded from evaluation (no data in test)")
     ap.add_argument("--csv", default="milan_raw.csv",
                     help="raw csv, only used to map cell_id -> column")
