@@ -20,6 +20,8 @@ import numpy as np
 from numpy.lib.stride_tricks import sliding_window_view
 
 STEPS_PER_DAY = 144  # 10-minute slots
+STEP_H = 24 / STEPS_PER_DAY  # hours per step
+WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
 
 # ----------------------------------------------------------------------
@@ -167,6 +169,24 @@ def cross_check_with_basicts(run_dirs, preds, true, std):
 # ----------------------------------------------------------------------
 # Plots
 # ----------------------------------------------------------------------
+def clock_axis(ax, x, tod0, dow0):
+    """Clock tick labels (adaptive step), dotted line + weekday at every midnight."""
+    span = x[-1] - x[0] if len(x) > 1 else 1
+    step = next((s for s in (1, 2, 3, 6, 12, 24) if span / s <= 24), 24)
+    first = np.ceil(tod0 / step - 1e-6) * step - tod0
+    pos = np.arange(first, x[-1] + 1e-9, step)
+    clock = tod0 + pos
+    ax.set_xticks(pos)
+    ax.set_xticklabels([f"{c % 24:02.0f}:00" for c in clock], fontsize=8)
+    ax.tick_params(axis="x", labelbottom=True)
+    for p, c in zip(pos, clock):
+        if np.isclose(c % 24, 0):
+            ax.axvline(p, color="gray", ls=":", lw=1)
+            ax.text(p, 1.0, WEEKDAYS[int(dow0 + np.floor(c / 24 + 1e-6)) % 7],
+                    transform=ax.get_xaxis_transform(), ha="left", va="bottom", fontsize=8)
+    ax.set_xlim(x[0], x[-1])
+
+
 def plot_learning_curves(ax, pattern):
     files = sorted(glob.glob(pattern))
     if not files:
@@ -251,7 +271,7 @@ def main():
 
     # --- figure ---
     best = ens_mean if len(preds) > 1 else preds[0]
-    fig, ax = plt.subplots(2, 3, figsize=(18, 9))
+    fig, ax = plt.subplots(2, 3, figsize=(20, 9))
 
     plot_learning_curves(ax[0, 0], args.logs)
 
@@ -268,18 +288,25 @@ def main():
     ax[0, 2].plot(lim, lim, "r-")
     ax[0, 2].set(title="pred vs true (h=1)", xlabel="true", ylabel="pred")
 
+    # h=1 over the whole evaluated period, clock labels; dropped windows stay as gaps
+    xh = np.flatnonzero(keep) * STEP_H            # hours since the first window
+    tod0 = round(test_ts[IN, 0] * 24 * 6) / 6
+    dow0 = int(round(test_ts[IN, 1] * 7)) % 7
     order = np.argsort(true[:, 0].mean(0))
     for node, label in [(order[-1], "busiest"), (order[N // 2], "median"), (order[0], "quietest")]:
-        ax[1, 0].plot(true[:432, 0, node], label=f"true {label}")
-        ax[1, 0].plot(best[:432, 0, node], "--", label=f"pred {label}")
-    ax[1, 0].set(title="h=1, first 432 evaluated windows", xlabel="step (10 min)")
+        ax[1, 0].plot(xh, true[:, 0, node], label=f"true {label}")
+        ax[1, 0].plot(xh, best[:, 0, node], "--", label=f"pred {label}")
+    ax[1, 0].set(title="h=1, all evaluated windows", xlabel="time (clock)")
+    clock_axis(ax[1, 0], xh, tod0, dow0)
     ax[1, 0].legend(fontsize=6)
 
     slot = ((test_ts[IN:IN + S_all, 0] * STEPS_PER_DAY).round().astype(int) % STEPS_PER_DAY)[keep]
     mae_step = np.abs(best[:, 0] - true[:, 0]).mean(1)
     ax[1, 1].plot([mae_step[slot == s].mean() if (slot == s).any() else np.nan
                    for s in range(STEPS_PER_DAY)])
-    ax[1, 1].set(title="MAE by time of day (h=1)", xlabel="slot (x10 min)")
+    ax[1, 1].set(title="MAE by time of day (h=1)", xlabel="time of day")
+    ax[1, 1].set_xticks(range(0, STEPS_PER_DAY, 18))
+    ax[1, 1].set_xticklabels([f"{s * 10 // 60:02d}:00" for s in range(0, STEPS_PER_DAY, 18)])
 
     res = (best[:, 0] - true[:, 0]).ravel()[idx]
     ax[1, 2].hist(res, bins=100)
