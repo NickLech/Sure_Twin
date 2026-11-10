@@ -1,0 +1,404 @@
+2026-11-06 17:07:54,716 - BasicTS-training - INFO - Initializing training.
+2026-11-06 17:07:54,716 - BasicTS-training - INFO - Building train data loader.
+2026-11-06 17:08:06,930 - BasicTS-training - INFO - Set optim: Adam
+2026-11-06 17:08:06,930 - BasicTS-training - INFO - Set lr_scheduler: CosineAnnealingLR
+2026-11-06 17:08:06,931 - BasicTS-training - INFO - Building val data loader.
+2026-11-06 17:08:07,140 - BasicTS-training - INFO - Building test data loader.
+2026-11-06 17:08:07,410 - BasicTS-training - INFO - Total parameters: 250604
+2026-11-06 17:08:07,410 - BasicTS-training - INFO - Trainable parameters: 250604
+2026-11-06 17:08:07,410 - BasicTS-training - INFO - Use early stopping with patience 10.
+2026-11-06 17:08:07,410 - BasicTS-training - INFO - Use clip grad, max_norm: 5.0, norm_type: 2, error_if_nonfinite: False, foreach: None.
+2026-11-06 17:08:07,410 - BasicTS-training - INFO - Epoch 1 / 100
+2026-11-06 17:08:12,313 - BasicTS-training - INFO - Result <train>: [train/time: 4.90 (s), train/lr: 1.00e-03, train/loss: 0.4077, train/MAE: 0.4077, train/MSE: 0.3901, train/RMSE: 0.6245, train/MAPE: 2.4415, train/WAPE: 0.6596]
+2026-11-06 17:08:12,323 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:08:12,892 - BasicTS-training - INFO - Result <val>: [val/time: 0.57 (s), val/loss: 0.3333, val/MAE: 0.3333, val/MSE: 0.3119, val/RMSE: 0.5584, val/MAPE: 2.1467, val/WAPE: 0.5467]
+2026-11-06 17:08:12,924 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_best_val_MAE.pt saved
+2026-11-06 17:08:13,488 - BasicTS-training - INFO - Result <test>: [test/time: 0.56 (s), test/loss: 0.3067, test/MAE: 0.3067, test/MSE: 0.2469, test/RMSE: 0.4969, test/MAPE: 2.0206, test/WAPE: 0.5168]
+2026-11-06 17:08:13,488 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:08:13,488 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3506, test/MSE@h0: 0.3171, test/RMSE@h0: 0.5631, test/MAPE@h0: 2.2684, test/WAPE@h0: 0.4637]
+2026-11-06 17:08:13,488 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.3140, test/MSE@h5: 0.2716, test/RMSE@h5: 0.5212, test/MAPE@h5: 2.0709, test/WAPE@h5: 0.4148]
+2026-11-06 17:08:13,488 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3471, test/MSE@h11: 0.3118, test/RMSE@h11: 0.5584, test/MAPE@h11: 2.2282, test/WAPE@h11: 0.4576]
+2026-11-06 17:08:13,511 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_001.pt saved
+2026-11-06 17:08:13,511 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:18:09
+2026-11-06 17:08:13,511 - BasicTS-training - INFO - Epoch 2 / 100
+2026-11-06 17:08:15,730 - BasicTS-training - INFO - Result <train>: [train/time: 2.22 (s), train/lr: 1.00e-03, train/loss: 0.3447, train/MAE: 0.3447, train/MSE: 0.3120, train/RMSE: 0.5586, train/MAPE: 2.2128, train/WAPE: 0.5697]
+2026-11-06 17:08:15,745 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:08:16,310 - BasicTS-training - INFO - Result <val>: [val/time: 0.56 (s), val/loss: 0.3256, val/MAE: 0.3256, val/MSE: 0.3003, val/RMSE: 0.5480, val/MAPE: 2.0840, val/WAPE: 0.5316]
+2026-11-06 17:08:16,437 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_best_val_MAE.pt saved
+2026-11-06 17:08:16,997 - BasicTS-training - INFO - Result <test>: [test/time: 0.56 (s), test/loss: 0.3009, test/MAE: 0.3009, test/MSE: 0.2386, test/RMSE: 0.4885, test/MAPE: 1.9456, test/WAPE: 0.5034]
+2026-11-06 17:08:16,998 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:08:16,998 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3412, test/MSE@h0: 0.3071, test/RMSE@h0: 0.5542, test/MAPE@h0: 2.2083, test/WAPE@h0: 0.4518]
+2026-11-06 17:08:16,998 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.3083, test/MSE@h5: 0.2628, test/RMSE@h5: 0.5127, test/MAPE@h5: 1.9979, test/WAPE@h5: 0.4078]
+2026-11-06 17:08:16,998 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3393, test/MSE@h11: 0.3041, test/RMSE@h11: 0.5514, test/MAPE@h11: 2.1717, test/WAPE@h11: 0.4491]
+2026-11-06 17:08:17,088 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_002.pt saved
+2026-11-06 17:08:17,088 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:16:08
+2026-11-06 17:08:17,088 - BasicTS-training - INFO - Epoch 3 / 100
+2026-11-06 17:08:19,214 - BasicTS-training - INFO - Result <train>: [train/time: 2.13 (s), train/lr: 9.99e-04, train/loss: 0.3354, train/MAE: 0.3354, train/MSE: 0.3019, train/RMSE: 0.5495, train/MAPE: 2.1407, train/WAPE: 0.5538]
+2026-11-06 17:08:19,222 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:08:19,797 - BasicTS-training - INFO - Result <val>: [val/time: 0.57 (s), val/loss: 0.3167, val/MAE: 0.3167, val/MSE: 0.2911, val/RMSE: 0.5395, val/MAPE: 2.1325, val/WAPE: 0.5248]
+2026-11-06 17:08:19,827 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_best_val_MAE.pt saved
+2026-11-06 17:08:20,401 - BasicTS-training - INFO - Result <test>: [test/time: 0.57 (s), test/loss: 0.2894, test/MAE: 0.2894, test/MSE: 0.2267, test/RMSE: 0.4761, test/MAPE: 2.0131, test/WAPE: 0.4960]
+2026-11-06 17:08:20,401 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:08:20,401 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3301, test/MSE@h0: 0.2950, test/RMSE@h0: 0.5432, test/MAPE@h0: 2.2038, test/WAPE@h0: 0.4381]
+2026-11-06 17:08:20,401 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.3008, test/MSE@h5: 0.2538, test/RMSE@h5: 0.5038, test/MAPE@h5: 2.0758, test/WAPE@h5: 0.3997]
+2026-11-06 17:08:20,401 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3261, test/MSE@h11: 0.2900, test/RMSE@h11: 0.5385, test/MAPE@h11: 2.1831, test/WAPE@h11: 0.4323]
+2026-11-06 17:08:20,447 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_003.pt saved
+2026-11-06 17:08:20,447 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:15:20
+2026-11-06 17:08:20,447 - BasicTS-training - INFO - Epoch 4 / 100
+2026-11-06 17:08:22,650 - BasicTS-training - INFO - Result <train>: [train/time: 2.20 (s), train/lr: 9.98e-04, train/loss: 0.3292, train/MAE: 0.3292, train/MSE: 0.2962, train/RMSE: 0.5442, train/MAPE: 2.1014, train/WAPE: 0.5436]
+2026-11-06 17:08:22,662 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:08:23,225 - BasicTS-training - INFO - Result <val>: [val/time: 0.56 (s), val/loss: 0.3189, val/MAE: 0.3189, val/MSE: 0.2988, val/RMSE: 0.5467, val/MAPE: 2.0997, val/WAPE: 0.5240]
+2026-11-06 17:08:23,801 - BasicTS-training - INFO - Result <test>: [test/time: 0.57 (s), test/loss: 0.2910, test/MAE: 0.2910, test/MSE: 0.2330, test/RMSE: 0.4827, test/MAPE: 1.9553, test/WAPE: 0.4935]
+2026-11-06 17:08:23,801 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:08:23,802 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3333, test/MSE@h0: 0.3063, test/RMSE@h0: 0.5535, test/MAPE@h0: 2.1483, test/WAPE@h0: 0.4444]
+2026-11-06 17:08:23,802 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2998, test/MSE@h5: 0.2576, test/RMSE@h5: 0.5075, test/MAPE@h5: 2.0349, test/WAPE@h5: 0.3983]
+2026-11-06 17:08:23,802 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3287, test/MSE@h11: 0.3015, test/RMSE@h11: 0.5491, test/MAPE@h11: 2.1511, test/WAPE@h11: 0.4386]
+2026-11-06 17:08:23,829 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_004.pt saved
+2026-11-06 17:08:23,829 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:56
+2026-11-06 17:08:23,829 - BasicTS-training - INFO - Epoch 5 / 100
+2026-11-06 17:08:26,084 - BasicTS-training - INFO - Result <train>: [train/time: 2.26 (s), train/lr: 9.96e-04, train/loss: 0.3267, train/MAE: 0.3267, train/MSE: 0.2931, train/RMSE: 0.5414, train/MAPE: 2.0808, train/WAPE: 0.5394]
+2026-11-06 17:08:26,094 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:08:26,664 - BasicTS-training - INFO - Result <val>: [val/time: 0.57 (s), val/loss: 0.3125, val/MAE: 0.3125, val/MSE: 0.2919, val/RMSE: 0.5403, val/MAPE: 2.0390, val/WAPE: 0.5124]
+2026-11-06 17:08:26,724 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_best_val_MAE.pt saved
+2026-11-06 17:08:27,291 - BasicTS-training - INFO - Result <test>: [test/time: 0.57 (s), test/loss: 0.2839, test/MAE: 0.2839, test/MSE: 0.2272, test/RMSE: 0.4766, test/MAPE: 1.8894, test/WAPE: 0.4812]
+2026-11-06 17:08:27,291 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:08:27,291 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3244, test/MSE@h0: 0.2954, test/RMSE@h0: 0.5435, test/MAPE@h0: 2.1326, test/WAPE@h0: 0.4300]
+2026-11-06 17:08:27,291 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2932, test/MSE@h5: 0.2529, test/RMSE@h5: 0.5029, test/MAPE@h5: 1.9350, test/WAPE@h5: 0.3890]
+2026-11-06 17:08:27,291 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3213, test/MSE@h11: 0.2916, test/RMSE@h11: 0.5400, test/MAPE@h11: 2.1078, test/WAPE@h11: 0.4259]
+2026-11-06 17:08:27,315 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_005.pt saved
+2026-11-06 17:08:27,315 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:44
+2026-11-06 17:08:27,315 - BasicTS-training - INFO - Epoch 6 / 100
+2026-11-06 17:08:29,493 - BasicTS-training - INFO - Result <train>: [train/time: 2.18 (s), train/lr: 9.94e-04, train/loss: 0.3245, train/MAE: 0.3245, train/MSE: 0.2909, train/RMSE: 0.5393, train/MAPE: 2.0737, train/WAPE: 0.5360]
+2026-11-06 17:08:29,653 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:08:30,227 - BasicTS-training - INFO - Result <val>: [val/time: 0.57 (s), val/loss: 0.3148, val/MAE: 0.3148, val/MSE: 0.2877, val/RMSE: 0.5363, val/MAPE: 2.1253, val/WAPE: 0.5202]
+2026-11-06 17:08:30,814 - BasicTS-training - INFO - Result <test>: [test/time: 0.57 (s), test/loss: 0.2872, test/MAE: 0.2872, test/MSE: 0.2242, test/RMSE: 0.4735, test/MAPE: 1.9889, test/WAPE: 0.4907]
+2026-11-06 17:08:30,814 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:08:30,814 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3273, test/MSE@h0: 0.2903, test/RMSE@h0: 0.5388, test/MAPE@h0: 2.2519, test/WAPE@h0: 0.4321]
+2026-11-06 17:08:30,814 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2959, test/MSE@h5: 0.2514, test/RMSE@h5: 0.5014, test/MAPE@h5: 1.9984, test/WAPE@h5: 0.3912]
+2026-11-06 17:08:30,814 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3243, test/MSE@h11: 0.2866, test/RMSE@h11: 0.5354, test/MAPE@h11: 2.2163, test/WAPE@h11: 0.4279]
+2026-11-06 17:08:30,843 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_006.pt saved
+2026-11-06 17:08:30,843 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:37
+2026-11-06 17:08:30,843 - BasicTS-training - INFO - Epoch 7 / 100
+2026-11-06 17:08:33,091 - BasicTS-training - INFO - Result <train>: [train/time: 2.25 (s), train/lr: 9.91e-04, train/loss: 0.3235, train/MAE: 0.3235, train/MSE: 0.2895, train/RMSE: 0.5380, train/MAPE: 2.0590, train/WAPE: 0.5338]
+2026-11-06 17:08:33,113 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:08:33,678 - BasicTS-training - INFO - Result <val>: [val/time: 0.57 (s), val/loss: 0.3109, val/MAE: 0.3109, val/MSE: 0.2902, val/RMSE: 0.5387, val/MAPE: 2.0196, val/WAPE: 0.5096]
+2026-11-06 17:08:33,730 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_best_val_MAE.pt saved
+2026-11-06 17:08:34,299 - BasicTS-training - INFO - Result <test>: [test/time: 0.57 (s), test/loss: 0.2836, test/MAE: 0.2836, test/MSE: 0.2268, test/RMSE: 0.4763, test/MAPE: 1.8901, test/WAPE: 0.4806]
+2026-11-06 17:08:34,299 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:08:34,299 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3259, test/MSE@h0: 0.2962, test/RMSE@h0: 0.5442, test/MAPE@h0: 2.1189, test/WAPE@h0: 0.4309]
+2026-11-06 17:08:34,299 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2928, test/MSE@h5: 0.2529, test/RMSE@h5: 0.5029, test/MAPE@h5: 1.9328, test/WAPE@h5: 0.3879]
+2026-11-06 17:08:34,299 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3220, test/MSE@h11: 0.2925, test/RMSE@h11: 0.5409, test/MAPE@h11: 2.0871, test/WAPE@h11: 0.4258]
+2026-11-06 17:08:34,325 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_007.pt saved
+2026-11-06 17:08:34,325 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:31
+2026-11-06 17:08:34,325 - BasicTS-training - INFO - Epoch 8 / 100
+2026-11-06 17:08:36,558 - BasicTS-training - INFO - Result <train>: [train/time: 2.23 (s), train/lr: 9.88e-04, train/loss: 0.3216, train/MAE: 0.3216, train/MSE: 0.2882, train/RMSE: 0.5368, train/MAPE: 2.0507, train/WAPE: 0.5310]
+2026-11-06 17:08:36,570 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:08:37,144 - BasicTS-training - INFO - Result <val>: [val/time: 0.57 (s), val/loss: 0.3147, val/MAE: 0.3147, val/MSE: 0.2842, val/RMSE: 0.5331, val/MAPE: 2.2020, val/WAPE: 0.5255]
+2026-11-06 17:08:37,729 - BasicTS-training - INFO - Result <test>: [test/time: 0.58 (s), test/loss: 0.2870, test/MAE: 0.2870, test/MSE: 0.2217, test/RMSE: 0.4708, test/MAPE: 2.0587, test/WAPE: 0.4973]
+2026-11-06 17:08:37,729 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:08:37,729 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3283, test/MSE@h0: 0.2907, test/RMSE@h0: 0.5392, test/MAPE@h0: 2.3121, test/WAPE@h0: 0.4371]
+2026-11-06 17:08:37,729 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2972, test/MSE@h5: 0.2465, test/RMSE@h5: 0.4965, test/MAPE@h5: 2.1331, test/WAPE@h5: 0.3938]
+2026-11-06 17:08:37,729 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3251, test/MSE@h11: 0.2858, test/RMSE@h11: 0.5346, test/MAPE@h11: 2.2920, test/WAPE@h11: 0.4324]
+2026-11-06 17:08:37,755 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_008.pt saved
+2026-11-06 17:08:37,756 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:26
+2026-11-06 17:08:37,756 - BasicTS-training - INFO - Epoch 9 / 100
+2026-11-06 17:08:40,006 - BasicTS-training - INFO - Result <train>: [train/time: 2.25 (s), train/lr: 9.84e-04, train/loss: 0.3219, train/MAE: 0.3219, train/MSE: 0.2881, train/RMSE: 0.5368, train/MAPE: 2.0535, train/WAPE: 0.5317]
+2026-11-06 17:08:40,015 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:08:40,578 - BasicTS-training - INFO - Result <val>: [val/time: 0.56 (s), val/loss: 0.3058, val/MAE: 0.3058, val/MSE: 0.2827, val/RMSE: 0.5317, val/MAPE: 2.0007, val/WAPE: 0.5035]
+2026-11-06 17:08:40,603 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_best_val_MAE.pt saved
+2026-11-06 17:08:41,168 - BasicTS-training - INFO - Result <test>: [test/time: 0.56 (s), test/loss: 0.2771, test/MAE: 0.2771, test/MSE: 0.2192, test/RMSE: 0.4682, test/MAPE: 1.8609, test/WAPE: 0.4732]
+2026-11-06 17:08:41,168 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:08:41,168 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3179, test/MSE@h0: 0.2840, test/RMSE@h0: 0.5330, test/MAPE@h0: 2.1091, test/WAPE@h0: 0.4217]
+2026-11-06 17:08:41,168 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2884, test/MSE@h5: 0.2474, test/RMSE@h5: 0.4974, test/MAPE@h5: 1.9034, test/WAPE@h5: 0.3823]
+2026-11-06 17:08:41,168 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3153, test/MSE@h11: 0.2818, test/RMSE@h11: 0.5308, test/MAPE@h11: 2.0573, test/WAPE@h11: 0.4180]
+2026-11-06 17:08:41,191 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_009.pt saved
+2026-11-06 17:08:41,191 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:22
+2026-11-06 17:08:41,192 - BasicTS-training - INFO - Epoch 10 / 100
+2026-11-06 17:08:43,401 - BasicTS-training - INFO - Result <train>: [train/time: 2.21 (s), train/lr: 9.80e-04, train/loss: 0.3203, train/MAE: 0.3203, train/MSE: 0.2863, train/RMSE: 0.5351, train/MAPE: 2.0346, train/WAPE: 0.5286]
+2026-11-06 17:08:43,409 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:08:43,974 - BasicTS-training - INFO - Result <val>: [val/time: 0.56 (s), val/loss: 0.3072, val/MAE: 0.3072, val/MSE: 0.2813, val/RMSE: 0.5304, val/MAPE: 2.0550, val/WAPE: 0.5093]
+2026-11-06 17:08:44,553 - BasicTS-training - INFO - Result <test>: [test/time: 0.56 (s), test/loss: 0.2800, test/MAE: 0.2800, test/MSE: 0.2184, test/RMSE: 0.4674, test/MAPE: 1.9583, test/WAPE: 0.4823]
+2026-11-06 17:08:44,553 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:08:44,554 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3240, test/MSE@h0: 0.2861, test/RMSE@h0: 0.5349, test/MAPE@h0: 2.2086, test/WAPE@h0: 0.4295]
+2026-11-06 17:08:44,554 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2880, test/MSE@h5: 0.2447, test/RMSE@h5: 0.4946, test/MAPE@h5: 1.9478, test/WAPE@h5: 0.3816]
+2026-11-06 17:08:44,554 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3197, test/MSE@h11: 0.2816, test/RMSE@h11: 0.5306, test/MAPE@h11: 2.1990, test/WAPE@h11: 0.4237]
+2026-11-06 17:08:44,581 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_010.pt saved
+2026-11-06 17:08:44,593 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:18
+2026-11-06 17:08:44,593 - BasicTS-training - INFO - Epoch 11 / 100
+2026-11-06 17:08:46,810 - BasicTS-training - INFO - Result <train>: [train/time: 2.22 (s), train/lr: 9.76e-04, train/loss: 0.3197, train/MAE: 0.3197, train/MSE: 0.2859, train/RMSE: 0.5347, train/MAPE: 2.0341, train/WAPE: 0.5277]
+2026-11-06 17:08:46,818 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:08:47,384 - BasicTS-training - INFO - Result <val>: [val/time: 0.57 (s), val/loss: 0.3083, val/MAE: 0.3083, val/MSE: 0.2839, val/RMSE: 0.5329, val/MAPE: 2.0326, val/WAPE: 0.5077]
+2026-11-06 17:08:47,966 - BasicTS-training - INFO - Result <test>: [test/time: 0.57 (s), test/loss: 0.2799, test/MAE: 0.2799, test/MSE: 0.2196, test/RMSE: 0.4686, test/MAPE: 1.9044, test/WAPE: 0.4788]
+2026-11-06 17:08:47,966 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:08:47,966 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3228, test/MSE@h0: 0.2871, test/RMSE@h0: 0.5358, test/MAPE@h0: 2.1667, test/WAPE@h0: 0.4284]
+2026-11-06 17:08:47,966 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2900, test/MSE@h5: 0.2464, test/RMSE@h5: 0.4964, test/MAPE@h5: 1.9595, test/WAPE@h5: 0.3850]
+2026-11-06 17:08:47,966 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3188, test/MSE@h11: 0.2840, test/RMSE@h11: 0.5329, test/MAPE@h11: 2.1028, test/WAPE@h11: 0.4229]
+2026-11-06 17:08:47,988 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_011.pt saved
+2026-11-06 17:08:47,988 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:15
+2026-11-06 17:08:47,988 - BasicTS-training - INFO - Epoch 12 / 100
+2026-11-06 17:08:50,251 - BasicTS-training - INFO - Result <train>: [train/time: 2.26 (s), train/lr: 9.71e-04, train/loss: 0.3186, train/MAE: 0.3186, train/MSE: 0.2848, train/RMSE: 0.5337, train/MAPE: 2.0261, train/WAPE: 0.5261]
+2026-11-06 17:08:50,302 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:08:50,872 - BasicTS-training - INFO - Result <val>: [val/time: 0.57 (s), val/loss: 0.3040, val/MAE: 0.3040, val/MSE: 0.2827, val/RMSE: 0.5317, val/MAPE: 1.9792, val/WAPE: 0.4999]
+2026-11-06 17:08:50,900 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_best_val_MAE.pt saved
+2026-11-06 17:08:51,456 - BasicTS-training - INFO - Result <test>: [test/time: 0.56 (s), test/loss: 0.2751, test/MAE: 0.2751, test/MSE: 0.2177, test/RMSE: 0.4666, test/MAPE: 1.8496, test/WAPE: 0.4698]
+2026-11-06 17:08:51,456 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:08:51,456 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3162, test/MSE@h0: 0.2810, test/RMSE@h0: 0.5301, test/MAPE@h0: 2.1321, test/WAPE@h0: 0.4188]
+2026-11-06 17:08:51,456 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2859, test/MSE@h5: 0.2468, test/RMSE@h5: 0.4968, test/MAPE@h5: 1.8908, test/WAPE@h5: 0.3794]
+2026-11-06 17:08:51,457 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3126, test/MSE@h11: 0.2780, test/RMSE@h11: 0.5273, test/MAPE@h11: 2.0874, test/WAPE@h11: 0.4140]
+2026-11-06 17:08:51,482 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_012.pt saved
+2026-11-06 17:08:51,482 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:14
+2026-11-06 17:08:51,482 - BasicTS-training - INFO - Epoch 13 / 100
+2026-11-06 17:08:53,735 - BasicTS-training - INFO - Result <train>: [train/time: 2.25 (s), train/lr: 9.65e-04, train/loss: 0.3165, train/MAE: 0.3165, train/MSE: 0.2833, train/RMSE: 0.5323, train/MAPE: 2.0152, train/WAPE: 0.5228]
+2026-11-06 17:08:53,745 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:08:54,321 - BasicTS-training - INFO - Result <val>: [val/time: 0.58 (s), val/loss: 0.3049, val/MAE: 0.3049, val/MSE: 0.2847, val/RMSE: 0.5336, val/MAPE: 1.9455, val/WAPE: 0.4987]
+2026-11-06 17:08:54,932 - BasicTS-training - INFO - Result <test>: [test/time: 0.57 (s), test/loss: 0.2775, test/MAE: 0.2775, test/MSE: 0.2200, test/RMSE: 0.4691, test/MAPE: 1.8432, test/WAPE: 0.4712]
+2026-11-06 17:08:54,932 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:08:54,932 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3167, test/MSE@h0: 0.2855, test/RMSE@h0: 0.5343, test/MAPE@h0: 2.0782, test/WAPE@h0: 0.4197]
+2026-11-06 17:08:54,932 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2880, test/MSE@h5: 0.2493, test/RMSE@h5: 0.4993, test/MAPE@h5: 1.8627, test/WAPE@h5: 0.3818]
+2026-11-06 17:08:54,933 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3142, test/MSE@h11: 0.2822, test/RMSE@h11: 0.5312, test/MAPE@h11: 2.0528, test/WAPE@h11: 0.4163]
+2026-11-06 17:08:54,959 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_013.pt saved
+2026-11-06 17:08:54,959 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:12
+2026-11-06 17:08:54,959 - BasicTS-training - INFO - Epoch 14 / 100
+2026-11-06 17:08:57,218 - BasicTS-training - INFO - Result <train>: [train/time: 2.26 (s), train/lr: 9.59e-04, train/loss: 0.3163, train/MAE: 0.3163, train/MSE: 0.2829, train/RMSE: 0.5319, train/MAPE: 2.0129, train/WAPE: 0.5225]
+2026-11-06 17:08:57,226 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:08:57,799 - BasicTS-training - INFO - Result <val>: [val/time: 0.57 (s), val/loss: 0.3048, val/MAE: 0.3048, val/MSE: 0.2841, val/RMSE: 0.5330, val/MAPE: 1.9868, val/WAPE: 0.5012]
+2026-11-06 17:08:58,378 - BasicTS-training - INFO - Result <test>: [test/time: 0.57 (s), test/loss: 0.2761, test/MAE: 0.2761, test/MSE: 0.2190, test/RMSE: 0.4680, test/MAPE: 1.8669, test/WAPE: 0.4720]
+2026-11-06 17:08:58,378 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:08:58,378 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3164, test/MSE@h0: 0.2843, test/RMSE@h0: 0.5332, test/MAPE@h0: 2.0871, test/WAPE@h0: 0.4191]
+2026-11-06 17:08:58,378 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2875, test/MSE@h5: 0.2485, test/RMSE@h5: 0.4985, test/MAPE@h5: 1.9049, test/WAPE@h5: 0.3813]
+2026-11-06 17:08:58,378 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3132, test/MSE@h11: 0.2805, test/RMSE@h11: 0.5296, test/MAPE@h11: 2.0736, test/WAPE@h11: 0.4149]
+2026-11-06 17:08:58,473 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_014.pt saved
+2026-11-06 17:08:58,473 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:11
+2026-11-06 17:08:58,473 - BasicTS-training - INFO - Epoch 15 / 100
+2026-11-06 17:09:00,554 - BasicTS-training - INFO - Result <train>: [train/time: 2.08 (s), train/lr: 9.53e-04, train/loss: 0.3169, train/MAE: 0.3169, train/MSE: 0.2831, train/RMSE: 0.5321, train/MAPE: 2.0125, train/WAPE: 0.5229]
+2026-11-06 17:09:00,564 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:09:01,132 - BasicTS-training - INFO - Result <val>: [val/time: 0.57 (s), val/loss: 0.3061, val/MAE: 0.3061, val/MSE: 0.2797, val/RMSE: 0.5289, val/MAPE: 2.0685, val/WAPE: 0.5063]
+2026-11-06 17:09:01,708 - BasicTS-training - INFO - Result <test>: [test/time: 0.57 (s), test/loss: 0.2781, test/MAE: 0.2781, test/MSE: 0.2153, test/RMSE: 0.4640, test/MAPE: 1.9576, test/WAPE: 0.4787]
+2026-11-06 17:09:01,708 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:09:01,708 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3180, test/MSE@h0: 0.2821, test/RMSE@h0: 0.5312, test/MAPE@h0: 2.1705, test/WAPE@h0: 0.4215]
+2026-11-06 17:09:01,708 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2896, test/MSE@h5: 0.2426, test/RMSE@h5: 0.4925, test/MAPE@h5: 2.0203, test/WAPE@h5: 0.3835]
+2026-11-06 17:09:01,708 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3147, test/MSE@h11: 0.2777, test/RMSE@h11: 0.5269, test/MAPE@h11: 2.1643, test/WAPE@h11: 0.4167]
+2026-11-06 17:09:01,736 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_015.pt saved
+2026-11-06 17:09:01,736 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:09
+2026-11-06 17:09:01,736 - BasicTS-training - INFO - Epoch 16 / 100
+2026-11-06 17:09:03,976 - BasicTS-training - INFO - Result <train>: [train/time: 2.24 (s), train/lr: 9.46e-04, train/loss: 0.3150, train/MAE: 0.3150, train/MSE: 0.2816, train/RMSE: 0.5306, train/MAPE: 2.0051, train/WAPE: 0.5204]
+2026-11-06 17:09:04,016 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:09:04,593 - BasicTS-training - INFO - Result <val>: [val/time: 0.58 (s), val/loss: 0.3026, val/MAE: 0.3026, val/MSE: 0.2780, val/RMSE: 0.5273, val/MAPE: 2.0361, val/WAPE: 0.5016]
+2026-11-06 17:09:04,637 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_best_val_MAE.pt saved
+2026-11-06 17:09:05,211 - BasicTS-training - INFO - Result <test>: [test/time: 0.57 (s), test/loss: 0.2737, test/MAE: 0.2737, test/MSE: 0.2142, test/RMSE: 0.4628, test/MAPE: 1.9141, test/WAPE: 0.4725]
+2026-11-06 17:09:05,211 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:09:05,211 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3156, test/MSE@h0: 0.2800, test/RMSE@h0: 0.5292, test/MAPE@h0: 2.1333, test/WAPE@h0: 0.4184]
+2026-11-06 17:09:05,211 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2848, test/MSE@h5: 0.2413, test/RMSE@h5: 0.4913, test/MAPE@h5: 1.9779, test/WAPE@h5: 0.3777]
+2026-11-06 17:09:05,212 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3114, test/MSE@h11: 0.2753, test/RMSE@h11: 0.5247, test/MAPE@h11: 2.1249, test/WAPE@h11: 0.4126]
+2026-11-06 17:09:05,267 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_016.pt saved
+2026-11-06 17:09:05,268 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:08
+2026-11-06 17:09:05,268 - BasicTS-training - INFO - Epoch 17 / 100
+2026-11-06 17:09:07,493 - BasicTS-training - INFO - Result <train>: [train/time: 2.23 (s), train/lr: 9.39e-04, train/loss: 0.3144, train/MAE: 0.3144, train/MSE: 0.2811, train/RMSE: 0.5302, train/MAPE: 2.0043, train/WAPE: 0.5196]
+2026-11-06 17:09:07,502 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:09:08,072 - BasicTS-training - INFO - Result <val>: [val/time: 0.57 (s), val/loss: 0.3083, val/MAE: 0.3083, val/MSE: 0.2866, val/RMSE: 0.5354, val/MAPE: 2.0480, val/WAPE: 0.5105]
+2026-11-06 17:09:08,672 - BasicTS-training - INFO - Result <test>: [test/time: 0.57 (s), test/loss: 0.2802, test/MAE: 0.2802, test/MSE: 0.2220, test/RMSE: 0.4712, test/MAPE: 1.9355, test/WAPE: 0.4829]
+2026-11-06 17:09:08,672 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:09:08,672 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3222, test/MSE@h0: 0.2913, test/RMSE@h0: 0.5397, test/MAPE@h0: 2.1813, test/WAPE@h0: 0.4272]
+2026-11-06 17:09:08,672 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2906, test/MSE@h5: 0.2490, test/RMSE@h5: 0.4990, test/MAPE@h5: 1.9672, test/WAPE@h5: 0.3853]
+2026-11-06 17:09:08,672 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3183, test/MSE@h11: 0.2865, test/RMSE@h11: 0.5352, test/MAPE@h11: 2.1400, test/WAPE@h11: 0.4219]
+2026-11-06 17:09:08,705 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_017.pt saved
+2026-11-06 17:09:08,705 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:07
+2026-11-06 17:09:08,705 - BasicTS-training - INFO - Epoch 18 / 100
+2026-11-06 17:09:10,962 - BasicTS-training - INFO - Result <train>: [train/time: 2.26 (s), train/lr: 9.31e-04, train/loss: 0.3163, train/MAE: 0.3163, train/MSE: 0.2829, train/RMSE: 0.5319, train/MAPE: 2.0087, train/WAPE: 0.5222]
+2026-11-06 17:09:10,973 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:09:11,551 - BasicTS-training - INFO - Result <val>: [val/time: 0.58 (s), val/loss: 0.3031, val/MAE: 0.3031, val/MSE: 0.2799, val/RMSE: 0.5291, val/MAPE: 1.9755, val/WAPE: 0.4985]
+2026-11-06 17:09:12,134 - BasicTS-training - INFO - Result <test>: [test/time: 0.58 (s), test/loss: 0.2745, test/MAE: 0.2745, test/MSE: 0.2155, test/RMSE: 0.4642, test/MAPE: 1.8529, test/WAPE: 0.4688]
+2026-11-06 17:09:12,134 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:09:12,134 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3142, test/MSE@h0: 0.2801, test/RMSE@h0: 0.5293, test/MAPE@h0: 2.1018, test/WAPE@h0: 0.4167]
+2026-11-06 17:09:12,134 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2861, test/MSE@h5: 0.2439, test/RMSE@h5: 0.4939, test/MAPE@h5: 1.8776, test/WAPE@h5: 0.3792]
+2026-11-06 17:09:12,134 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3116, test/MSE@h11: 0.2761, test/RMSE@h11: 0.5255, test/MAPE@h11: 2.0841, test/WAPE@h11: 0.4131]
+2026-11-06 17:09:12,174 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_018.pt saved
+2026-11-06 17:09:12,174 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:06
+2026-11-06 17:09:12,174 - BasicTS-training - INFO - Epoch 19 / 100
+2026-11-06 17:09:14,416 - BasicTS-training - INFO - Result <train>: [train/time: 2.24 (s), train/lr: 9.23e-04, train/loss: 0.3140, train/MAE: 0.3140, train/MSE: 0.2807, train/RMSE: 0.5298, train/MAPE: 1.9979, train/WAPE: 0.5187]
+2026-11-06 17:09:14,430 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:09:14,989 - BasicTS-training - INFO - Result <val>: [val/time: 0.56 (s), val/loss: 0.3055, val/MAE: 0.3055, val/MSE: 0.2782, val/RMSE: 0.5275, val/MAPE: 2.0194, val/WAPE: 0.5043]
+2026-11-06 17:09:15,561 - BasicTS-training - INFO - Result <test>: [test/time: 0.56 (s), test/loss: 0.2768, test/MAE: 0.2768, test/MSE: 0.2143, test/RMSE: 0.4629, test/MAPE: 1.9111, test/WAPE: 0.4757]
+2026-11-06 17:09:15,561 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:09:15,561 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3209, test/MSE@h0: 0.2788, test/RMSE@h0: 0.5280, test/MAPE@h0: 2.1760, test/WAPE@h0: 0.4240]
+2026-11-06 17:09:15,561 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2868, test/MSE@h5: 0.2427, test/RMSE@h5: 0.4927, test/MAPE@h5: 1.9200, test/WAPE@h5: 0.3796]
+2026-11-06 17:09:15,561 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3173, test/MSE@h11: 0.2746, test/RMSE@h11: 0.5241, test/MAPE@h11: 2.1539, test/WAPE@h11: 0.4192]
+2026-11-06 17:09:15,602 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_019.pt saved
+2026-11-06 17:09:15,602 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:06
+2026-11-06 17:09:15,602 - BasicTS-training - INFO - Epoch 20 / 100
+2026-11-06 17:09:17,829 - BasicTS-training - INFO - Result <train>: [train/time: 2.23 (s), train/lr: 9.14e-04, train/loss: 0.3183, train/MAE: 0.3183, train/MSE: 0.2840, train/RMSE: 0.5329, train/MAPE: 2.0240, train/WAPE: 0.5254]
+2026-11-06 17:09:17,841 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:09:18,403 - BasicTS-training - INFO - Result <val>: [val/time: 0.56 (s), val/loss: 0.3044, val/MAE: 0.3044, val/MSE: 0.2785, val/RMSE: 0.5278, val/MAPE: 1.9880, val/WAPE: 0.5014]
+2026-11-06 17:09:18,959 - BasicTS-training - INFO - Result <test>: [test/time: 0.55 (s), test/loss: 0.2776, test/MAE: 0.2776, test/MSE: 0.2145, test/RMSE: 0.4632, test/MAPE: 1.8751, test/WAPE: 0.4733]
+2026-11-06 17:09:18,959 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:09:18,959 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3180, test/MSE@h0: 0.2781, test/RMSE@h0: 0.5274, test/MAPE@h0: 2.1422, test/WAPE@h0: 0.4214]
+2026-11-06 17:09:18,959 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2870, test/MSE@h5: 0.2433, test/RMSE@h5: 0.4932, test/MAPE@h5: 1.8883, test/WAPE@h5: 0.3806]
+2026-11-06 17:09:18,959 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3157, test/MSE@h11: 0.2754, test/RMSE@h11: 0.5248, test/MAPE@h11: 2.0883, test/WAPE@h11: 0.4183]
+2026-11-06 17:09:19,012 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_020.pt saved
+2026-11-06 17:09:19,040 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:05
+2026-11-06 17:09:19,041 - BasicTS-training - INFO - Epoch 21 / 100
+2026-11-06 17:09:21,305 - BasicTS-training - INFO - Result <train>: [train/time: 2.26 (s), train/lr: 9.05e-04, train/loss: 0.3141, train/MAE: 0.3141, train/MSE: 0.2807, train/RMSE: 0.5298, train/MAPE: 1.9966, train/WAPE: 0.5187]
+2026-11-06 17:09:21,313 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:09:21,878 - BasicTS-training - INFO - Result <val>: [val/time: 0.56 (s), val/loss: 0.3025, val/MAE: 0.3025, val/MSE: 0.2798, val/RMSE: 0.5289, val/MAPE: 2.0075, val/WAPE: 0.4995]
+2026-11-06 17:09:21,903 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_best_val_MAE.pt saved
+2026-11-06 17:09:22,462 - BasicTS-training - INFO - Result <test>: [test/time: 0.56 (s), test/loss: 0.2736, test/MAE: 0.2736, test/MSE: 0.2145, test/RMSE: 0.4632, test/MAPE: 1.8889, test/WAPE: 0.4701]
+2026-11-06 17:09:22,462 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:09:22,462 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3148, test/MSE@h0: 0.2807, test/RMSE@h0: 0.5298, test/MAPE@h0: 2.1090, test/WAPE@h0: 0.4174]
+2026-11-06 17:09:22,462 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2843, test/MSE@h5: 0.2426, test/RMSE@h5: 0.4926, test/MAPE@h5: 1.9400, test/WAPE@h5: 0.3768]
+2026-11-06 17:09:22,462 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3110, test/MSE@h11: 0.2762, test/RMSE@h11: 0.5255, test/MAPE@h11: 2.0865, test/WAPE@h11: 0.4120]
+2026-11-06 17:09:22,494 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_021.pt saved
+2026-11-06 17:09:22,495 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:04
+2026-11-06 17:09:22,495 - BasicTS-training - INFO - Epoch 22 / 100
+2026-11-06 17:09:24,600 - BasicTS-training - INFO - Result <train>: [train/time: 2.10 (s), train/lr: 8.96e-04, train/loss: 0.3133, train/MAE: 0.3133, train/MSE: 0.2799, train/RMSE: 0.5290, train/MAPE: 1.9962, train/WAPE: 0.5178]
+2026-11-06 17:09:24,614 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:09:25,185 - BasicTS-training - INFO - Result <val>: [val/time: 0.57 (s), val/loss: 0.3037, val/MAE: 0.3037, val/MSE: 0.2786, val/RMSE: 0.5278, val/MAPE: 1.9413, val/WAPE: 0.4973]
+2026-11-06 17:09:25,762 - BasicTS-training - INFO - Result <test>: [test/time: 0.57 (s), test/loss: 0.2754, test/MAE: 0.2754, test/MSE: 0.2151, test/RMSE: 0.4638, test/MAPE: 1.8282, test/WAPE: 0.4684]
+2026-11-06 17:09:25,762 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:09:25,762 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3171, test/MSE@h0: 0.2802, test/RMSE@h0: 0.5294, test/MAPE@h0: 2.0578, test/WAPE@h0: 0.4192]
+2026-11-06 17:09:25,762 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2860, test/MSE@h5: 0.2428, test/RMSE@h5: 0.4927, test/MAPE@h5: 1.8509, test/WAPE@h5: 0.3787]
+2026-11-06 17:09:25,762 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3131, test/MSE@h11: 0.2758, test/RMSE@h11: 0.5252, test/MAPE@h11: 2.0278, test/WAPE@h11: 0.4142]
+2026-11-06 17:09:25,787 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_022.pt saved
+2026-11-06 17:09:25,787 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:03
+2026-11-06 17:09:25,787 - BasicTS-training - INFO - Epoch 23 / 100
+2026-11-06 17:09:27,953 - BasicTS-training - INFO - Result <train>: [train/time: 2.17 (s), train/lr: 8.86e-04, train/loss: 0.3130, train/MAE: 0.3130, train/MSE: 0.2797, train/RMSE: 0.5289, train/MAPE: 1.9904, train/WAPE: 0.5168]
+2026-11-06 17:09:27,961 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:09:28,534 - BasicTS-training - INFO - Result <val>: [val/time: 0.57 (s), val/loss: 0.3068, val/MAE: 0.3068, val/MSE: 0.2788, val/RMSE: 0.5280, val/MAPE: 2.1034, val/WAPE: 0.5096]
+2026-11-06 17:09:29,112 - BasicTS-training - INFO - Result <test>: [test/time: 0.57 (s), test/loss: 0.2794, test/MAE: 0.2794, test/MSE: 0.2152, test/RMSE: 0.4639, test/MAPE: 1.9838, test/WAPE: 0.4822]
+2026-11-06 17:09:29,112 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:09:29,112 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3179, test/MSE@h0: 0.2800, test/RMSE@h0: 0.5292, test/MAPE@h0: 2.2010, test/WAPE@h0: 0.4214]
+2026-11-06 17:09:29,112 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2902, test/MSE@h5: 0.2430, test/RMSE@h5: 0.4930, test/MAPE@h5: 2.0317, test/WAPE@h5: 0.3840]
+2026-11-06 17:09:29,112 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3150, test/MSE@h11: 0.2750, test/RMSE@h11: 0.5244, test/MAPE@h11: 2.2144, test/WAPE@h11: 0.4169]
+2026-11-06 17:09:29,134 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_023.pt saved
+2026-11-06 17:09:29,134 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:02
+2026-11-06 17:09:29,134 - BasicTS-training - INFO - Epoch 24 / 100
+2026-11-06 17:09:31,361 - BasicTS-training - INFO - Result <train>: [train/time: 2.23 (s), train/lr: 8.76e-04, train/loss: 0.3140, train/MAE: 0.3140, train/MSE: 0.2804, train/RMSE: 0.5295, train/MAPE: 1.9993, train/WAPE: 0.5184]
+2026-11-06 17:09:31,370 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:09:31,943 - BasicTS-training - INFO - Result <val>: [val/time: 0.57 (s), val/loss: 0.3011, val/MAE: 0.3011, val/MSE: 0.2788, val/RMSE: 0.5280, val/MAPE: 1.9695, val/WAPE: 0.4953]
+2026-11-06 17:09:31,974 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_best_val_MAE.pt saved
+2026-11-06 17:09:32,548 - BasicTS-training - INFO - Result <test>: [test/time: 0.57 (s), test/loss: 0.2717, test/MAE: 0.2717, test/MSE: 0.2139, test/RMSE: 0.4625, test/MAPE: 1.8482, test/WAPE: 0.4655]
+2026-11-06 17:09:32,548 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:09:32,548 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3126, test/MSE@h0: 0.2803, test/RMSE@h0: 0.5294, test/MAPE@h0: 2.0662, test/WAPE@h0: 0.4144]
+2026-11-06 17:09:32,548 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2829, test/MSE@h5: 0.2414, test/RMSE@h5: 0.4914, test/MAPE@h5: 1.9000, test/WAPE@h5: 0.3751]
+2026-11-06 17:09:32,548 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3092, test/MSE@h11: 0.2762, test/RMSE@h11: 0.5255, test/MAPE@h11: 2.0435, test/WAPE@h11: 0.4095]
+2026-11-06 17:09:32,571 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_024.pt saved
+2026-11-06 17:09:32,571 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:02
+2026-11-06 17:09:32,571 - BasicTS-training - INFO - Epoch 25 / 100
+2026-11-06 17:09:34,830 - BasicTS-training - INFO - Result <train>: [train/time: 2.26 (s), train/lr: 8.66e-04, train/loss: 0.3123, train/MAE: 0.3123, train/MSE: 0.2789, train/RMSE: 0.5281, train/MAPE: 1.9878, train/WAPE: 0.5158]
+2026-11-06 17:09:34,840 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:09:35,411 - BasicTS-training - INFO - Result <val>: [val/time: 0.57 (s), val/loss: 0.3023, val/MAE: 0.3023, val/MSE: 0.2786, val/RMSE: 0.5278, val/MAPE: 2.0128, val/WAPE: 0.4994]
+2026-11-06 17:09:36,004 - BasicTS-training - INFO - Result <test>: [test/time: 0.57 (s), test/loss: 0.2739, test/MAE: 0.2739, test/MSE: 0.2138, test/RMSE: 0.4624, test/MAPE: 1.9063, test/WAPE: 0.4720]
+2026-11-06 17:09:36,004 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:09:36,004 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3132, test/MSE@h0: 0.2794, test/RMSE@h0: 0.5285, test/MAPE@h0: 2.1203, test/WAPE@h0: 0.4153]
+2026-11-06 17:09:36,004 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2852, test/MSE@h5: 0.2419, test/RMSE@h5: 0.4918, test/MAPE@h5: 1.9451, test/WAPE@h5: 0.3785]
+2026-11-06 17:09:36,004 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3104, test/MSE@h11: 0.2747, test/RMSE@h11: 0.5242, test/MAPE@h11: 2.1178, test/WAPE@h11: 0.4114]
+2026-11-06 17:09:36,053 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_025.pt saved
+2026-11-06 17:09:36,053 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:01
+2026-11-06 17:09:36,053 - BasicTS-training - INFO - Epoch 26 / 100
+2026-11-06 17:09:38,331 - BasicTS-training - INFO - Result <train>: [train/time: 2.28 (s), train/lr: 8.55e-04, train/loss: 0.3129, train/MAE: 0.3129, train/MSE: 0.2793, train/RMSE: 0.5285, train/MAPE: 1.9937, train/WAPE: 0.5170]
+2026-11-06 17:09:38,339 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:09:38,912 - BasicTS-training - INFO - Result <val>: [val/time: 0.57 (s), val/loss: 0.3022, val/MAE: 0.3022, val/MSE: 0.2779, val/RMSE: 0.5272, val/MAPE: 1.9676, val/WAPE: 0.4970]
+2026-11-06 17:09:39,498 - BasicTS-training - INFO - Result <test>: [test/time: 0.58 (s), test/loss: 0.2734, test/MAE: 0.2734, test/MSE: 0.2136, test/RMSE: 0.4622, test/MAPE: 1.8590, test/WAPE: 0.4685]
+2026-11-06 17:09:39,498 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:09:39,498 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3147, test/MSE@h0: 0.2791, test/RMSE@h0: 0.5283, test/MAPE@h0: 2.0813, test/WAPE@h0: 0.4166]
+2026-11-06 17:09:39,498 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2839, test/MSE@h5: 0.2414, test/RMSE@h5: 0.4913, test/MAPE@h5: 1.8911, test/WAPE@h5: 0.3762]
+2026-11-06 17:09:39,498 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3121, test/MSE@h11: 0.2746, test/RMSE@h11: 0.5240, test/MAPE@h11: 2.0666, test/WAPE@h11: 0.4129]
+2026-11-06 17:09:39,527 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_026.pt saved
+2026-11-06 17:09:39,527 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:01
+2026-11-06 17:09:39,527 - BasicTS-training - INFO - Epoch 27 / 100
+2026-11-06 17:09:41,769 - BasicTS-training - INFO - Result <train>: [train/time: 2.24 (s), train/lr: 8.44e-04, train/loss: 0.3128, train/MAE: 0.3128, train/MSE: 0.2791, train/RMSE: 0.5283, train/MAPE: 1.9895, train/WAPE: 0.5165]
+2026-11-06 17:09:41,780 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:09:42,351 - BasicTS-training - INFO - Result <val>: [val/time: 0.57 (s), val/loss: 0.3032, val/MAE: 0.3032, val/MSE: 0.2777, val/RMSE: 0.5270, val/MAPE: 1.9582, val/WAPE: 0.4971]
+2026-11-06 17:09:42,939 - BasicTS-training - INFO - Result <test>: [test/time: 0.57 (s), test/loss: 0.2753, test/MAE: 0.2753, test/MSE: 0.2146, test/RMSE: 0.4632, test/MAPE: 1.8517, test/WAPE: 0.4693]
+2026-11-06 17:09:42,939 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:09:42,940 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3151, test/MSE@h0: 0.2786, test/RMSE@h0: 0.5278, test/MAPE@h0: 2.0879, test/WAPE@h0: 0.4167]
+2026-11-06 17:09:42,940 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2858, test/MSE@h5: 0.2423, test/RMSE@h5: 0.4922, test/MAPE@h5: 1.8828, test/WAPE@h5: 0.3780]
+2026-11-06 17:09:42,940 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3117, test/MSE@h11: 0.2743, test/RMSE@h11: 0.5238, test/MAPE@h11: 2.0780, test/WAPE@h11: 0.4120]
+2026-11-06 17:09:42,972 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_027.pt saved
+2026-11-06 17:09:42,973 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:01
+2026-11-06 17:09:42,973 - BasicTS-training - INFO - Epoch 28 / 100
+2026-11-06 17:09:45,200 - BasicTS-training - INFO - Result <train>: [train/time: 2.23 (s), train/lr: 8.32e-04, train/loss: 0.3128, train/MAE: 0.3128, train/MSE: 0.2792, train/RMSE: 0.5284, train/MAPE: 1.9894, train/WAPE: 0.5164]
+2026-11-06 17:09:45,208 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:09:45,786 - BasicTS-training - INFO - Result <val>: [val/time: 0.58 (s), val/loss: 0.3023, val/MAE: 0.3023, val/MSE: 0.2793, val/RMSE: 0.5285, val/MAPE: 2.0232, val/WAPE: 0.4999]
+2026-11-06 17:09:46,370 - BasicTS-training - INFO - Result <test>: [test/time: 0.58 (s), test/loss: 0.2735, test/MAE: 0.2735, test/MSE: 0.2144, test/RMSE: 0.4630, test/MAPE: 1.9007, test/WAPE: 0.4712]
+2026-11-06 17:09:46,370 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:09:46,370 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3140, test/MSE@h0: 0.2799, test/RMSE@h0: 0.5291, test/MAPE@h0: 2.1326, test/WAPE@h0: 0.4161]
+2026-11-06 17:09:46,370 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2846, test/MSE@h5: 0.2430, test/RMSE@h5: 0.4930, test/MAPE@h5: 1.9407, test/WAPE@h5: 0.3771]
+2026-11-06 17:09:46,370 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3114, test/MSE@h11: 0.2762, test/RMSE@h11: 0.5255, test/MAPE@h11: 2.1150, test/WAPE@h11: 0.4123]
+2026-11-06 17:09:46,405 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_028.pt saved
+2026-11-06 17:09:46,405 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:00
+2026-11-06 17:09:46,405 - BasicTS-training - INFO - Epoch 29 / 100
+2026-11-06 17:09:48,656 - BasicTS-training - INFO - Result <train>: [train/time: 2.25 (s), train/lr: 8.21e-04, train/loss: 0.3127, train/MAE: 0.3127, train/MSE: 0.2791, train/RMSE: 0.5283, train/MAPE: 1.9896, train/WAPE: 0.5165]
+2026-11-06 17:09:48,664 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:09:49,227 - BasicTS-training - INFO - Result <val>: [val/time: 0.56 (s), val/loss: 0.3074, val/MAE: 0.3074, val/MSE: 0.2791, val/RMSE: 0.5283, val/MAPE: 2.0903, val/WAPE: 0.5090]
+2026-11-06 17:09:49,785 - BasicTS-training - INFO - Result <test>: [test/time: 0.55 (s), test/loss: 0.2802, test/MAE: 0.2802, test/MSE: 0.2169, test/RMSE: 0.4657, test/MAPE: 1.9876, test/WAPE: 0.4832]
+2026-11-06 17:09:49,785 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:09:49,785 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3268, test/MSE@h0: 0.2855, test/RMSE@h0: 0.5343, test/MAPE@h0: 2.2830, test/WAPE@h0: 0.4312]
+2026-11-06 17:09:49,785 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2882, test/MSE@h5: 0.2421, test/RMSE@h5: 0.4920, test/MAPE@h5: 2.0084, test/WAPE@h5: 0.3818]
+2026-11-06 17:09:49,785 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3196, test/MSE@h11: 0.2786, test/RMSE@h11: 0.5278, test/MAPE@h11: 2.2185, test/WAPE@h11: 0.4220]
+2026-11-06 17:09:49,811 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_029.pt saved
+2026-11-06 17:09:49,811 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:14:00
+2026-11-06 17:09:49,811 - BasicTS-training - INFO - Epoch 30 / 100
+2026-11-06 17:09:52,013 - BasicTS-training - INFO - Result <train>: [train/time: 2.20 (s), train/lr: 8.08e-04, train/loss: 0.3132, train/MAE: 0.3132, train/MSE: 0.2794, train/RMSE: 0.5286, train/MAPE: 1.9996, train/WAPE: 0.5176]
+2026-11-06 17:09:52,032 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:09:52,598 - BasicTS-training - INFO - Result <val>: [val/time: 0.57 (s), val/loss: 0.3023, val/MAE: 0.3023, val/MSE: 0.2799, val/RMSE: 0.5290, val/MAPE: 2.0086, val/WAPE: 0.4989]
+2026-11-06 17:09:53,175 - BasicTS-training - INFO - Result <test>: [test/time: 0.57 (s), test/loss: 0.2735, test/MAE: 0.2735, test/MSE: 0.2152, test/RMSE: 0.4639, test/MAPE: 1.8884, test/WAPE: 0.4695]
+2026-11-06 17:09:53,175 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:09:53,175 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3126, test/MSE@h0: 0.2782, test/RMSE@h0: 0.5275, test/MAPE@h0: 2.1074, test/WAPE@h0: 0.4142]
+2026-11-06 17:09:53,175 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2858, test/MSE@h5: 0.2444, test/RMSE@h5: 0.4944, test/MAPE@h5: 1.9425, test/WAPE@h5: 0.3787]
+2026-11-06 17:09:53,175 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3093, test/MSE@h11: 0.2744, test/RMSE@h11: 0.5238, test/MAPE@h11: 2.0970, test/WAPE@h11: 0.4096]
+2026-11-06 17:09:53,207 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_030.pt saved
+2026-11-06 17:09:53,217 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:13:59
+2026-11-06 17:09:53,218 - BasicTS-training - INFO - Epoch 31 / 100
+2026-11-06 17:09:55,478 - BasicTS-training - INFO - Result <train>: [train/time: 2.26 (s), train/lr: 7.96e-04, train/loss: 0.3138, train/MAE: 0.3138, train/MSE: 0.2797, train/RMSE: 0.5288, train/MAPE: 1.9965, train/WAPE: 0.5180]
+2026-11-06 17:09:55,486 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:09:56,052 - BasicTS-training - INFO - Result <val>: [val/time: 0.57 (s), val/loss: 0.3067, val/MAE: 0.3067, val/MSE: 0.2848, val/RMSE: 0.5337, val/MAPE: 1.9236, val/WAPE: 0.4998]
+2026-11-06 17:09:56,633 - BasicTS-training - INFO - Result <test>: [test/time: 0.57 (s), test/loss: 0.2785, test/MAE: 0.2785, test/MSE: 0.2193, test/RMSE: 0.4683, test/MAPE: 1.8060, test/WAPE: 0.4700]
+2026-11-06 17:09:56,633 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:09:56,633 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3239, test/MSE@h0: 0.2899, test/RMSE@h0: 0.5385, test/MAPE@h0: 1.9720, test/WAPE@h0: 0.4274]
+2026-11-06 17:09:56,633 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2863, test/MSE@h5: 0.2464, test/RMSE@h5: 0.4964, test/MAPE@h5: 1.8535, test/WAPE@h5: 0.3792]
+2026-11-06 17:09:56,633 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3180, test/MSE@h11: 0.2840, test/RMSE@h11: 0.5329, test/MAPE@h11: 1.9549, test/WAPE@h11: 0.4202]
+2026-11-06 17:09:56,679 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_031.pt saved
+2026-11-06 17:09:56,679 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:13:59
+2026-11-06 17:09:56,679 - BasicTS-training - INFO - Epoch 32 / 100
+2026-11-06 17:09:58,929 - BasicTS-training - INFO - Result <train>: [train/time: 2.25 (s), train/lr: 7.83e-04, train/loss: 0.3129, train/MAE: 0.3129, train/MSE: 0.2792, train/RMSE: 0.5284, train/MAPE: 1.9887, train/WAPE: 0.5167]
+2026-11-06 17:09:59,004 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:09:59,573 - BasicTS-training - INFO - Result <val>: [val/time: 0.57 (s), val/loss: 0.3022, val/MAE: 0.3022, val/MSE: 0.2744, val/RMSE: 0.5238, val/MAPE: 2.0581, val/WAPE: 0.5019]
+2026-11-06 17:10:00,153 - BasicTS-training - INFO - Result <test>: [test/time: 0.57 (s), test/loss: 0.2748, test/MAE: 0.2748, test/MSE: 0.2114, test/RMSE: 0.4597, test/MAPE: 1.9614, test/WAPE: 0.4762]
+2026-11-06 17:10:00,153 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:10:00,153 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3143, test/MSE@h0: 0.2755, test/RMSE@h0: 0.5249, test/MAPE@h0: 2.1770, test/WAPE@h0: 0.4162]
+2026-11-06 17:10:00,154 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2854, test/MSE@h5: 0.2387, test/RMSE@h5: 0.4885, test/MAPE@h5: 1.9990, test/WAPE@h5: 0.3783]
+2026-11-06 17:10:00,154 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3112, test/MSE@h11: 0.2711, test/RMSE@h11: 0.5207, test/MAPE@h11: 2.1747, test/WAPE@h11: 0.4120]
+2026-11-06 17:10:00,243 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_032.pt saved
+2026-11-06 17:10:00,244 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:13:59
+2026-11-06 17:10:00,244 - BasicTS-training - INFO - Epoch 33 / 100
+2026-11-06 17:10:02,456 - BasicTS-training - INFO - Result <train>: [train/time: 2.21 (s), train/lr: 7.70e-04, train/loss: 0.3117, train/MAE: 0.3117, train/MSE: 0.2781, train/RMSE: 0.5273, train/MAPE: 1.9793, train/WAPE: 0.5146]
+2026-11-06 17:10:02,463 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:10:02,976 - BasicTS-training - INFO - Result <val>: [val/time: 0.51 (s), val/loss: 0.3016, val/MAE: 0.3016, val/MSE: 0.2742, val/RMSE: 0.5236, val/MAPE: 2.0333, val/WAPE: 0.5000]
+2026-11-06 17:10:03,506 - BasicTS-training - INFO - Result <test>: [test/time: 0.52 (s), test/loss: 0.2735, test/MAE: 0.2735, test/MSE: 0.2112, test/RMSE: 0.4595, test/MAPE: 1.9243, test/WAPE: 0.4724]
+2026-11-06 17:10:03,506 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:10:03,506 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3140, test/MSE@h0: 0.2744, test/RMSE@h0: 0.5239, test/MAPE@h0: 2.1927, test/WAPE@h0: 0.4158]
+2026-11-06 17:10:03,506 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2835, test/MSE@h5: 0.2386, test/RMSE@h5: 0.4885, test/MAPE@h5: 1.9465, test/WAPE@h5: 0.3760]
+2026-11-06 17:10:03,506 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3108, test/MSE@h11: 0.2703, test/RMSE@h11: 0.5199, test/MAPE@h11: 2.1849, test/WAPE@h11: 0.4114]
+2026-11-06 17:10:03,597 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_033.pt saved
+2026-11-06 17:10:03,598 - BasicTS-training - INFO - The estimated training finish time is 2026-11-06 17:13:59
+2026-11-06 17:10:03,598 - BasicTS-training - INFO - Epoch 34 / 100
+2026-11-06 17:10:05,655 - BasicTS-training - INFO - Result <train>: [train/time: 2.06 (s), train/lr: 7.57e-04, train/loss: 0.3117, train/MAE: 0.3117, train/MSE: 0.2781, train/RMSE: 0.5273, train/MAPE: 1.9835, train/WAPE: 0.5147]
+2026-11-06 17:10:05,666 - BasicTS-training - INFO - Start validation.
+2026-11-06 17:10:06,233 - BasicTS-training - INFO - Early stopping at epoch 34.
+2026-11-06 17:10:06,233 - BasicTS-training - INFO - Result <val>: [val/time: 0.57 (s), val/loss: 0.3012, val/MAE: 0.3012, val/MSE: 0.2782, val/RMSE: 0.5274, val/MAPE: 1.9759, val/WAPE: 0.4965]
+2026-11-06 17:10:06,826 - BasicTS-training - INFO - Result <test>: [test/time: 0.58 (s), test/loss: 0.2727, test/MAE: 0.2727, test/MSE: 0.2137, test/RMSE: 0.4623, test/MAPE: 1.8672, test/WAPE: 0.4680]
+2026-11-06 17:10:06,827 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:10:06,827 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.3133, test/MSE@h0: 0.2790, test/RMSE@h0: 0.5282, test/MAPE@h0: 2.0956, test/WAPE@h0: 0.4151]
+2026-11-06 17:10:06,827 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2829, test/MSE@h5: 0.2411, test/RMSE@h5: 0.4910, test/MAPE@h5: 1.9032, test/WAPE@h5: 0.3750]
+2026-11-06 17:10:06,827 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.3099, test/MSE@h11: 0.2746, test/RMSE@h11: 0.5241, test/MAPE@h11: 2.0671, test/WAPE@h11: 0.4103]
+2026-11-06 17:10:06,852 - BasicTS-training - INFO - Checkpoint checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_034.pt saved
+2026-11-06 17:10:06,853 - BasicTS-training - INFO - The training finished at 2026-11-06 17:10:06
+2026-11-06 17:10:06,853 - BasicTS-training - INFO - Evaluating the best model on the test set.
+2026-11-06 17:10:06,853 - BasicTS-training - INFO - Loading Checkpoint from 'checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/STID_best_val_MAE.pt'
+2026-11-06 17:10:20,018 - BasicTS-training - INFO - Result <test>: [test/time: 12.93 (s), test/loss: 0.2717, test/MAE: 0.2717, test/MSE: 0.2139, test/RMSE: 0.4625, test/MAPE: 1.8482, test/WAPE: 0.4655]
+2026-11-06 17:10:20,018 - BasicTS-training - INFO - Evaluation on horizons: [0, 5, 11].
+2026-11-06 17:10:20,018 - BasicTS-training - INFO - Result <test @ horizon 0>: [test/MAE@h0: 0.2996, test/MSE@h0: 0.2497, test/RMSE@h0: 0.4997, test/MAPE@h0: 2.0175, test/WAPE@h0: 0.3914]
+2026-11-06 17:10:20,018 - BasicTS-training - INFO - Result <test @ horizon 5>: [test/MAE@h5: 0.2676, test/MSE@h5: 0.2081, test/RMSE@h5: 0.4562, test/MAPE@h5: 1.8248, test/WAPE@h5: 0.3502]
+2026-11-06 17:10:20,018 - BasicTS-training - INFO - Result <test @ horizon 11>: [test/MAE@h11: 0.2958, test/MSE@h11: 0.2450, test/RMSE@h11: 0.4950, test/MAPE@h11: 2.0006, test/WAPE@h11: 0.3862]
+2026-11-06 17:10:20,018 - BasicTS-training - INFO - Test results saved to checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/test_results.
+2026-11-06 17:10:20,038 - BasicTS-training - INFO - Test metrics saved to checkpoints/STID_MILAN/seed4/9841f95a5b9917671d4c179dbeb03c92/test_metrics.json.
