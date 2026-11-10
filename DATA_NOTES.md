@@ -1,5 +1,25 @@
 # MILAN data: checks and decisions
 
+## Data Format
+The original dataset (`milan_raw.csv`) is structured in a **Long** (vertical) format, where each row represents a single cell measurement at a given timestamp.
+
+For training spatio-temporal models (BasicTS), `convert_milan_to_basicts.py` pivots the table into a **Wide** format matrix (`[T, N]`):
+- **Time steps ($T$):** 4320 rows (regular 10-minute grid).
+- **Variables/Cells ($N$):** 2500 columns.
+
+| Format | Structure | Description |
+| :--- | :--- | :--- |
+| **Long (`milan_raw.csv`)** | Columns: `time`, `cell_id`, `y` | Each row is a (timestamp, cell) pair. Suitable for storage, not for model inputs. |
+| **Wide (`*_data.npy`)** | Shape: `[T, N]` | Each row contains the status of all 2500 cells at the exact same timestamp $T$. |
+
+## Temporal Features (`*_timestamps.npy`)
+The temporal features have shape `[T, 4]` and provide cyclical background information to the model. All values are normalized in the range $[0, 1)$:
+
+1. **Time of day:** $\frac{\text{Seconds elapsed since midnight}}{86400}$ (captures daily 24h cycles).
+2. **Day of week:** $\frac{\text{Day of week (0-6)}}{7.0}$ (distinguishes weekdays from weekends).
+3. **Day of month:** $\frac{\text{Day of month - 1}}{31.0}$ (captures monthly trends).
+4. **Day of year:** $\frac{\text{Day of year - 1}}{366.0}$ (captures annual seasonality).
+
 ## Dataset
 - Source: `milan_raw.csv` (`time`, `cell_id`, `y`), converted with `convert_milan_to_basicts.py`
   to `[T, N]` arrays on a regular 10-minute grid (N = 2500 cells).
