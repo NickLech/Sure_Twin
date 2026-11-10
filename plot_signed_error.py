@@ -3,8 +3,9 @@ Signed error (pred - true) instead of MAE, over the whole evaluated test period.
 
   row 1: error over time, all evaluated windows (about 5 days, clock labels, weekday at midnight)
          red  = over-estimate (pred > true), blue = under-estimate (pred < true)
-  row 2: the same error folded on the 24 h clock: one thin line per day, bold black = mean over
-         all days, dashed = mean over Tue-Fri only (Saturday behaves differently)
+  row 2: the same error folded on the 24 h clock and averaged over the days: ONE mean line
+         (with --show_days also one thin line per day and the Tue-Fri-only mean, to see whether a
+         single day dominates the average; Saturday behaves differently from the weekdays)
 
 One column per series: all cells (mean error per cell), then busiest / median / quietest cell
 (same selection as plot_timeseries.py). Units are the original traffic units.
@@ -15,6 +16,7 @@ Usage:
     python plot_signed_error.py --cells 12 345 1800
     python plot_signed_error.py --seed 0          # one seed instead of the ensemble mean
     python plot_signed_error.py --no_all          # only the single cells
+    python plot_signed_error.py --show_days       # row 2 also shows each day and the Tue-Fri mean
 
 Loading and last-batch fix are reused from analyse_result.py (same folder).
 """
@@ -43,6 +45,8 @@ def parse_args():
                     help="column indices; default: busiest, median, quietest")
     ap.add_argument("--no_all", action="store_true", help="skip the 'all cells' column")
     ap.add_argument("--seed", type=int, default=None, help="use this seed only (default: ensemble mean)")
+    ap.add_argument("--show_days", action="store_true",
+                    help="row 2: also draw one line per day and the weekday-only mean")
     ap.add_argument("--out", default="signed_error.png")
     return ap.parse_args()
 
@@ -159,22 +163,25 @@ def main():
         # ---- row 2: mean over the days, by time of day ----
         ax = axes[1, c]
         xs = np.arange(STEPS_PER_DAY) * STEP_H
-        for k in range(len(days)):
-            ax.plot(xs, E[k], lw=0.9, alpha=0.55,
-                    color="tab:red" if dow[k] >= 5 else plt.cm.Blues(0.45 + 0.12 * k),
-                    label=f"{WEEKDAYS[dow[k]]} {dom[k]}")
-        if mean_wd is not None and (~is_wd).any():
-            ax.plot(xs, mean_wd, color="0.35", lw=1.4, ls="--", label=f"mean {int(is_wd.sum())} weekdays")
-        ax.plot(xs, mean_all, color="k", lw=2.2, label=f"mean of {len(days)} days")
+        if args.show_days:
+            for k in range(len(days)):
+                ax.plot(xs, E[k], lw=0.9, alpha=0.55,
+                        color="tab:red" if dow[k] >= 5 else plt.cm.Blues(0.45 + 0.12 * k),
+                        label=f"{WEEKDAYS[dow[k]]} {dom[k]}")
+            if mean_wd is not None and (~is_wd).any():
+                ax.plot(xs, mean_wd, color="0.35", lw=1.4, ls="--", label=f"mean {int(is_wd.sum())} weekdays")
+        ax.plot(xs, mean_all, color="k", lw=2.0, label=f"mean of {len(days)} days")
         ax.axhline(0, color="k", lw=0.8)
         ax.set_xlim(0, 24)
         ax.set_xticks(range(0, 25, 3))
         ax.set_xticklabels([f"{t:02d}:00" for t in range(0, 25, 3)], fontsize=8)
         ax.set_xlabel("time of day")
         ax.set_ylabel("mean error = pred - true (traffic)")
-        ax.set_title("average over the days, by time of day", fontsize=10)
+        ax.set_title(f"mean of the {len(days)} days ({WEEKDAYS[dow[0]]}-{WEEKDAYS[dow[-1]]}), by time of day",
+                     fontsize=10)
         ax.grid(alpha=0.3)
-        ax.legend(fontsize=7, loc="best", ncol=2)
+        if args.show_days:
+            ax.legend(fontsize=7, loc="best", ncol=2)
 
     plt.tight_layout()
     plt.savefig(args.out, dpi=110)
