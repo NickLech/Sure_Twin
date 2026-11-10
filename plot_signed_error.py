@@ -1,24 +1,20 @@
 """
-Signed error (pred - true) instead of MAE, over the whole evaluated test period.
+Signed error (pred - true) over the whole evaluated test period.
 
-  row 1: error over time, all evaluated windows (about 5 days, clock labels, weekday at midnight)
-         red  = over-estimate (pred > true), blue = under-estimate (pred < true)
-  row 2: the same error folded on the 24 h clock and averaged over the days: ONE mean line
-         (with --show_days also one thin line per day and the Tue-Fri-only mean, to see whether a
-         single day dominates the average; Saturday behaves differently from the weekdays)
+  top    : signed error over time, all evaluated windows (about 5 days)
+           red = over-estimate (pred > true), blue = under-estimate (pred < true)
+  bottom : the same error folded on the 24 h clock and averaged over the days
+           left  = mean over ALL days
+           right = mean over weekdays only (Saturday/Sunday excluded)
 
-One column per series: all cells (mean error per cell), then busiest / median / quietest cell
-(same selection as plot_timeseries.py). Units are the original traffic units.
+Default series: mean error over all cells. Use --cell N for a single cell.
+Units are the original traffic units.
 
 Usage:
     python plot_signed_error.py
     python plot_signed_error.py --horizon 6
-    python plot_signed_error.py --cells 12 345 1800
-    python plot_signed_error.py --seed 0          # one seed instead of the ensemble mean
-    python plot_signed_error.py --no_all          # only the single cells
-    python plot_signed_error.py --show_days       # row 2 also shows each day and the Tue-Fri mean
-
-Loading and last-batch fix are reused from analyse_result.py (same folder).
+    python plot_signed_error.py --cell 1800
+    python plot_signed_error.py --seed 0      # one seed instead of the ensemble mean
 """
 import argparse
 import warnings
@@ -41,12 +37,9 @@ def parse_args():
     ap.add_argument("--input_len", type=int, default=144)
     ap.add_argument("--output_len", type=int, default=12)
     ap.add_argument("--horizon", type=int, default=1, help="1..output_len (x10 min ahead)")
-    ap.add_argument("--cells", type=int, nargs="*", default=[],
-                    help="column indices; default: busiest, median, quietest")
-    ap.add_argument("--no_all", action="store_true", help="skip the 'all cells' column")
+    ap.add_argument("--cell", type=int, default=None,
+                    help="single column index; default: mean error over all cells")
     ap.add_argument("--seed", type=int, default=None, help="use this seed only (default: ensemble mean)")
-    ap.add_argument("--show_days", action="store_true",
-                    help="row 2: also draw one line per day and the weekday-only mean")
     ap.add_argument("--out", default="signed_error.png")
     return ap.parse_args()
 
@@ -61,6 +54,17 @@ def to_full(v, keep):
 def hhmm(slot):
     m = int(slot) * 10
     return f"{m // 60:02d}:{m % 60:02d}"
+
+
+def signed_fill(ax, x, y):
+    """Line + red/blue fill depending on the sign of y (NaN-safe)."""
+    fin = np.isfinite(y)
+    y0 = np.where(fin, y, 0.0)
+    ax.plot(x, y, color="0.25", lw=1.0)
+    ax.fill_between(x, 0, y0, where=fin & (y0 > 0), color="tab:red", alpha=0.35, lw=0, interpolate=True)
+    ax.fill_between(x, 0, y0, where=fin & (y0 < 0), color="tab:blue", alpha=0.35, lw=0, interpolate=True)
+    ax.axhline(0, color="k", lw=0.8)
+    ax.grid(alpha=0.3)
 
 
 def main():
@@ -94,23 +98,16 @@ def main():
         if f"seed{args.seed}" not in names:
             raise ValueError(f"seed{args.seed} not found among {names}")
         est, who = preds[names.index(f"seed{args.seed}")][:, h, :], f"seed{args.seed}"
-    true_h = true[:, h, :]
-    err = est - true_h                                  # positive = over-estimate
+    err = est - true[:, h, :]                           # positive = over-estimate
 
-    # --- columns: (label, error vector [S_kept], MAE shown in the title) ---
-    cols = []
-    if not args.no_all:
-        cols.append(("all cells (mean per cell)", err.mean(1), np.abs(err).mean()))
-    if args.cells:
-        nodes, labels = args.cells, [f"cell col {n}" for n in args.cells]
-        if max(nodes) >= N or min(nodes) < 0:
-            raise ValueError(f"--cells must be in 0..{N - 1}")
+    # --- the single series to plot ---
+    if args.cell is None:
+        vec, label = err.mean(1), "all cells (mean per cell)"
     else:
-        order = np.argsort(true_h.mean(0))
-        nodes = [int(order[-1]), int(order[N // 2]), int(order[0])]
-        labels = ["busiest", "median", "quietest"]
-    for n, lab in zip(nodes, labels):
-        cols.append((f"{lab} (col {n})", err[:, n], np.abs(err[:, n]).mean()))
+        if not 0 <= args.cell < N:
+            raise ValueError(f"--cell must be in 0..{N - 1}")
+        vec, label = err[:, args.cell], f"cell col {args.cell}"
+    full = to_full(vec, keep)                           # [S_all], NaN where dropped
 
     # --- time axes ---
     x = np.arange(S_all) * STEP_H                       # hours since the first target
@@ -120,72 +117,53 @@ def main():
     day = step_idx // STEPS_PER_DAY
     slot = step_idx % STEPS_PER_DAY
     days = np.unique(day)
-    d_row = day - days[0]
     dow = np.round(test_ts[days * STEPS_PER_DAY, 1] * 7).astype(int) % 7
-    dom = np.round(test_ts[days * STEPS_PER_DAY, 2] * 31).astype(int) + 1
-    is_wd = dow < 5
+    is_wd = dow < 5                                     # Sat/Sun excluded
 
-    fig, axes = plt.subplots(2, len(cols), figsize=(8 * len(cols), 8), squeeze=False)
-    print(f"\nsigned error = pred - true ({who}, horizon {args.horizon} = {args.horizon * 10} min ahead), "
-          f"{len(days)} days ({S_all * STEP_H / 24:.1f} days of windows)")
-    print(f"{'series':28s}{'bias':>9s}{'MAE':>9s}   bias by day: "
-          + " ".join(f"{WEEKDAYS[d]}{m}".rjust(8) for d, m in zip(dow, dom)))
+    # E[d, s] = error of day d at time-of-day slot s
+    E = np.full((len(days), STEPS_PER_DAY), np.nan, dtype=np.float32)
+    E[day - days[0], slot] = full
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", RuntimeWarning)
+        mean_all = np.nanmean(E, axis=0)                # [STEPS_PER_DAY]
+        mean_wd = np.nanmean(E[is_wd], axis=0)
 
-    for c, (label, vec, mae) in enumerate(cols):
-        full = to_full(vec, keep)
-        E = np.full((len(days), STEPS_PER_DAY), np.nan, dtype=np.float32)
-        E[d_row, slot] = full                           # [day, time-of-day slot]
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore", RuntimeWarning)
-            day_bias = np.nanmean(E, axis=1)
-            mean_all = np.nanmean(E, axis=0)
-            mean_wd = np.nanmean(E[is_wd], axis=0) if is_wd.any() else None
-        bias = np.nanmean(full)
-        worst = int(np.nanargmax(np.abs(mean_all)))
-        print(f"{label:28s}{bias:+9.2f}{mae:9.2f}   "
-              + " ".join(f"{b:+8.1f}" for b in day_bias)
-              + f"   | largest mean error {mean_all[worst]:+.1f} at {hhmm(worst)}")
+    # --- figure ---
+    fig = plt.figure(figsize=(14, 9))
+    gs = fig.add_gridspec(2, 2)
+    ax_t = fig.add_subplot(gs[0, :])
+    ax_a = fig.add_subplot(gs[1, 0])
+    ax_w = fig.add_subplot(gs[1, 1], sharey=ax_a)
 
-        # ---- row 1: error over time ----
-        ax = axes[0, c]
-        fin = np.isfinite(full)
-        y = np.where(fin, full, 0.0)
-        ax.plot(x, full, color="0.25", lw=0.7)
-        ax.fill_between(x, 0, y, where=fin & (y > 0), color="tab:red", alpha=0.35, lw=0, interpolate=True)
-        ax.fill_between(x, 0, y, where=fin & (y < 0), color="tab:blue", alpha=0.35, lw=0, interpolate=True)
-        ax.axhline(0, color="k", lw=0.8)
-        ax.set_ylabel("error = pred - true (traffic)")
-        ax.grid(alpha=0.3)
-        ax.set_title(f"{label}\nbias {bias:+.2f}  |  MAE {mae:.2f}  (red = over, blue = under)",
-                     fontsize=10, pad=16)
-        clock_axis(ax, x, tod0, dow0)
+    bias, mae = np.nanmean(full), np.nanmean(np.abs(full))
+    signed_fill(ax_t, x, full)
+    ax_t.set_ylabel("error = pred - true (traffic)")
+    ax_t.set_title(f"{label} - signed error over time ({who}, horizon {args.horizon * 10} min)\n"
+                   f"bias {bias:+.2f}  |  MAE {mae:.2f}  (red = over, blue = under)",
+                   fontsize=10, pad=16)
+    clock_axis(ax_t, x, tod0, dow0)
 
-        # ---- row 2: mean over the days, by time of day ----
-        ax = axes[1, c]
-        xs = np.arange(STEPS_PER_DAY) * STEP_H
-        if args.show_days:
-            for k in range(len(days)):
-                ax.plot(xs, E[k], lw=0.9, alpha=0.55,
-                        color="tab:red" if dow[k] >= 5 else plt.cm.Blues(0.45 + 0.12 * k),
-                        label=f"{WEEKDAYS[dow[k]]} {dom[k]}")
-            if mean_wd is not None and (~is_wd).any():
-                ax.plot(xs, mean_wd, color="0.35", lw=1.4, ls="--", label=f"mean {int(is_wd.sum())} weekdays")
-        ax.plot(xs, mean_all, color="k", lw=2.0, label=f"mean of {len(days)} days")
-        ax.axhline(0, color="k", lw=0.8)
+    xs = np.arange(STEPS_PER_DAY) * STEP_H
+    wd_names = f"{WEEKDAYS[dow[is_wd][0]]}-{WEEKDAYS[dow[is_wd][-1]]}"
+    all_names = f"{WEEKDAYS[dow[0]]}-{WEEKDAYS[dow[-1]]}"
+    for ax, m, title in [(ax_a, mean_all, f"mean of {len(days)} days ({all_names})"),
+                         (ax_w, mean_wd, f"mean of {int(is_wd.sum())} weekdays ({wd_names})")]:
+        signed_fill(ax, xs, m)
         ax.set_xlim(0, 24)
         ax.set_xticks(range(0, 25, 3))
         ax.set_xticklabels([f"{t:02d}:00" for t in range(0, 25, 3)], fontsize=8)
         ax.set_xlabel("time of day")
-        ax.set_ylabel("mean error = pred - true (traffic)")
-        ax.set_title(f"mean of the {len(days)} days ({WEEKDAYS[dow[0]]}-{WEEKDAYS[dow[-1]]}), by time of day",
-                     fontsize=10)
-        ax.grid(alpha=0.3)
-        if args.show_days:
-            ax.legend(fontsize=7, loc="best", ncol=2)
+        ax.set_title(title, fontsize=10)
+    ax_a.set_ylabel("mean error = pred - true (traffic)")
+
+    for name, m in [("all days", mean_all), ("weekdays", mean_wd)]:
+        w = int(np.nanargmax(np.abs(m)))
+        print(f"{name:10s} largest mean error {m[w]:+.2f} at {hhmm(w)}")
+    print(f"{label}: bias {bias:+.2f}, MAE {mae:.2f}")
 
     plt.tight_layout()
     plt.savefig(args.out, dpi=110)
-    print(f"\nSaved {args.out}")
+    print(f"Saved {args.out}")
 
 
 if __name__ == "__main__":
