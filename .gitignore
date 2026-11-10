@@ -4,5 +4,6 @@ __pycache__/
 *.pyc
 .DS_Store
 checkpoints/
+checkpoints_old/
 out_*.log
 test_*.log
