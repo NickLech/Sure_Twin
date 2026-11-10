@@ -90,7 +90,7 @@ True 12.4
 
 ## 5. Job Script Configuration & Execution
 
-Create or update your batch submission script `job.sh` in the project root:
+Create or update your batch submission script `run_train.sh` in the project root:
 
 ```bash
 #!/bin/bash
@@ -103,19 +103,19 @@ Create or update your batch submission script `job.sh` in the project root:
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=32G
 #SBATCH --time=02:00:00
-#SBATCH --output=out_%j.log
+#SBATCH --array=0-4
+#SBATCH --output=out_%A_%a.log
 
 source ~/Sure_Twin/.venv/bin/activate
 cd ~/Sure_Twin
-
-python train.py
+python train_STID.py --seed $SLURM_ARRAY_TASK_ID
 ```
 
 ### SLURM Management Commands
 
 * **Submit job:**
   ```bash
-  sbatch job.sh
+  sbatch run_train.sh
   ```
 * **Check queue status:**
   ```bash
