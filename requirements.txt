@@ -1,2 +1,2 @@
 torch
-basicts
+basicts @ git+https://github.com/GestaltCogTeam/BasicTS.git@af71025
