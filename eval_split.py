@@ -28,7 +28,7 @@ NUM_EPOCHS = 100
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--split", choices=["val", "train"], required=True)
+    ap.add_argument("--split", required=True)
     ap.add_argument("--seed", type=int, required=True)
     ap.add_argument("--hidden", type=int, default=64)
     ap.add_argument("--layers", type=int, default=3)
