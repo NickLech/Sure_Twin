@@ -1,4 +1,4 @@
-# Sure_Twin: STID traffic forecasting on Milan, with conformal upper bounds
+# Sure_Twin: STID traffic forecasting with conformal upper bounds
 
 Goal: forecast mobile-network traffic per cell and build a **calibrated upper bound** on it, to decide safely when a cell can go to sleep.
 
@@ -46,10 +46,10 @@ python -c "import torch, basicts; print(torch.cuda.is_available())"   # False on
 | `setup.sh`, `requirements.txt` | Create `.venv` and install `torch` + `basicts` (commit `af71025`). |
 | `convert_milan_to_basicts.py` | `milan_raw.csv` (`time, cell_id, y`) to `datasets/MILAN/` in the ETTh1 format. **Needs the raw CSV.** |
 | `train_STID.py` | Trains one STID for one seed. |
-| `run_train.sh` | SLURM array 0-9: trains the 10 seeds (2 h each). |
+| `run_train.sh` | SLURM array 0-9: trains the 10 seeds. |
 | `make_split_view.py` | Creates `datasets/MILAN_val` (symlinks): the val split exposed as "test". |
 | `eval_split.py` | Evaluates one seed's best-val-MAE checkpoint on the val view. |
-| `run_eval.sh` | SLURM array 0-9: runs `eval_split.py` for all seeds (30 min each). |
+| `run_eval.sh` | SLURM array 0-9: runs `eval_split.py` for all seeds. |
 | `analyse_result.py` | Shared helpers (loading, last-batch fix, clock axis) and the main accuracy analysis. |
 | `plot_timeseries.py` | True vs predicted traffic for 3 cells (busiest, median, quietest). |
 | `plot_signed_error.py` | Signed error (pred - true) over time and folded on the 24 h clock. |
@@ -68,7 +68,8 @@ Run everything from `~/Sure_Twin` with the venv active.
 rm -rf checkpoints checkpoints_eval datasets/MILAN_val datasets/MILAN_train
 rm -f out_*.log eval_*.log analysis.png timeseries.png signed_error.png
 ```
-**Do NOT delete `datasets/MILAN`** unless you still have `milan_raw.csv`: the `.npy` files there are the only copy of the data. Keep a backup (`cp -r datasets/MILAN ~/MILAN_backup`).
+**Do NOT delete `datasets/MILAN`** unless you still have `milan_raw.csv`: the `.npy` files there are the only copy of the data. 
+Keep a backup (`cp -r datasets/MILAN ~/MILAN_backup`).
 
 ### Step 1 - Convert the data (only if you have the CSV)
 
@@ -76,7 +77,7 @@ rm -f out_*.log eval_*.log analysis.png timeseries.png signed_error.png
 python convert_milan_to_basicts.py
 ```
 - What: pivots the CSV to `[T, N]`, fills missing timestamps and NaN with 0, builds 4 time features, splits 60/20/20.
-- Output: `datasets/MILAN/{train,val,test}_{data,timestamps}.npy`, `meta.json`. Printed: step of 10 min, shapes like `(T, 2500, 1)` and `(T, 4)`.
+- Output:`datasets/MILAN/{train,val,test}_{data,timestamps}.npy`,`meta.json`. Printed: step of 10 min, shapes like `(T, 2500, 1)` and `(T, 4)`
 
 ### Step 2 - Create the val view
 
@@ -182,4 +183,3 @@ Full discussion in [`RESULTS_ANALYSIS.md`](RESULTS_ANALYSIS.md). Summary:
 **Open points**
 - Test covers only about 5 days (Tue-Sat, one partial weekend day): no holidays or events. Robustness to anomalous days still to be tested with the synthetic days.
 - Coverage is marginal (over all cells and windows), not guaranteed per cell, and windows are strongly autocorrelated, so the finite-sample guarantee is only approximate.
-- `milan_raw.csv` is no longer available: keep a backup of `datasets/MILAN`.

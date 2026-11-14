@@ -1,10 +1,8 @@
-# Results analysis (run of 14 Nov 2026)
+# Results analysis
 
 What the numbers printed by `analyse_result.py`, `plot_signed_error.py` and `conformal_eval.py` show, and what they do and do not prove.
 
 Setup: 10 STID seeds, 2500 cells, test = 709 windows (about 4.9 days: Tue, Wed, Thu, Fri, partial Sat), calibration = val split (also 709 windows). All values in original traffic units; mean traffic on the test is about 155 per cell and step.
-
-> This analysis is based on the console output only. The figures (`analysis.png`, `timeseries.png`, `signed_error.png`) are not described here.
 
 ---
 
