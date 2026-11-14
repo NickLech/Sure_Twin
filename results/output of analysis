@@ -1,0 +1,212 @@
+(.venv) [niccolo.lechthaler@baldo Sure_Twin]$
+python analyse_result.py
+python plot_timeseries.py
+python plot_signed_error.py
+python conformal_eval.py --horizon 0 --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
+python conformal_eval.py --horizon 2 --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
+Found 10 run(s): seed0, seed1, seed2, seed3, seed4, seed5, seed6, seed7, seed8, seed9
+[check] max |targets - raw test| = 0.0004883 (should be ~0)
+[check] windows evaluated: 709 of 709; max |targets - raw test| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2679 vs 0.2679 (should agree within ~1%)
+  seed1: 0.2678 vs 0.2678 (should agree within ~1%)
+  seed2: 0.2685 vs 0.2685 (should agree within ~1%)
+  seed3: 0.2690 vs 0.2690 (should agree within ~1%)
+  seed4: 0.2717 vs 0.2717 (should agree within ~1%)
+  seed5: 0.2712 vs 0.2712 (should agree within ~1%)
+  seed6: 0.2681 vs 0.2681 (should agree within ~1%)
+  seed7: 0.2713 vs 0.2713 (should agree within ~1%)
+  seed8: 0.2680 vs 0.2680 (should agree within ~1%)
+  seed9: 0.2726 vs 0.2726 (should agree within ~1%)
+[check] cells evaluated: 2500 of 2500
+
+model                          MAE      RMSE      WAPE   (original units)
+last value                  27.039    65.706     0.173
+seasonal naive (24h)        28.605    73.488     0.183
+seed0                       16.323    38.656     0.105
+seed1                       16.337    38.750     0.105
+seed2                       16.383    38.844     0.105
+seed3                       16.394    38.815     0.105
+seed4                       16.683    40.062     0.107
+seed5                       16.652    39.520     0.107
+seed6                       16.301    38.594     0.105
+seed7                       16.631    39.900     0.107
+seed8                       16.323    38.709     0.105
+seed9                       16.755    39.915     0.107
+ensemble mean               16.316    38.838     0.105
+
+[ensemble] corr(std, |err|) = 0.375 (>0 = spread is informative)
+[ensemble] coverage of mean +/- 1.645 std = 0.171 (nominal 0.90)
+[warning] no log files match: out_*.log
+
+Saved analysis.png
+cells plotted (column index): {'busiest': 878, 'median': 1874, 'quietest': 858}
+windows plotted: 709 (4.9 days)
+Saved timeseries.png
+all days   largest mean error -6.82 at 11:10
+weekdays   largest mean error -7.87 at 01:00
+all cells (mean per cell): bias -1.95, MAE 2.32
+Saved signed_error.png
+
+[evaluation] 10 run(s) from checkpoints/STID_MILAN/seed*/*
+[evaluation] windows evaluated: 709 of 709; max |targets - raw| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2679 vs 0.2679 (should agree within ~1%)
+  seed1: 0.2678 vs 0.2678 (should agree within ~1%)
+  seed2: 0.2685 vs 0.2685 (should agree within ~1%)
+  seed3: 0.2690 vs 0.2690 (should agree within ~1%)
+  seed4: 0.2717 vs 0.2717 (should agree within ~1%)
+  seed5: 0.2712 vs 0.2712 (should agree within ~1%)
+  seed6: 0.2681 vs 0.2681 (should agree within ~1%)
+  seed7: 0.2713 vs 0.2713 (should agree within ~1%)
+  seed8: 0.2680 vs 0.2680 (should agree within ~1%)
+  seed9: 0.2726 vs 0.2726 (should agree within ~1%)
+
+[calibration] 10 run(s) from checkpoints_eval/MILAN_val/seed*/*
+[calibration] windows evaluated: 709 of 709; max |targets - raw| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2956 vs 0.2956 (should agree within ~1%)
+  seed1: 0.2955 vs 0.2955 (should agree within ~1%)
+  seed2: 0.2959 vs 0.2959 (should agree within ~1%)
+  seed3: 0.2958 vs 0.2958 (should agree within ~1%)
+  seed4: 0.3011 vs 0.3011 (should agree within ~1%)
+  seed5: 0.2984 vs 0.2984 (should agree within ~1%)
+  seed6: 0.2952 vs 0.2952 (should agree within ~1%)
+  seed7: 0.2999 vs 0.2999 (should agree within ~1%)
+  seed8: 0.2957 vs 0.2957 (should agree within ~1%)
+  seed9: 0.3011 vs 0.3011 (should agree within ~1%)
+
+10 members | horizon 10 min | ORIGINAL units | calibration = separate split, evaluation = whole test
+calibration windows: 709 | evaluation windows: 709
+
+== SPREAD vs |ERROR| WITHIN each predicted-level decile (evaluation set) ==
+  per decile: 0.24 0.11 0.10 0.09 0.07 0.07 0.06 0.05 0.08 0.24
+  mean within-level Spearman = 0.11
+  near 0 -> spread adds nothing beyond the level;  clearly > 0 -> spread is useful
+
+== TARGET COVERAGE 90%  (eps = 0.1) ==
+method                              cover  margin  marg% | level min/max | clock min/max |   day min/max
+point (no margin)                   0.518    0.00   0.0% |  0.508/ 0.525 |  0.511/ 0.531 |  0.509/ 0.528
+gaussian ensemble (uncalibrated)    0.566    1.59   1.0% |  0.553/ 0.590 |  0.546/ 0.590 |  0.555/ 0.576
+conformal global                    0.917   23.47  15.1% |  0.666/ 0.999 |  0.888/ 0.970 |  0.906/ 0.926
+conformal by level                  0.918   27.45  17.6% |  0.905/ 0.924 |  0.906/ 0.941 |  0.912/ 0.926
+conformal / spread                  0.915   32.56  20.9% |  0.900/ 0.926 |  0.883/ 0.965 |  0.906/ 0.923
+conformal by level / spread         0.914   34.71  22.3% |  0.897/ 0.920 |  0.884/ 0.961 |  0.906/ 0.922
+
+== TARGET COVERAGE 95%  (eps = 0.05) ==
+method                              cover  margin  marg% | level min/max | clock min/max |   day min/max
+point (no margin)                   0.518    0.00   0.0% |  0.508/ 0.525 |  0.511/ 0.531 |  0.509/ 0.528
+gaussian ensemble (uncalibrated)    0.578    2.04   1.3% |  0.563/ 0.606 |  0.556/ 0.609 |  0.566/ 0.588
+conformal global                    0.961   49.08  31.5% |  0.782/ 1.000 |  0.944/ 0.990 |  0.953/ 0.967
+conformal by level                  0.963   41.60  26.7% |  0.956/ 0.965 |  0.955/ 0.976 |  0.957/ 0.969
+conformal / spread                  0.961   52.00  33.4% |  0.952/ 0.967 |  0.943/ 0.987 |  0.955/ 0.965
+conformal by level / spread         0.960   54.01  34.7% |  0.954/ 0.962 |  0.943/ 0.986 |  0.954/ 0.965
+
+== TARGET COVERAGE 99%  (eps = 0.01) ==
+method                              cover  margin  marg% | level min/max | clock min/max |   day min/max
+point (no margin)                   0.518    0.00   0.0% |  0.508/ 0.525 |  0.511/ 0.531 |  0.509/ 0.528
+gaussian ensemble (uncalibrated)    0.601    2.88   1.9% |  0.582/ 0.631 |  0.573/ 0.643 |  0.587/ 0.611
+conformal global                    0.993  144.03  92.6% |  0.947/ 1.000 |  0.989/ 0.999 |  0.991/ 0.995
+conformal by level                  0.993   85.57  55.0% |  0.992/ 0.995 |  0.992/ 0.996 |  0.991/ 0.995
+conformal / spread                  0.993  116.61  74.9% |  0.992/ 0.994 |  0.990/ 0.998 |  0.991/ 0.994
+conformal by level / spread         0.993  114.87  73.8% |  0.992/ 0.994 |  0.990/ 0.998 |  0.991/ 0.994
+
+== PER-DAY on the evaluation set: conformal by level, eps = 0.05 (target coverage 95%) ==
+  day  weekday  windows      MAE  mean traffic  coverage
+    0      Tue      144    14.18         166.5     0.960
+    1      Wed      144    15.13         166.5     0.957
+    2      Thu      144    13.79         159.6     0.965
+    3      Fri      144    12.92         154.3     0.969
+    4      Sat      133    11.94         129.1     0.963
+
+How to read it:
+  cover        : should be ~ 1-eps. Below = more QoS violations than promised.
+  margin       : mean (upper bound - prediction), original units; marg% = relative to mean traffic.
+                 Smaller at equal coverage = more energy saved.
+  level / clock / day min/max : worst and best coverage across predicted-level deciles,
+                 4-hour blocks of the clock, and days (partial days ignored). Should be uniform.
+  per-day table: shows whether unusual days (weekend, holidays) lose the guarantee.
+
+[evaluation] 10 run(s) from checkpoints/STID_MILAN/seed*/*
+[evaluation] windows evaluated: 709 of 709; max |targets - raw| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2679 vs 0.2679 (should agree within ~1%)
+  seed1: 0.2678 vs 0.2678 (should agree within ~1%)
+  seed2: 0.2685 vs 0.2685 (should agree within ~1%)
+  seed3: 0.2690 vs 0.2690 (should agree within ~1%)
+  seed4: 0.2717 vs 0.2717 (should agree within ~1%)
+  seed5: 0.2712 vs 0.2712 (should agree within ~1%)
+  seed6: 0.2681 vs 0.2681 (should agree within ~1%)
+  seed7: 0.2713 vs 0.2713 (should agree within ~1%)
+  seed8: 0.2680 vs 0.2680 (should agree within ~1%)
+  seed9: 0.2726 vs 0.2726 (should agree within ~1%)
+
+[calibration] 10 run(s) from checkpoints_eval/MILAN_val/seed*/*
+[calibration] windows evaluated: 709 of 709; max |targets - raw| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2956 vs 0.2956 (should agree within ~1%)
+  seed1: 0.2955 vs 0.2955 (should agree within ~1%)
+  seed2: 0.2959 vs 0.2959 (should agree within ~1%)
+  seed3: 0.2958 vs 0.2958 (should agree within ~1%)
+  seed4: 0.3011 vs 0.3011 (should agree within ~1%)
+  seed5: 0.2984 vs 0.2984 (should agree within ~1%)
+  seed6: 0.2952 vs 0.2952 (should agree within ~1%)
+  seed7: 0.2999 vs 0.2999 (should agree within ~1%)
+  seed8: 0.2957 vs 0.2957 (should agree within ~1%)
+  seed9: 0.3011 vs 0.3011 (should agree within ~1%)
+
+10 members | horizon 30 min | ORIGINAL units | calibration = separate split, evaluation = whole test
+calibration windows: 709 | evaluation windows: 709
+
+== SPREAD vs |ERROR| WITHIN each predicted-level decile (evaluation set) ==
+  per decile: 0.30 0.16 0.13 0.13 0.11 0.10 0.11 0.09 0.11 0.25
+  mean within-level Spearman = 0.15
+  near 0 -> spread adds nothing beyond the level;  clearly > 0 -> spread is useful
+
+== TARGET COVERAGE 90%  (eps = 0.1) ==
+method                              cover  margin  marg% | level min/max | clock min/max |   day min/max
+point (no margin)                   0.520    0.00   0.0% |  0.502/ 0.534 |  0.499/ 0.545 |  0.505/ 0.534
+gaussian ensemble (uncalibrated)    0.575    2.26   1.5% |  0.561/ 0.582 |  0.559/ 0.590 |  0.563/ 0.588
+conformal global                    0.919   26.53  17.0% |  0.678/ 0.999 |  0.890/ 0.971 |  0.907/ 0.928
+conformal by level                  0.919   30.79  19.8% |  0.905/ 0.925 |  0.909/ 0.941 |  0.912/ 0.929
+conformal / spread                  0.917   36.63  23.5% |  0.906/ 0.925 |  0.892/ 0.957 |  0.909/ 0.926
+conformal by level / spread         0.917   37.98  24.4% |  0.900/ 0.923 |  0.893/ 0.955 |  0.909/ 0.925
+
+== TARGET COVERAGE 95%  (eps = 0.05) ==
+method                              cover  margin  marg% | level min/max | clock min/max |   day min/max
+point (no margin)                   0.520    0.00   0.0% |  0.502/ 0.534 |  0.499/ 0.545 |  0.505/ 0.534
+gaussian ensemble (uncalibrated)    0.590    2.90   1.9% |  0.577/ 0.596 |  0.571/ 0.602 |  0.579/ 0.603
+conformal global                    0.962   55.27  35.5% |  0.791/ 1.000 |  0.944/ 0.991 |  0.953/ 0.968
+conformal by level                  0.962   46.89  30.1% |  0.951/ 0.965 |  0.955/ 0.975 |  0.957/ 0.969
+conformal / spread                  0.962   58.89  37.8% |  0.956/ 0.967 |  0.949/ 0.984 |  0.956/ 0.967
+conformal by level / spread         0.962   59.44  38.2% |  0.957/ 0.965 |  0.949/ 0.983 |  0.956/ 0.967
+
+== TARGET COVERAGE 99%  (eps = 0.01) ==
+method                              cover  margin  marg% | level min/max | clock min/max |   day min/max
+point (no margin)                   0.520    0.00   0.0% |  0.502/ 0.534 |  0.499/ 0.545 |  0.505/ 0.534
+gaussian ensemble (uncalibrated)    0.616    4.10   2.6% |  0.603/ 0.622 |  0.593/ 0.631 |  0.606/ 0.630
+conformal global                    0.993  160.40 103.0% |  0.948/ 1.000 |  0.989/ 0.999 |  0.990/ 0.995
+conformal by level                  0.994   96.04  61.7% |  0.992/ 0.995 |  0.992/ 0.996 |  0.992/ 0.995
+conformal / spread                  0.993  132.16  84.9% |  0.991/ 0.995 |  0.989/ 0.997 |  0.990/ 0.995
+conformal by level / spread         0.993  126.06  81.0% |  0.992/ 0.994 |  0.990/ 0.998 |  0.990/ 0.995
+
+== PER-DAY on the evaluation set: conformal by level, eps = 0.05 (target coverage 95%) ==
+  day  weekday  windows      MAE  mean traffic  coverage
+    0      Tue      142    15.54         167.0     0.961
+    1      Wed      144    16.70         166.5     0.957
+    2      Thu      144    15.26         159.6     0.965
+    3      Fri      144    14.41         154.3     0.969
+    4      Sat      135    13.47         129.4     0.960
+
+How to read it:
+  cover        : should be ~ 1-eps. Below = more QoS violations than promised.
+  margin       : mean (upper bound - prediction), original units; marg% = relative to mean traffic.
+                 Smaller at equal coverage = more energy saved.
+  level / clock / day min/max : worst and best coverage across predicted-level deciles,
+                 4-hour blocks of the clock, and days (partial days ignored). Should be uniform.
+  per-day table: shows whether unusual days (weekend, holidays) lose the guarantee.
