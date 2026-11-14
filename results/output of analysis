@@ -38,7 +38,6 @@ ensemble mean               16.316    38.838     0.105
 
 [ensemble] corr(std, |err|) = 0.375 (>0 = spread is informative)
 [ensemble] coverage of mean +/- 1.645 std = 0.171 (nominal 0.90)
-[warning] no log files match: out_*.log
 
 Saved analysis.png
 cells plotted (column index): {'busiest': 878, 'median': 1874, 'quietest': 858}

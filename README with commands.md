@@ -112,7 +112,6 @@ python plot_signed_error.py                # add --horizon 6, --cell 1800, --see
 - `analyse_result.py` prints sanity checks, then a table (MAE, RMSE, WAPE) of two baselines, each seed and the ensemble mean, then how informative the ensemble spread is. Saves `analysis.png`.
 - `plot_timeseries.py` saves `timeseries.png`; `plot_signed_error.py` saves `signed_error.png` and prints bias, MAE and the time of the largest mean error.
 - Sanity checks that must pass: `max |targets - raw test|` about 0 (here 0.0005), `windows evaluated: 709 of 709`, `cells evaluated: 2500 of 2500`, and recomputed normalized MAE equal to the BasicTS one for every seed.
-- Warning `no log files match: out_*.log` is harmless for the results: it only means the SLURM training logs are not in the current folder.
 
 ### Step 5 - Conformal upper bounds
 
