@@ -8,7 +8,7 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=32G
 #SBATCH --time=02:00:00
-#SBATCH --array=0-4
+#SBATCH --array=0-9
 #SBATCH --output=out_%A_%a.log
 
 source ~/Sure_Twin/.venv/bin/activate
