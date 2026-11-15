@@ -14,7 +14,7 @@ uv venv --python 3.11 .venv
 source .venv/bin/activate
 
 echo "Python dependencies installation..."
-uv pip install -r requirements.txt
+uv pip install -r requirements.lock --index-strategy unsafe-best-match
 
 echo "Verifying..."
 python --version
