@@ -1,19 +1,19 @@
-# Scelta della configurazione: horizon 10 min, finestra 9-18 h
+# Configuration choice: horizon 10 min, window 9-18 h
 
-**Configurazione scelta: horizon = 10 min, finestra = 9-18 h** (90% in finestra, 75% fuori finestra), approccio *scheduled, calibrated per period*.
+**Chosen configuration: horizon = 10 min, window = 9-18 h** (90% in window, 75% outside window), approach *scheduled, calibrated per period*.
 
-## Criterio
+## Criterion
 
-Per ogni fascia oraria (finestra e altre ore) si cerca la barra più bassa su due metriche:
+For each time band (window and other hours) we look for the lowest bar on two metrics:
 
-- **Unmet traffic (%)**: traffico non coperto (più basso = più sicuro)
-- **Over-provisioning (%)**: spreco di risorse (più basso = meno spreco)
+- **Unmet traffic (%)**: traffic not covered (lower = safer)
+- **Over-provisioning (%)**: wasted resources (lower = less waste)
 
-La colonna "all hours" è ignorata. Valori calcolati dal test set (`schedule_final_metrics_all.csv`), approccio *scheduled*.
+The "all hours" column is ignored. Values computed on the test set (`schedule_final_metrics_all.csv`), *scheduled* approach.
 
-## Risultati
+## Results
 
-| Horizon | Finestra | Unmet finestra | Unmet altre ore | Over-prov. finestra | Over-prov. altre ore |
+| Horizon | Window | Unmet window | Unmet other hours | Over-prov. window | Over-prov. other hours |
 |---|---|---|---|---|---|
 | **10 min** | **9-18** | **1.06** | **2.62** | **16.60** | 9.08 |
 | 10 min | 9-19 | 1.06 | 2.65 | 16.72 | 9.09 |
@@ -25,19 +25,19 @@ La colonna "all hours" è ignorata. Valori calcolati dal test set (`schedule_fin
 | 30 min | 9-19 | 1.17 | 2.94 | 18.85 | 10.20 |
 | 30 min | 8-21 | 1.19 | 2.96 | 19.27 | 10.09 |
 
-## Perché horizon 10 min
+## Why horizon 10 min
 
-A parità di finestra, passare da 10 a 20 o 30 min peggiora **tutte e quattro** le metriche (con 9-18: unmet in finestra 1.06 → 1.14 → 1.17, over-prov. in finestra 16.60 → 18.09 → 18.77). Un orizzonte più corto dà previsioni più affidabili, quindi non c'è alcun trade-off: 10 min è migliore sia per copertura sia per spreco.
+With the window held fixed, going from 10 to 20 or 30 min worsens **all four** metrics (with 9-18: unmet in window 1.06 → 1.14 → 1.17, over-provisioning in window 16.60 → 18.09 → 18.77). A shorter horizon gives more reliable forecasts, so there is no trade-off: 10 min is better for both coverage and waste.
 
-## Perché finestra 9-18
+## Why window 9-18
 
-Con horizon 10 min le tre finestre sono molto vicine, ma 9-18 è la migliore o alla pari su 3 metriche su 4:
+At horizon 10 min the three windows are very close, but 9-18 is the best or tied on 3 metrics out of 4:
 
-- **Unmet in finestra**: 1.06, pari a 9-19 (8-21: 1.08)
-- **Unmet altre ore**: 2.62, il più basso (9-19 e 8-21: 2.65)
-- **Over-prov. in finestra**: 16.60, il più basso (9-19: 16.72, 8-21: 17.14)
-- **Over-prov. altre ore**: 9.08, praticamente identico alle altre (9.01-9.09), differenza trascurabile
+- **Unmet in window**: 1.06, tied with 9-19 (8-21: 1.08)
+- **Unmet other hours**: 2.62, the lowest (9-19 and 8-21: 2.65)
+- **Over-provisioning in window**: 16.60, the lowest (9-19: 16.72, 8-21: 17.14)
+- **Over-provisioning other hours**: 9.08, practically identical to the others (9.01-9.09), negligible difference
 
-## Limiti
+## Limitations
 
-Le differenze tra le tre finestre sono piccole (≤ 0.5 punti percentuali in over-prov., ≤ 0.03 in unmet). La scelta di 9-18 è quindi di ottimizzazione marginale; la scelta di horizon 10 min è invece netta.
+Differences between the three windows are small (≤ 0.5 percentage points in over-provisioning, ≤ 0.03 in unmet). The choice of 9-18 is therefore a marginal optimization; the choice of horizon 10 min is clear-cut.
