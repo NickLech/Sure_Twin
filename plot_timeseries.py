@@ -86,8 +86,9 @@ def main():
             raise ValueError(f"--cells must be in 0..{N - 1}")
     else:
         order = np.argsort(true_h.mean(0))
-        nodes = [int(order[-1]), int(order[N // 2]), int(order[0])]
-        labels = ["busiest", "median", "quietest"]
+        q = 0.05  # 5° percentile
+        nodes = [int(order[-1]), int(order[N // 2]), int(order[int(q * N)])] # con N = 2500, int(0.05 * N) = 125, cioè la 125a cella più quieta
+        labels = ["busiest", "median", f"quiet (p{int(q*100)})"]
     cell_mae = np.abs(mean_h[:, nodes] - true_h[:, nodes]).mean(0)  # over all evaluated windows
     cell_avg = true_h[:, nodes].mean(0)
 
