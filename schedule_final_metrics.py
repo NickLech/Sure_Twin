@@ -1,5 +1,6 @@
 """
-Final metrics (companion of schedule_conformal.py): only the two metrics that matter.
+Final metrics (companion of schedule_conformal.py): unmet traffic and over-provisioning,
+repeated for several horizons and several high-coverage windows.
 
     unmet_%      sum(max(truth - est, 0)) / sum(truth)   traffic NOT covered (under-provisioning)
     overprov_%   sum(max(est - truth, 0)) / sum(truth)   capacity reserved but unused (wasted energy)
@@ -10,18 +11,23 @@ Approaches, on the test set and in ORIGINAL units:
     fixed 90 % / fixed 75 %                 conformal by level, same eps all day
     scheduled, calibrated per period        the proposal
 
-Reported for all hours / window hours / other hours.
+Every (horizon, window) combination gives one figure, reported for
+all hours / window hours / other hours. The model outputs are loaded once per horizon.
 
-Saved (prefix = --out_prefix, default "schedule_final_metrics"):
-    schedule_final_metrics.png / .csv / .json
+Saved in --out_dir (default "final_metrics"):
+    schedule_final_metrics_h<min>_w<start>-<end>.png   one per combination (3 horizons x 3 windows = 9)
+    schedule_final_metrics_all.csv / .json             every number of every combination
 
-Usage (same arguments as schedule_conformal.py, plus --out_prefix):
-    python schedule_final_metrics.py --horizon 0 \
+Usage (same data/checkpoint arguments as schedule_conformal.py):
+    python schedule_final_metrics.py \
         --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
+    python schedule_final_metrics.py --horizons 0 --windows 8-21     # a single combination
+--horizons are 0-based like --horizon (0 = 10 min, 1 = 20 min, 2 = 30 min).
 """
 import argparse
 import csv
 import json
+import os
 import sys
 
 import matplotlib
@@ -41,19 +47,29 @@ SHORT = {K_POINT: "STID point\n(no confidence)", K_CONST: "const. margin\n(no de
          sc.K_SCHED: "scheduled\n(proposal)"}
 
 
+def parse_window(s):
+    a, b = s.split("-")
+    return float(a), float(b)
+
+
 def parse_all():
-    """Own option (--out_prefix) + every option of schedule_conformal.py."""
+    """Own options + every option of schedule_conformal.py."""
     ap = argparse.ArgumentParser(add_help=False)
-    ap.add_argument("--out_prefix", default="schedule_final_metrics")
+    ap.add_argument("--out_dir", default="final_metrics")
+    ap.add_argument("--horizons", type=int, nargs="*", default=[0, 1, 2],
+                    help="0-based horizons to run (0 = 10 min, 1 = 20 min, 2 = 30 min)")
+    ap.add_argument("--windows", nargs="*", default=["8-21", "9-18", "9-19"],
+                    help="high-coverage windows as START-END hours")
     extra, rest = ap.parse_known_args()
     sys.argv = [sys.argv[0]] + rest
     args = sc.parse_args()
-    args.out_prefix = extra.out_prefix
+    args.out_dir, args.horizons = extra.out_dir, extra.horizons
+    args.windows = [parse_window(w) for w in extra.windows]
     return args
 
 
 def load(args):
-    """Same loading logic as schedule_conformal.main()."""
+    """Same loading logic as schedule_conformal.main() (uses args.horizon)."""
     ev = load_split(args.data, args.ckpts, args, "evaluation")
     if args.cal_data:
         if not args.cal_ckpts:
@@ -97,21 +113,7 @@ def print_tables(res, args):
             f"{per[p]['unmet_%']:9.2f} {per[p]['overprov_%']:11.2f}" for p in PERIODS) + tag)
 
 
-def save_tables(res, args):
-    with open(f"{args.out_prefix}.csv", "w", newline="") as f:
-        w = csv.writer(f)
-        w.writerow(["approach", "period", "unmet_%", "overprov_%"])
-        for n, per in res.items():
-            for p, m in per.items():
-                w.writerow([n, p, m["unmet_%"], m["overprov_%"]])
-    meta = {"horizon_min": (args.horizon + 1) * 10, "window_hours": [args.day_start, args.day_end],
-            "eps_window": args.day_eps, "eps_outside": args.night_eps}
-    with open(f"{args.out_prefix}.json", "w") as f:
-        json.dump({"meta": meta, "results": res}, f, indent=2)
-    print(f"Saved {args.out_prefix}.csv, {args.out_prefix}.json")
-
-
-def figure(res, args):
+def figure(res, args, path):
     names = list(res.keys())
     colors = ["tab:blue", "tab:orange", "tab:green", "tab:purple", "tab:red"][:len(names)]
     xt = [f"{args.day_start:g}-{args.day_end:g} h" if p == "window" else p for p in PERIODS]
@@ -127,31 +129,60 @@ def figure(res, args):
         ax.set_title(title, fontsize=10)
         ax.grid(alpha=0.3, axis="y")
     axes[0].legend(fontsize=7, loc="upper right")
-    fig.suptitle(f"Unmet traffic vs over-provisioning - horizon {(args.horizon + 1) * 10} min - test set",
-                 fontsize=12)
+    fig.suptitle(f"Unmet traffic vs over-provisioning - horizon {(args.horizon + 1) * 10} min - "
+                 f"window {args.day_start:g}-{args.day_end:g} h ({1 - args.day_eps:.0%}) / other hours "
+                 f"({1 - args.night_eps:.0%}) - test set", fontsize=12)
     plt.tight_layout(rect=(0, 0, 1, 0.94))
-    plt.savefig(f"{args.out_prefix}.png", dpi=150)
+    plt.savefig(path, dpi=150)
     plt.close(fig)
-    print(f"Saved {args.out_prefix}.png")
+    print(f"Saved {path}")
+
+
+def run_one(cal, ev, args):
+    c = sc.Calib(cal, ev, args)
+    bounds, _, keys = sc.build_bounds(c, ev, args)
+    estimates = {K_POINT: ev["pred"], K_CONST: constant_margin_bound(c, ev, args),
+                 keys[0]: bounds[keys[0]], keys[1]: bounds[keys[1]], sc.K_SCHED: bounds[sc.K_SCHED]}
+    return evaluate(estimates, ev, c)
 
 
 def main():
     args = parse_all()
     if not (0 < args.day_eps < 1 and 0 < args.night_eps < 1):
         raise SystemExit("--day_eps and --night_eps must be in (0, 1)")
-    cal, ev = load(args)
-    print(f"\n{ev['members']} members | horizon {(args.horizon + 1) * 10} min | ORIGINAL units | "
-          f"calibration windows {cal['pred'].shape[0]}, evaluation windows {ev['pred'].shape[0]}")
+    os.makedirs(args.out_dir, exist_ok=True)
+    all_res = []   # list of {"horizon_min", "window", "results"}
 
-    c = sc.Calib(cal, ev, args)
-    bounds, _, keys = sc.build_bounds(c, ev, args)
-    estimates = {K_POINT: ev["pred"], K_CONST: constant_margin_bound(c, ev, args),
-                 keys[0]: bounds[keys[0]], keys[1]: bounds[keys[1]], sc.K_SCHED: bounds[sc.K_SCHED]}
+    for h in args.horizons:
+        args.horizon = h
+        cal, ev = load(args)
+        print(f"\n##### horizon {(h + 1) * 10} min | {ev['members']} members | "
+              f"calibration windows {cal['pred'].shape[0]}, evaluation windows {ev['pred'].shape[0]}")
+        for start, end in args.windows:
+            args.day_start, args.day_end = start, end
+            print(f"\n--- horizon {(h + 1) * 10} min, window {start:g}-{end:g} h ---")
+            try:
+                res = run_one(cal, ev, args)
+            except SystemExit as e:
+                print(f"SKIPPED: {e}")
+                continue
+            print_tables(res, args)
+            figure(res, args, os.path.join(
+                args.out_dir, f"schedule_final_metrics_h{(h + 1) * 10}_w{start:g}-{end:g}.png"))
+            all_res.append({"horizon_min": (h + 1) * 10, "window": f"{start:g}-{end:g}", "results": res})
 
-    res = evaluate(estimates, ev, c)
-    print_tables(res, args)
-    save_tables(res, args)
-    figure(res, args)
+    csv_path = os.path.join(args.out_dir, "schedule_final_metrics_all.csv")
+    with open(csv_path, "w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["horizon_min", "window", "approach", "period", "unmet_%", "overprov_%"])
+        for r in all_res:
+            for n, per in r["results"].items():
+                for p, m in per.items():
+                    w.writerow([r["horizon_min"], r["window"], n, p, m["unmet_%"], m["overprov_%"]])
+    json_path = os.path.join(args.out_dir, "schedule_final_metrics_all.json")
+    with open(json_path, "w") as f:
+        json.dump({"eps_window": args.day_eps, "eps_outside": args.night_eps, "runs": all_res}, f, indent=2)
+    print(f"\nSaved {csv_path}, {json_path} ({len(all_res)} combinations)")
 
 
 if __name__ == "__main__":

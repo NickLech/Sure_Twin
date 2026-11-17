@@ -1,0 +1,136 @@
+horizon_min,window,approach,period,unmet_%,overprov_%
+10,8-21,STID point prediction (no confidence),all hours,5.000430868690135,3.750104089336055
+10,8-21,STID point prediction (no confidence),window,4.945839819889149,3.642350705304507
+10,8-21,STID point prediction (no confidence),other hours,5.123192784900507,3.992415094389043
+10,8-21,constant margin per period (no deciles),all hours,2.7779633897520424,13.272190749459783
+10,8-21,constant margin per period (no deciles),window,2.1994761665764004,16.402336207644755
+10,8-21,constant margin per period (no deciles),other hours,4.0788396612292175,6.233259223069706
+10,8-21,fixed 90% (always),all hours,1.1326956940671487,17.520624701498637
+10,8-21,fixed 90% (always),window,1.1058092602397183,16.83168052749128
+10,8-21,fixed 90% (always),other hours,1.1931567075338634,19.0698916384911
+10,8-21,fixed 75% (always),all hours,2.5145465368087843,8.643605268247295
+10,8-21,fixed 75% (always),window,2.4955659280895297,8.337739157063695
+10,8-21,fixed 75% (always),other hours,2.5572292833101145,9.33142333984356
+10,8-21,"scheduled, calibrated per period",all hours,1.5606486778227873,14.636773394566731
+10,8-21,"scheduled, calibrated per period",window,1.0772003550228595,17.13973744618659
+10,8-21,"scheduled, calibrated per period",other hours,2.6478057081257855,9.008219447880771
+10,9-18,STID point prediction (no confidence),all hours,5.000430868690135,3.750104089336055
+10,9-18,STID point prediction (no confidence),window,4.8528299870886835,3.5086969305355957
+10,9-18,STID point prediction (no confidence),other hours,5.148065338559993,3.991566183095948
+10,9-18,constant margin per period (no deciles),all hours,3.1411505979627536,11.03840391913397
+10,9-18,constant margin per period (no deciles),window,2.192539993785963,15.821633035723822
+10,9-18,constant margin per period (no deciles),other hours,4.089977069329743,6.2540863240630875
+10,9-18,fixed 90% (always),all hours,1.1326956940671487,17.520624701498637
+10,9-18,fixed 90% (always),window,1.0868842560844025,16.357219051285963
+10,9-18,fixed 90% (always),other hours,1.178517556966454,18.684295097970395
+10,9-18,fixed 75% (always),all hours,2.5145465368087843,8.643605268247295
+10,9-18,fixed 75% (always),window,2.447262237606796,8.07774894328722
+10,9-18,fixed 75% (always),other hours,2.5818461473224343,9.209590360284611
+10,9-18,"scheduled, calibrated per period",all hours,1.8423018083648004,12.837863669886003
+10,9-18,"scheduled, calibrated per period",window,1.0648157425486928,16.598394703698247
+10,9-18,"scheduled, calibrated per period",other hours,2.619964800025621,9.076476884235866
+10,9-19,STID point prediction (no confidence),all hours,5.000430868690135,3.750104089336055
+10,9-19,STID point prediction (no confidence),window,4.8598462935047255,3.5444403256166024
+10,9-19,STID point prediction (no confidence),other hours,5.1746428075899304,4.004961942637099
+10,9-19,constant margin per period (no deciles),all hours,3.043127460075777,11.655413611935373
+10,9-19,constant margin per period (no deciles),window,2.179051143004334,15.997560658548236
+10,9-19,constant margin per period (no deciles),other hours,4.113887963892623,6.274639405513489
+10,9-19,fixed 90% (always),all hours,1.1326956940671487,17.520624701498637
+10,9-19,fixed 90% (always),window,1.0848660694662642,16.46215061179384
+10,9-19,fixed 90% (always),other hours,1.1919660061023036,18.832282279860042
+10,9-19,fixed 75% (always),all hours,2.5145465368087843,8.643605268247295
+10,9-19,fixed 75% (always),window,2.4488528745070948,8.140693069919108
+10,9-19,fixed 75% (always),other hours,2.595953905063163,9.26681239500044
+10,9-19,"scheduled, calibrated per period",all hours,1.7686038213468063,13.315512990262045
+10,9-19,"scheduled, calibrated per period",window,1.0610181288171556,16.723246019409633
+10,9-19,"scheduled, calibrated per period",other hours,2.6454416627015007,9.092661532499301
+20,8-21,STID point prediction (no confidence),all hours,5.347600789790796,4.019842684951181
+20,8-21,STID point prediction (no confidence),window,5.261275240171441,3.9475370759362383
+20,8-21,STID point prediction (no confidence),other hours,5.541589052450857,4.1823257451255325
+20,8-21,constant margin per period (no deciles),all hours,2.967203958739171,14.36878787768061
+20,8-21,constant margin per period (no deciles),window,2.332526247466048,17.801211215629625
+20,8-21,constant margin per period (no deciles),other hours,4.393433239662624,6.655546050914763
+20,8-21,fixed 90% (always),all hours,1.22024473705447,19.008584751897786
+20,8-21,fixed 90% (always),window,1.1820610664390725,18.304163397372278
+20,8-21,fixed 90% (always),other hours,1.306049970352445,20.591539918098192
+20,8-21,fixed 75% (always),all hours,2.7032913226721726,9.336312044590874
+20,8-21,fixed 75% (always),window,2.6631110867982573,9.056450620552221
+20,8-21,fixed 75% (always),other hours,2.79358317931046,9.965208491520139
+20,8-21,"scheduled, calibrated per period",all hours,1.6862512915435894,15.843550837612225
+20,8-21,"scheduled, calibrated per period",window,1.1553547771082133,18.596221040271242
+20,8-21,"scheduled, calibrated per period",other hours,2.8792664874121776,9.657830472731934
+20,9-18,STID point prediction (no confidence),all hours,5.347600789790796,4.019842684951181
+20,9-18,STID point prediction (no confidence),window,5.186732312419044,3.780992127025438
+20,9-18,STID point prediction (no confidence),other hours,5.50843605088098,4.2586439247786
+20,9-18,constant margin per period (no deciles),all hours,3.349324612283296,11.977068272770397
+20,9-18,constant margin per period (no deciles),window,2.330113147956515,17.234182728254563
+20,9-18,constant margin per period (no deciles),other hours,4.368325628823619,6.721039311454064
+20,9-18,fixed 90% (always),all hours,1.22024473705447,19.008584751897786
+20,9-18,fixed 90% (always),window,1.1693260603746727,17.73620833425786
+20,9-18,fixed 90% (always),other hours,1.271152899995781,20.280698448002475
+20,9-18,fixed 75% (always),all hours,2.7032913226721726,9.336312044590874
+20,9-18,fixed 75% (always),window,2.627073029534975,8.738700355191723
+20,9-18,fixed 75% (always),other hours,2.7794938781811718,9.933800338540106
+20,9-18,"scheduled, calibrated per period",all hours,1.9825724179981727,13.925387452528994
+20,9-18,"scheduled, calibrated per period",window,1.1379203777548856,18.08959821364834
+20,9-18,"scheduled, calibrated per period",other hours,2.8270500536567216,9.76203652174683
+20,9-19,STID point prediction (no confidence),all hours,5.347600789790796,4.019842684951181
+20,9-19,STID point prediction (no confidence),window,5.174440797531111,3.834007350600181
+20,9-19,STID point prediction (no confidence),other hours,5.562075842897628,4.2500173499181555
+20,9-19,constant margin per period (no deciles),all hours,3.249722705543348,12.621062091893275
+20,9-19,constant margin per period (no deciles),window,2.311360013316523,17.377607047008127
+20,9-19,constant margin per period (no deciles),other hours,4.411973786884346,6.729630598160165
+20,9-19,fixed 90% (always),all hours,1.22024473705447,19.008584751897786
+20,9-19,fixed 90% (always),window,1.1611805084764968,17.88516486866431
+20,9-19,fixed 90% (always),other hours,1.2934013790458665,20.400046693963652
+20,9-19,fixed 75% (always),all hours,2.7032913226721726,9.336312044590874
+20,9-19,fixed 75% (always),window,2.6159517340872913,8.831050174726036
+20,9-19,fixed 75% (always),other hours,2.811469676434046,9.962126731678666
+20,9-19,"scheduled, calibrated per period",all hours,1.9065709411774965,14.432680323152782
+20,9-19,"scheduled, calibrated per period",window,1.1337099156357646,18.19345602286387
+20,9-19,"scheduled, calibrated per period",other hours,2.863832531075683,9.774603377129466
+30,8-21,STID point prediction (no confidence),all hours,5.483164813507215,4.212869503752038
+30,8-21,STID point prediction (no confidence),window,5.395926587163144,4.13916852377617
+30,8-21,STID point prediction (no confidence),other hours,5.67906073269552,4.378367151085099
+30,8-21,constant margin per period (no deciles),all hours,3.047532073123043,14.883660734964105
+30,8-21,constant margin per period (no deciles),window,2.3931537584705236,18.43625793224029
+30,8-21,constant margin per period (no deciles),other hours,4.516957195777083,6.906202656879773
+30,8-21,fixed 90% (always),all hours,1.2527935486552648,19.759489828345167
+30,8-21,fixed 90% (always),window,1.2109550443619514,19.01811426878316
+30,8-21,fixed 90% (always),other hours,1.3467431003538257,21.42426973952022
+30,8-21,fixed 75% (always),all hours,2.7753240456448625,9.742710899176886
+30,8-21,fixed 75% (always),window,2.730034920505121,9.451827811190723
+30,8-21,fixed 75% (always),other hours,2.877022064624448,10.3958971488909
+30,8-21,"scheduled, calibrated per period",all hours,1.7344031386335743,16.440950110799843
+30,8-21,"scheduled, calibrated per period",window,1.1876789249837716,19.270827990091068
+30,8-21,"scheduled, calibrated per period",other hours,2.9620879147204633,10.086378822658158
+30,9-18,STID point prediction (no confidence),all hours,5.483164813507215,4.212869503752038
+30,9-18,STID point prediction (no confidence),window,5.327388469075733,3.9683757203798993
+30,9-18,STID point prediction (no confidence),other hours,5.638838868760872,4.457202742413922
+30,9-18,constant margin per period (no deciles),all hours,3.439561823277533,12.427336871435173
+30,9-18,constant margin per period (no deciles),window,2.394862308814272,17.8772817155928
+30,9-18,constant margin per period (no deciles),other hours,4.483575344917018,6.980970686022292
+30,9-18,fixed 90% (always),all hours,1.2527935486552648,19.759489828345167
+30,9-18,fixed 90% (always),window,1.2046063641890865,18.429219214418424
+30,9-18,fixed 90% (always),other hours,1.300949091427077,21.088886931676573
+30,9-18,fixed 75% (always),all hours,2.7753240456448625,9.742710899176886
+30,9-18,fixed 75% (always),window,2.7011494895158594,9.124631155836097
+30,9-18,fixed 75% (always),other hours,2.8494498956985717,10.360384785845419
+30,9-18,"scheduled, calibrated per period",all hours,2.03816457729122,14.468614019002185
+30,9-18,"scheduled, calibrated per period",window,1.1743609691434806,18.76958202847377
+30,9-18,"scheduled, calibrated per period",other hours,2.901400976334194,10.170470202658793
+30,9-19,STID point prediction (no confidence),all hours,5.483164813507215,4.212869503752038
+30,9-19,STID point prediction (no confidence),window,5.3102513146724215,4.021732251547664
+30,9-19,STID point prediction (no confidence),other hours,5.69722662127017,4.449491780285848
+30,9-19,constant margin per period (no deciles),all hours,3.3375653285524773,13.089255387897952
+30,9-19,constant margin per period (no deciles),window,2.373909219576318,18.013289381443535
+30,9-19,constant margin per period (no deciles),other hours,4.530543147747225,6.993446643944715
+30,9-19,fixed 90% (always),all hours,1.2527935486552648,19.759489828345167
+30,9-19,fixed 90% (always),window,1.1939157212539513,18.584039177401763
+30,9-19,fixed 90% (always),other hours,1.3256825611130096,21.214663039070086
+30,9-19,fixed 75% (always),all hours,2.7753240456448625,9.742710899176886
+30,9-19,fixed 75% (always),window,2.68601065215436,9.219501302242705
+30,9-19,fixed 75% (always),other hours,2.8858913905708308,10.39042893688587
+30,9-19,"scheduled, calibrated per period",all hours,1.9605705795903772,14.983666795095198
+30,9-19,"scheduled, calibrated per period",window,1.1701265386430215,18.84934145609661
+30,9-19,"scheduled, calibrated per period",other hours,2.9391169711726763,10.198075665809952
