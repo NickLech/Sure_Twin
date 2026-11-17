@@ -1,9 +1,12 @@
 .venv/
-
+datasets/
 __pycache__/
 *.pyc
 .DS_Store
 checkpoints/
 checkpoints_old/
+checkpoints_eval/
 out_*.log
 test_*.log
+datasets/MILAN_synth_burst/
+logs/
