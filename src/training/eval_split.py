@@ -1,11 +1,11 @@
 # eval_split.py
 """
 Evaluates an EXISTING STID checkpoint (one seed) on the val or train split.
-Needs the dataset view created with:  python make_split_view.py --split val
+Needs the dataset view created with:  python src/data/make_split_view.py --split val
 
-Usage (one process per seed):
-    python eval_split.py --split val --seed 0
-    for s in $(seq 0 9); do python eval_split.py --split val --seed $s; done
+Usage (one process per seed, from the repository root):
+    python src/training/eval_split.py --split val --seed 0
+    for s in $(seq 0 9); do python src/training/eval_split.py --split val --seed $s; done
 
 Use the same --hidden / --layers as in training.
 Results go to checkpoints_eval/MILAN_<split>/seed<seed>/..., NOT into checkpoints/.

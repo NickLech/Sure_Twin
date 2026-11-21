@@ -13,4 +13,4 @@
 
 source ~/Sure_Twin/.venv/bin/activate
 cd ~/Sure_Twin
-python train_STID.py --seed $SLURM_ARRAY_TASK_ID
+python src/training/train_STID.py --seed $SLURM_ARRAY_TASK_ID

@@ -1,18 +1,17 @@
-
 #!/bin/bash
 
-# Interrompe lo script in caso di errore
+# Stop at the first error
 set -e
 
 echo "=== Git Update ==="
 
-# Aggiunge tutte le modifiche tracciabili e non ignorate
+# Stage all changes that are not git-ignored
 git add -A
 
-# Crea il commit
+# Commit
 git commit -m "Update"
 
-# Invia le modifiche a GitHub
+# Push to GitHub
 git push
 
-echo "=== Push completato! ==="
+echo "=== Push completed! ==="

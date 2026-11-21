@@ -12,11 +12,11 @@
 #SBATCH --output=eval_%A_%a.log
 
 # Usage:
-#   sbatch run_eval.sh val               # all 10 seeds on the val split
-#   sbatch --array=0 run_eval.sh val     # seed 0 only (first test)
-#   sbatch run_eval.sh train             # train split (diagnostic only)
+#   sbatch scripts/slurm/run_eval.sh val               # all 10 seeds on the val split
+#   sbatch --array=0 scripts/slurm/run_eval.sh val     # seed 0 only (first test)
+#   sbatch scripts/slurm/run_eval.sh train             # train split (diagnostic only)
 SPLIT=${1:-val}
 
 source ~/Sure_Twin/.venv/bin/activate
 cd ~/Sure_Twin
-python eval_split.py --split "$SPLIT" --seed "$SLURM_ARRAY_TASK_ID"
+python src/training/eval_split.py --split "$SPLIT" --seed "$SLURM_ARRAY_TASK_ID"
