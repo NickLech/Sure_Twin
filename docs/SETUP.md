@@ -2,65 +2,64 @@
 
 ## Prerequisites & Requirements
 
-* **Platform:** Tested on University of Trento GPU Cluster `baldo`, with `SLURM` scheduler
-* **Python:** Tested on version `3.9.21`
-* **PyTorch CUDA Target:** Tested on CUDA 12.4 (`cu124`)
-* **System Packages:** `git`, `python3-venv`, `python3-pip`, `curl`, `unzip`
+* **Platform:** tested on the University of Trento GPU cluster `baldo` (SLURM scheduler)
+* **Python:** 3.11 (the virtual environment is created with `uv`, see below)
+* **PyTorch CUDA target:** CUDA 12.4 (`cu124`)
+* **System packages:** `git`, `curl`, `unzip`
+
+> The system Python on the cluster is older (3.9). Always work inside the project's `.venv`, never with the system interpreter.
 
 ---
 
-## Option 1: Automatic Installation (Recommended)
+## Option 1: Automatic installation (recommended)
 
-An automated script `setup.sh` is provided to check/install `uv`, create the virtual environment `.venv`, and install all Python packages listed in `requirements.txt`.
+`scripts/setup.sh` checks/installs `uv`, creates the virtual environment `.venv` with Python 3.11 and installs the pinned packages listed in `requirements.lock`.
 
 1. **Make the script executable:**
    ```bash
-   chmod +x setup.sh
+   chmod +x scripts/setup.sh
    ```
 
-2. **Run the setup script:**
+2. **Run it from the repository root:**
    ```bash
-   ./setup.sh
+   ./scripts/setup.sh
    ```
 
 3. **Activate the virtual environment:**
-   *(Note: Script execution ends in a subshell, so you need to activate the environment manually afterwards)*
+   *(The script runs in a subshell, so the environment must be activated manually afterwards.)*
    ```bash
    source .venv/bin/activate
    ```
 
 ---
 
-## Option 2: Manual Installation
-
-If you are excited to configure your environment step-by-step, follow the instructions below:
+## Option 2: Manual installation
 
 ### 1. Install `uv`
-Install `uv` to manage Python versions and virtual environments:
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
 ```
-*(Note: Restart your terminal or re-source your profile if `uv` is not recognized immediately.)*
+*(Restart the terminal or re-source your profile if `uv` is not recognized immediately.)*
 
-### 2. Create & Activate Virtual Environment
-Create a Python 3.11 virtual environment named `.venv` in the project root and activate it:
+### 2. Create and activate the virtual environment
 ```bash
 uv venv --python 3.11 .venv
 source .venv/bin/activate
 ```
 
-### 3. Install Dependencies
-Install all required packages from `requirements.txt`:
+### 3. Install the dependencies
 ```bash
-uv pip install -r requirements.txt
+uv pip install -r requirements.lock --index-strategy unsafe-best-match
 ```
+
+`requirements.txt` lists the direct dependencies; `requirements.lock` pins the full environment (including `torch==2.6.0+cu124`) and is the file to use for a reproducible install.
 
 ---
 
 ## Verify
 
-To verify that the installation succeeded and the virtual environment is working properly, activate `.venv` and run:
+With `.venv` active:
 
 ```bash
 python --version
@@ -70,19 +69,21 @@ python -c "import torch, basicts; print('PyTorch version:', torch.__version__, '
 **Expected output:**
 ```text
 Python 3.11.x
-PyTorch version: <version> | CUDA available: <True/False>
+PyTorch version: 2.6.0+cu124 | CUDA available: <True/False>
 ```
-*(Note: `CUDA available` may return `False` on login nodes or CPU-only machines. On a GPU node, it should return `True`.)*
+*(`CUDA available` may be `False` on login nodes or CPU-only machines. On a GPU node it must be `True`.)*
 
 ---
 
 ## Execution
 
-Once the environment is set up and activated:
+Once the environment is set up and activated, run everything from the repository root. For a quick single-seed test:
 
 ```bash
 source .venv/bin/activate
-python train.py
+python src/training/train_STID.py --seed 0
 ```
 
-> 💡 **Cluster Deployment:** If you are running on the UniTrento SLURM GPU cluster (`baldo`), please refer to the dedicated [Cluster Guide](CLUSTER_GUIDE.md).
+The full workflow (data conversion, ensemble training, evaluation, conformal bounds) is described in the [main README](../README.md#4-step-by-step-run).
+
+> **Cluster deployment:** on the UniTrento SLURM GPU cluster (`baldo`) see the dedicated [Cluster Guide](CLUSTER_GUIDE.md).

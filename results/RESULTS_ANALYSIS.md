@@ -2,7 +2,7 @@
  
 What the numbers printed by `analyse_result.py`, `plot_signed_error.py` and `conformal_eval.py` show, and what they do and do not prove.
  
-Setup: 10 STID seeds, 2500 cells, test = 709 windows (about 4.9 days: Tue, Wed, Thu, Fri, partial Sat), calibration = val split (also 709 windows). All values in original traffic units; mean traffic on the test is about 155 per cell and step.
+Setup: 10 STID seeds, 2500 cells, test = 709 windows (about 4.9 days: Tue, Wed, Thu, Fri, partial Sat), calibration = val split (also 709 windows). All values are in the original activity-index scale [a.u.] (arbitrary units, see `docs/DATA_NOTES.md`); mean activity on the test is about 155 [a.u.] per cell and step.
 
  ---
  
@@ -23,7 +23,7 @@ Calibration (val) vs evaluation (test) difficulty: the normalized MAE is about 0
  
 ## 2. Forecast accuracy
  
-| Model | MAE | RMSE | WAPE |
+| Model | MAE [a.u.] | RMSE [a.u.] | WAPE |
 |---|---|---|---|
 | last value | 27.04 | 65.71 | 0.173 |
 | seasonal naive (24 h) | 28.61 | 73.49 | 0.183 |
@@ -32,18 +32,18 @@ Calibration (val) vs evaluation (test) difficulty: the normalized MAE is about 0
  
 What it shows
 - STID beats the best naive baseline by about 40% in MAE (27.04 to 16.32), and the seasonal baseline by about 43%. The model learns something beyond persistence.
-- The table is averaged over the 12 horizons (10 to 120 min). Per horizon (read from the "MAE per horizon" panel of `analysis.png`, approximate values): the ensemble goes from about 13.6 at 10 min to about 18.0 at 120 min; last value from about 16.7 to about 37; seasonal naive stays flat at about 28.5. The gain over last value is therefore about 19% at 10 min and about 51% at 120 min. Last value beats seasonal naive only up to about 70 min, which is why it looks better in the average.
+- The table is averaged over the 12 horizons (10 to 120 min). Per horizon (read from the "MAE per horizon" panel of `results/figures/accuracy/analysis.png`, approximate values): the ensemble goes from about 13.6 at 10 min to about 18.0 at 120 min; last value from about 16.7 to about 37; seasonal naive stays flat at about 28.5. The gain over last value is therefore about 19% at 10 min and about 51% at 120 min. Last value beats seasonal naive only up to about 70 min, which is why it looks better in the average.
 - Seeds are consistent (MAE spread about 2.8%), with two groups: seeds 4, 5, 7, 9 are slightly worse (16.63 - 16.76) than the rest (16.30 - 16.39).
 - The ensemble is about 1% better than the average member (average MAE of the seeds is 16.48) but **not better than the best seed** (seed 6: MAE 16.30, RMSE 38.59). Members differ only by initialization, so their errors are highly correlated and averaging gives little.
-Known issue: the top-left panel of `analysis.png` (train loss vs val MAE) is empty, in the same run in which `analyse_result.py` printed `no log files match: out_*.log`. The training curves apparently come from those logs, so they are missing, not the results. The conformal results below are at fixed horizons (10 and 30 min).
+Known issue: the top-left panel of `results/figures/accuracy/analysis.png` (train loss vs val MAE) is empty, in the same run in which `analyse_result.py` printed `no log files match: out_*.log`. The training curves apparently come from those logs, so they are missing, not the results. The conformal results below are at fixed horizons (10 and 30 min).
  
 ---
  
 ## 3. Where does the point forecast err?
  
 From `plot_signed_error.py` (horizon 10 min, error = pred - true):
-- Mean over all cells: bias -1.95, MAE of the cell-averaged error 2.32. The model **under-estimates on average** by about 2 units (about 1 to 2% of mean traffic). The 2.32 is the error of the average over cells, not the per-cell MAE (about 16).
-- Largest mean error by time of day: -6.82 at 11:10 (all days), -7.87 at 01:00 (weekdays only).
+- Mean over all cells: bias -1.95 a.u., MAE of the cell-averaged error 2.32 a.u. The model **under-estimates on average** by about 2 a.u. (about 1 to 2% of mean traffic). The 2.32 is the error of the average over cells, not the per-cell MAE (about 16).
+- Largest mean error by time of day (in a.u.): -6.82 at 11:10 (all days), -7.87 at 01:00 (weekdays only).
 - These clock profiles are averages over only 4 to 5 days, so single points are noisy; read them as "under-estimation appears at some times of day", not as a stable pattern.
 Link with section 4: the point forecast is under the truth only 48% of the time (coverage 0.518), yet the mean error is negative. The error distribution is therefore skewed: typical errors are small and balanced, but the rare large positive deviations (spikes) are under-estimated and pull the mean down. This is why a symmetric margin is not enough.
  
@@ -59,7 +59,7 @@ Target coverage 90 / 95 / 99%, test set:
 | gaussian ensemble (mean + z * std) | 0.566 / 0.578 / 0.601 | 0.575 / 0.590 / 0.616 |
  
 - The point forecast is above the truth about half of the time, as expected: using it as a bound violates QoS in almost half of the cases.
-- The Gaussian bound built on the ensemble spread is far from the target (57% when 90% is promised, 60% when 99% is promised). Its margin is tiny (1.6 to 2.9 units) because the seeds agree with each other.
+- The Gaussian bound built on the ensemble spread is far from the target (57% when 90% is promised, 60% when 99% is promised). Its margin is tiny (1.6 to 2.9 a.u.) because the seeds agree with each other.
 - The two-sided band mean +/- 1.645 std covers only 0.171 of the data (nominal 0.90). This is the clearest evidence: ensemble disagreement measures only the variability from initialization, not the real prediction uncertainty (noise, bursts), which all members miss in the same way.
 Spread is weakly informative:
 - Overall correlation between std and |error| is 0.375, but inside a predicted-level decile the Spearman correlation drops to 0.11 (10 min) and 0.15 (30 min). Most of the 0.375 comes from the level: busy cells have both larger spread and larger errors.
@@ -72,7 +72,7 @@ Conclusion: an uncalibrated bound is unsafe and the ensemble spread is not a rel
  
 ### 5.1 Horizon 10 min
  
-| Method | cover 90% | margin | cover 95% | margin | cover 99% | margin |
+| Method | cover 90% | margin [a.u.] (% of mean) | cover 95% | margin [a.u.] (% of mean) | cover 99% | margin [a.u.] (% of mean) |
 |---|---|---|---|---|---|---|
 | conformal global | 0.917 | 23.5 (15.1%) | 0.961 | 49.1 (31.5%) | 0.993 | 144.0 (92.6%) |
 | **conformal by level** | 0.918 | 27.5 (17.6%) | 0.963 | 41.6 (26.7%) | 0.993 | 85.6 (55.0%) |
@@ -81,7 +81,7 @@ Conclusion: an uncalibrated bound is unsafe and the ensemble spread is not a rel
  
 ### 5.2 Horizon 30 min
  
-| Method | cover 90% | margin | cover 95% | margin | cover 99% | margin |
+| Method | cover 90% | margin [a.u.] (% of mean) | cover 95% | margin [a.u.] (% of mean) | cover 99% | margin [a.u.] (% of mean) |
 |---|---|---|---|---|---|---|
 | conformal global | 0.919 | 26.5 (17.0%) | 0.962 | 55.3 (35.5%) | 0.993 | 160.4 (103.0%) |
 | **conformal by level** | 0.919 | 30.8 (19.8%) | 0.962 | 46.9 (30.1%) | 0.994 | 96.0 (61.7%) |
@@ -107,16 +107,35 @@ Supported
 - With level-conditional conformal calibration on a held-out split, the empirical coverage on the test matches the target, uniformly across levels, hours of the day and days.
 - The cost of the bound is quantified: about 18% to 20% extra over the prediction for 90%, 27% to 30% for 95%, 55% to 62% for 99%.
 Not supported (limits)
-- **Short test.** Only about 5 days, one partial weekend day, no holidays or events. Coverage on rare or anomalous days is not tested; the synthetic days (`make_synthetic_days.py`) are the planned tool and have not been rerun after the dataset refresh.
+- **Short test.** Only about 5 days, one partial weekend day, no holidays or events. Coverage on rare or anomalous days is not tested; a stress test with synthetic modified days (bursts, noise, time shift) is not part of the current repository.
 - **Dependence.** Neighbouring windows and cells are strongly correlated, so the effective sample size is much smaller than the 709 x 2500 values; the finite-sample conformal guarantee assumes exchangeability, which does not hold exactly for time series. The 99% results in particular rely on few independent tail events.
 - **Marginal, not per-cell.** Coverage is computed over all cells and windows together (with checks per level, hour and day). Coverage of an individual cell was not examined.
 - **Distribution shift.** Here val is harder than test, which favours safety. If the shift went the other way (test harder than val), coverage would fall below target.
-- **No energy metric yet.** The margin is a proxy for energy saved; the actual sleep-mode decision rule (threshold on the bound) was not simulated.
+- **No energy metric yet.** The margin is a proxy expressed in activity units [a.u.], not in energy; converting it requires a traffic-to-power model. The actual sleep-mode decision rule (threshold on the bound) was not simulated beyond the unmet / over-provisioning percentages of section 8.
 ---
  
 ## 7. Suggested next steps
  
-1. Rerun the synthetic days (`burst`, `noisy`, `flat`, `shift`) on the new checkpoints and compare per-day coverage against the table of section 5.
+1. Stress-test anomalous days: modify one test day (burst, noise, flat, time shift), evaluate the existing checkpoints on it and compare per-day coverage against the table of section 5.
 2. Look at coverage per cell (or per group of cells) to check that no group is systematically under-covered.
-3. Simulate the sleep-mode rule with the `conformal by level` bound to turn the margin into an energy-versus-violation curve.
+3. Turn the margin into an energy-versus-violation curve: the schedule (section 8) gives unmet and over-provisioning percentages; a traffic-to-power model is still needed to express them in energy.
 4. If more data become available, extend the test (holidays, events) and consider an online/adaptive recalibration against drift.
+
+---
+
+## 8. Time-of-day schedule (final configuration)
+
+Instead of one coverage level for the whole day, the final approach uses **90% coverage inside a daytime window and 75% outside it**, with the margin calibrated separately per period and per predicted-level decile (`src/analysis/schedule_conformal.py`). The full comparison over horizons (10, 20, 30 min) and windows (8-21, 9-18, 9-19 h) is in [`final_metrics/README.md`](../final_metrics/README.md) and `final_metrics/schedule_final_metrics_all.csv`.
+
+Two metrics, both dimensionless percentages of the total activity on the test set:
+- **unmet** = sum(max(true - bound, 0)) / sum(true): activity not covered (lower = safer);
+- **over-provisioning** = sum(max(bound - true, 0)) / sum(true): capacity reserved but unused (lower = less waste).
+
+Chosen configuration, horizon 10 min, window 9-18 h, scheduled and calibrated per period (test set):
+
+| | Unmet (%) | Over-provisioning (%) |
+|---|---|---|
+| inside the window (9-18 h) | 1.06 | 16.60 |
+| other hours | 2.62 | 9.08 |
+
+Differences between the three windows are small (at most 0.5 percentage points in over-provisioning and 0.03 in unmet at 10 min), so the choice of the window is a marginal optimization; shorter horizons are clearly better. Note that the "window" and "other hours" metrics are computed on different sets of hours for each window, so the comparison between windows is not strictly like-for-like. These percentages are expressed in activity units, not in energy.
