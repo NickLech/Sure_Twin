@@ -11,12 +11,13 @@ Default series: mean error over all cells. Use --cell N for a single cell.
 Units are the original traffic units.
 
 Usage:
-    python plot_signed_error.py
-    python plot_signed_error.py --horizon 6
-    python plot_signed_error.py --cell 1800
-    python plot_signed_error.py --seed 0      # one seed instead of the ensemble mean
+    python src/plotting/plot_signed_error.py
+    python src/plotting/plot_signed_error.py --horizon 6
+    python src/plotting/plot_signed_error.py --cell 1800
+    python src/plotting/plot_signed_error.py --seed 0      # one seed instead of the ensemble mean
 """
 import argparse
+import sys
 import warnings
 from pathlib import Path
 
@@ -26,6 +27,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numpy.lib.stride_tricks import sliding_window_view
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "analysis"))  # analyse_result.py, conformal_eval.py
 from analyse_result import (STEP_H, STEPS_PER_DAY, WEEKDAYS, clock_axis, find_run_dirs,
                             fix_misplaced_last_batch, load_results, load_series)
 
@@ -40,7 +42,7 @@ def parse_args():
     ap.add_argument("--cell", type=int, default=None,
                     help="single column index; default: mean error over all cells")
     ap.add_argument("--seed", type=int, default=None, help="use this seed only (default: ensemble mean)")
-    ap.add_argument("--out", default="signed_error.png")
+    ap.add_argument("--out", default="results/figures/accuracy/signed_error.png")
     return ap.parse_args()
 
 
@@ -146,31 +148,26 @@ def main():
     xs = np.arange(STEPS_PER_DAY) * STEP_H
     wd_names = f"{WEEKDAYS[dow[is_wd][0]]}-{WEEKDAYS[dow[is_wd][-1]]}"
     all_names = f"{WEEKDAYS[dow[0]]}-{WEEKDAYS[dow[-1]]}"
-    for ax, m, title in [(ax_a, mean_all, f"mean of {len(days)} days ({all_names})"),
-                         (ax_w, mean_wd, f"mean of {int(is_wd.sum())} weekdays ({wd_names})")]:
-        xs = np.arange(STEPS_PER_DAY) * STEP_H
-        wd_names = f"{WEEKDAYS[dow[is_wd][0]]}-{WEEKDAYS[dow[is_wd][-1]]}"
-        all_names = f"{WEEKDAYS[dow[0]]}-{WEEKDAYS[dow[-1]]}"
-        n_days, n_wd = len(days), int(is_wd.sum())
+    n_days, n_wd = len(days), int(is_wd.sum())
 
-        # left: mean over all days
-        signed_fill(ax_a, xs, mean_all)
-        ax_a.set_title(f"mean of {n_days} days ({all_names})", fontsize=10)
+    # left: mean over all days
+    signed_fill(ax_a, xs, mean_all)
+    ax_a.set_title(f"mean of {n_days} days ({all_names})", fontsize=10)
 
-        # right: mean over weekdays, with the all-days mean overlaid for comparison
-        signed_fill(ax_w, xs, mean_wd)
-        ax_w.lines[0].set_label(f"mean of {n_wd} weekdays ({wd_names})")
-        ax_w.plot(xs, mean_all, color="tab:orange", lw=1.6, ls="--",
-                  label=f"mean of {n_days} days ({all_names})")
-        ax_w.set_title(f"weekdays ({wd_names}) vs all days ({all_names})", fontsize=10)
-        ax_w.legend(fontsize=8, loc="best")
+    # right: mean over weekdays, with the all-days mean overlaid for comparison
+    signed_fill(ax_w, xs, mean_wd)
+    ax_w.lines[0].set_label(f"mean of {n_wd} weekdays ({wd_names})")
+    ax_w.plot(xs, mean_all, color="tab:orange", lw=1.6, ls="--",
+              label=f"mean of {n_days} days ({all_names})")
+    ax_w.set_title(f"weekdays ({wd_names}) vs all days ({all_names})", fontsize=10)
+    ax_w.legend(fontsize=8, loc="best")
 
-        for ax in (ax_a, ax_w):
-            ax.set_xlim(0, 24)
-            ax.set_xticks(range(0, 25, 3))
-            ax.set_xticklabels([f"{t:02d}:00" for t in range(0, 25, 3)], fontsize=8)
-            ax.set_xlabel("time of day")
-        ax_a.set_ylabel("mean error = pred - true (traffic)")
+    for ax in (ax_a, ax_w):
+        ax.set_xlim(0, 24)
+        ax.set_xticks(range(0, 25, 3))
+        ax.set_xticklabels([f"{t:02d}:00" for t in range(0, 25, 3)], fontsize=8)
+        ax.set_xlabel("time of day")
+    ax_a.set_ylabel("mean error = pred - true (traffic)")
 
     for name, m in [("all days", mean_all), ("weekdays", mean_wd)]:
         w = int(np.nanargmax(np.abs(m)))
@@ -178,6 +175,7 @@ def main():
     print(f"{label}: bias {bias:+.2f}, MAE {mae:.2f}")
 
     plt.tight_layout()
+    Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(args.out, dpi=110)
     print(f"Saved {args.out}")
 

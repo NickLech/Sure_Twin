@@ -1,6 +1,6 @@
 """
 The N busiest cells (default 5), one panel each, with the conformal-by-level upper bound drawn at
-several coverage levels (default 70 / 75 / 80 / 85 / 90 / 95 %). Saves ONE png: busiest_levels.png.
+several coverage levels (default 70 / 75 / 80 / 85 / 90 / 95 %). Saves ONE png (default results/figures/conformal/busiest_levels.png).
 
   blue   = real traffic
   orange = simple prediction (ensemble mean), dashed
@@ -10,21 +10,24 @@ several coverage levels (default 70 / 75 / 80 / 85 / 90 / 95 %). Saves ONE png: 
 Calibration on the val split, plot on the test split (same setup as conformal_eval.py).
 
 Usage:
-    python busiest_levels.py --horizon 0 \
+    python src/plotting/busiest_levels.py --horizon 0 \
         --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
-    python busiest_levels.py --horizon 2 --start 0 --length 432        # 30 min ahead, first 3 days
-    python busiest_levels.py --levels 0.95 0.90 0.80 --n_busy 3
+    python src/plotting/busiest_levels.py --horizon 2 --start 0 --length 432        # 30 min ahead, first 3 days
+    python src/plotting/busiest_levels.py --levels 0.95 0.90 0.80 --n_busy 3
 
 --horizon is 0-based (0 = 10 min ahead, 2 = 30 min). Original traffic units.
-Needs only analyse_result.py and conformal_eval.py.
+Needs only analyse_result.py and conformal_eval.py (in src/analysis/).
 """
 import argparse
+import sys
+from pathlib import Path
 
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "analysis"))  # analyse_result.py, conformal_eval.py
 from analyse_result import STEP_H, STEPS_PER_DAY, clock_axis
 from conformal_eval import N_BINS, conf_q, load_split, subset
 
@@ -48,7 +51,7 @@ def parse_args():
     ap.add_argument("--n_busy", type=int, default=5, help="number of busiest cells")
     ap.add_argument("--start", type=int, default=0, help="first time step to plot")
     ap.add_argument("--length", type=int, default=None, help="number of time steps (default: all)")
-    ap.add_argument("--out", default="busiest_levels.png")
+    ap.add_argument("--out", default="results/figures/conformal/busiest_levels.png")
     return ap.parse_args()
 
 
@@ -117,6 +120,7 @@ def plot(cal, ev, args):
         clock_axis(ax, x, tod0, dow0)
     axes[-1, 0].set_xlabel("time (clock) - gaps = windows dropped by the last-batch fix")
     plt.tight_layout()
+    Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(args.out, dpi=150)
     plt.close(fig)
 

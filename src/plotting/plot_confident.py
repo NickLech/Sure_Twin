@@ -5,29 +5,32 @@ True vs prediction vs conformal upper bound ("conformal by level"), same style a
   orange = simple prediction (ensemble mean), dashed
   red    = prediction + conformal margin by level (upper bound)
 
-Two files are saved:
+Two files are saved (default folder results/figures/conformal/):
   confident_pred.png    busiest / median / quietest cell (one panel each, own y-axis)
   busiest_confident.png the --n_busy busiest cells (default 5), busiest first
 
 Calibration is done on the val split, the plots show the test split (as in conformal_eval.py).
 
-Self-contained: needs only analyse_result.py and conformal_eval.py (already in the repo).
+Needs only analyse_result.py and conformal_eval.py (in src/analysis/).
 
 Usage:
-    python plot_confident.py --horizon 0 --eps 0.05 \
+    python src/plotting/plot_confident.py --horizon 0 --eps 0.05 \
         --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
-    python plot_confident.py --horizon 2 --eps 0.10 --start 0 --length 432     # first 3 days only
+    python src/plotting/plot_confident.py --horizon 2 --eps 0.10 --start 0 --length 432     # first 3 days only
 
 --horizon is 0-based like in conformal_eval.py (0 = 10 min ahead, 2 = 30 min).
 Everything is in ORIGINAL traffic units.
 """
 import argparse
+import sys
+from pathlib import Path
 
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "analysis"))  # analyse_result.py, conformal_eval.py
 from analyse_result import STEP_H, STEPS_PER_DAY, clock_axis
 from conformal_eval import N_BINS, conf_q, load_split, subset
 
@@ -70,8 +73,8 @@ def parse_args():
     ap.add_argument("--n_busy", type=int, default=5, help="cells in busiest_confident.png")
     ap.add_argument("--start", type=int, default=0, help="first time step to plot")
     ap.add_argument("--length", type=int, default=None, help="number of time steps (default: all)")
-    ap.add_argument("--out_pred", default="confident_pred.png")
-    ap.add_argument("--out_busy", default="busiest_confident.png")
+    ap.add_argument("--out_pred", default="results/figures/conformal/confident_pred.png")
+    ap.add_argument("--out_busy", default="results/figures/conformal/busiest_confident.png")
     return ap.parse_args()
 
 
@@ -116,6 +119,7 @@ def draw(ev, up, cells, labels, h_min, eps, start, length, path):
         clock_axis(ax, x, tod0, dow0)
     axes[-1, 0].set_xlabel("time (clock) - gaps = windows dropped by the last-batch fix")
     plt.tight_layout()
+    Path(path).parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(path, dpi=150)
     plt.close(fig)
     print(f"cells plotted: {dict(zip(labels, cells))}")

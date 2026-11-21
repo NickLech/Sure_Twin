@@ -9,10 +9,10 @@ and the point where the slope of the curve is 1 (cell traffic = mean traffic
 per cell), a data-driven threshold between "busy" and "quiet" cells.
 
 Usage:
-    python plot_concentration.py
-    python plot_concentration.py --splits train val test
-    python plot_concentration.py --exclude 858 808
-    python plot_concentration.py --out results/concentration.png
+    python src/plotting/plot_concentration.py
+    python src/plotting/plot_concentration.py --splits train val test
+    python src/plotting/plot_concentration.py --exclude 858 808
+    python src/plotting/plot_concentration.py --out results/figures/data/concentration.png
 """
 
 import argparse
@@ -42,7 +42,7 @@ def parse_args():
                     help="column indices to drop (e.g. 858 808: cells with missing rows)")
     ap.add_argument("--levels", type=float, nargs="*", default=[0.5, 0.8, 0.9],
                     help="traffic shares to report")
-    ap.add_argument("--out", default="results/concentration.png")
+    ap.add_argument("--out", default="results/figures/data/concentration.png")
     return ap.parse_args()
 
 

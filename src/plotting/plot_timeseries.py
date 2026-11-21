@@ -4,14 +4,15 @@ so cells with very different traffic stay readable (analysis.png squashes them t
 By default the whole evaluated period is plotted, with clock labels on every panel.
 
 Usage:
-    python plot_timeseries.py
-    python plot_timeseries.py --horizon 6
-    python plot_timeseries.py --start 0 --length 144      # only the first day
-    python plot_timeseries.py --cells 12 345 1800 --band 1.645
+    python src/plotting/plot_timeseries.py
+    python src/plotting/plot_timeseries.py --horizon 6
+    python src/plotting/plot_timeseries.py --start 0 --length 144      # only the first day
+    python src/plotting/plot_timeseries.py --cells 12 345 1800 --band 1.645
 
-Loading, last-batch fix and the clock axis are reused from analyse_result.py (same folder).
+Loading, last-batch fix and the clock axis are reused from src/analysis/analyse_result.py.
 """
 import argparse
+import sys
 from pathlib import Path
 
 import matplotlib
@@ -20,6 +21,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numpy.lib.stride_tricks import sliding_window_view
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "analysis"))  # analyse_result.py, conformal_eval.py
 from analyse_result import (STEPS_PER_DAY, clock_axis, find_run_dirs,
                             fix_misplaced_last_batch, load_results, load_series)
 
@@ -40,7 +42,7 @@ def parse_args():
                     help="column indices; default: busiest, median, quietest")
     ap.add_argument("--band", type=float, default=0.0,
                     help="if > 0 draw ensemble mean +/- band * std (NOT calibrated yet)")
-    ap.add_argument("--out", default="timeseries.png")
+    ap.add_argument("--out", default="results/figures/accuracy/timeseries.png")
     return ap.parse_args()
 
 
@@ -86,8 +88,8 @@ def main():
             raise ValueError(f"--cells must be in 0..{N - 1}")
     else:
         order = np.argsort(true_h.mean(0))
-        q = 0.05  # 5° percentile
-        nodes = [int(order[-1]), int(order[N // 2]), int(order[int(q * N)])] # con N = 2500, int(0.05 * N) = 125, cioè la 125a cella più quieta
+        q = 0.05  # 5th percentile of mean traffic
+        nodes = [int(order[-1]), int(order[N // 2]), int(order[int(q * N)])]  # N = 2500 -> the 125th quietest cell
         labels = ["busiest", "median", f"quiet (p{int(q*100)})"]
     cell_mae = np.abs(mean_h[:, nodes] - true_h[:, nodes]).mean(0)  # over all evaluated windows
     cell_avg = true_h[:, nodes].mean(0)
@@ -124,6 +126,7 @@ def main():
         clock_axis(ax, x, tod0, dow0)  # clock labels on EVERY panel
     axes[-1, 0].set_xlabel("time (clock) - gaps = windows dropped by the last-batch fix")
     plt.tight_layout()
+    Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(args.out, dpi=150)
     print(f"cells plotted (column index): {dict(zip(labels, nodes))}")
     print(f"windows plotted: {b - a} ({(b - a) * STEP_H / 24:.1f} days)")
