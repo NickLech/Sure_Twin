@@ -1,10 +1,15 @@
 """
-Post-training analysis for STID on MILAN.
+Post-training accuracy analysis of the STID ensemble on MILAN (test split, original units).
 
-Usage:
-    python analyse_result.py --logs "out_1539399_*.log"
-    python analyse_result.py --ckpts "checkpoints/STID_MILAN/seed*/*"
-    python analyse_result.py --exclude 858 808   # optional: needs cell_ids.npy or the raw csv
+Prints sanity checks, then MAE / RMSE / WAPE for two naive baselines, every seed and the
+ensemble mean, and saves one summary figure.
+
+Also the shared loader of the other analysis and plotting scripts (imported by them).
+Run everything from the repository root:
+
+    python src/analysis/analyse_result.py
+    python src/analysis/analyse_result.py --logs "out_*.log" --ckpts "checkpoints/STID_MILAN/seed*/*"
+    python src/analysis/analyse_result.py --exclude 858 808   # needs cell_ids.npy or the raw csv
 """
 
 import argparse
@@ -31,11 +36,11 @@ def parse_args():
     ap = argparse.ArgumentParser()
     ap.add_argument("--ckpts", default="checkpoints/STID_MILAN/seed*/*",
                     help="glob of run directories containing test_results/")
-    ap.add_argument("--logs", default="out_*.log")
+    ap.add_argument("--logs", default="out_*.log", help="glob of SLURM training logs (learning curves)")
     ap.add_argument("--data", default="datasets/MILAN")
     ap.add_argument("--input_len", type=int, default=144)
     ap.add_argument("--output_len", type=int, default=12)
-    ap.add_argument("--out", default="analysis.png")
+    ap.add_argument("--out", default="results/figures/accuracy/analysis.png")
     ap.add_argument("--exclude", type=int, nargs="*", default=[],
                     help="cell_ids to exclude from evaluation (default: none)")
     ap.add_argument("--csv", default="milan_raw.csv",
@@ -53,7 +58,7 @@ def load_series(path):
 
 
 def load_cell_ids(args):
-    """cell_id of each column (sorted, same order as the converter). No pandas needed."""
+    """cell_id of each dataset column (sorted, as written by the converter). No pandas needed."""
     f = Path(args.data) / "cell_ids.npy"
     if f.is_file():
         return np.load(f)
@@ -64,7 +69,7 @@ def load_cell_ids(args):
             col = next(reader).index("cell_id")
             return np.array(sorted({int(float(row[col])) for row in reader}))
     raise FileNotFoundError(
-        f"Need {f} or {args.csv}. Create the first where the csv lives:\n"
+        f"Need {f} or {args.csv}. To create the first one, run where the csv lives:\n"
         "  python -c \"import pandas as pd, numpy as np; np.save('datasets/MILAN/cell_ids.npy', "
         "np.sort(pd.read_csv('milan_raw.csv', usecols=['cell_id']).cell_id.unique()))\""
     )
@@ -84,6 +89,7 @@ def kept_columns(args, n_cells):
 
 
 def find_run_dirs(pattern):
+    """Run directories matching the glob that contain test_results/prediction.npy (one per seed)."""
     dirs = sorted(d for d in glob.glob(pattern)
                   if (Path(d) / "test_results" / "prediction.npy").is_file())
     if not dirs:
@@ -98,7 +104,7 @@ def find_run_dirs(pattern):
 def load_results(path, shape, mean, std):
     """
     Load a BasicTS results file and convert it back to original units.
-    BasicTS may write a raw float32 memmap even with a .npy extension.
+    BasicTS may write a raw float32 memmap even with a .npy extension (no header).
     """
     with open(path, "rb") as f:
         has_header = f.read(6) == b"\x93NUMPY"
@@ -114,12 +120,11 @@ def load_results(path, shape, mean, std):
 # ----------------------------------------------------------------------
 def fix_misplaced_last_batch(targets, preds, true, tol=1e-2):
     """
-    Some BasicTS versions write the last (partial) test batch at the wrong
-    offset: it overwrites earlier windows and leaves garbage at the end.
-    Bad windows then form two equal blocks (head = overwritten, tail = garbage).
-    The tail's real content sits in the head block: move it back and drop
-    the lost head windows. Returns the arrays restricted to valid windows
-    and the boolean mask of kept windows.
+    Some BasicTS versions write the last (partial) test batch at the wrong offset:
+    it overwrites earlier windows and leaves garbage at the end. The bad windows then
+    form two equal blocks (head = overwritten, tail = garbage). The real content of the
+    tail sits in the head block: move it back and drop the lost head windows.
+    Returns targets, preds, true restricted to the valid windows, and the kept-window mask.
     """
     keep = np.ones(true.shape[0], dtype=bool)
     bad = np.flatnonzero(np.abs(targets - true).max(axis=(1, 2)) > tol)
@@ -154,14 +159,16 @@ def metrics(pred, true):
 
 
 def cross_check_with_basicts(run_dirs, preds, true, std):
-    """BasicTS computes test_metrics.json during evaluation, unaffected by the saving issue."""
+    """Compare our normalized MAE with BasicTS's test_metrics.json (computed in memory, so
+    not affected by the saving issue above)."""
     print("\n[check] normalized MAE: recomputed vs BasicTS test_metrics.json")
     for d, p in zip(run_dirs, preds):
         f = Path(d) / "test_metrics.json"
         if not f.is_file():
             print(f"  {Path(d).parent.name}: test_metrics.json not found")
             continue
-        ref = json.load(open(f))["overall"]["MAE"]
+        with open(f) as fh:
+            ref = json.load(fh)["overall"]["MAE"]
         mine = np.abs((p - true) / std).mean()
         print(f"  {Path(d).parent.name}: {mine:.4f} vs {ref:.4f} (should agree within ~1%)")
 
@@ -170,7 +177,8 @@ def cross_check_with_basicts(run_dirs, preds, true, std):
 # Plots
 # ----------------------------------------------------------------------
 def clock_axis(ax, x, tod0, dow0):
-    """Clock tick labels (adaptive step), dotted line + weekday at every midnight."""
+    """Clock-time tick labels (step adapts to the span), plus a dotted line and weekday at each midnight.
+    x in hours; tod0 = clock hour at x[0]; dow0 = weekday index at x[0] (0 = Mon)."""
     span = x[-1] - x[0] if len(x) > 1 else 1
     step = next((s for s in (1, 2, 3, 6, 12, 24) if span / s <= 24), 24)
     first = np.ceil(tod0 / step - 1e-6) * step - tod0
@@ -211,7 +219,7 @@ def main():
         raise ValueError("input_len must cover at least one day for the seasonal baseline")
     data = Path(args.data)
 
-    # --- ground truth (original units) ---
+    # --- ground truth in original units ---
     train = load_series(data / "train_data.npy")
     test = load_series(data / "test_data.npy")
     test_ts = np.load(data / "test_timestamps.npy")
@@ -224,7 +232,7 @@ def main():
     win = sliding_window_view(test, IN + OUT, axis=0)  # [S, N, IN+OUT]
     true = win[:, :, IN:].transpose(0, 2, 1)           # [S, OUT, N]
 
-    # --- saved results ---
+    # --- saved predictions, de-normalized ---
     run_dirs = find_run_dirs(args.ckpts)
     print(f"Found {len(run_dirs)} run(s): " + ", ".join(Path(d).parent.name for d in run_dirs))
     shape = (S_all, OUT, N)
@@ -238,7 +246,7 @@ def main():
     print(f"[check] windows evaluated: {S} of {S_all}; "
           f"max |targets - raw test| = {np.abs(targets - true).max():.4g}")
 
-    # --- check against BasicTS on ALL cells, then drop the excluded ones ---
+    # --- cross-check against BasicTS on ALL cells, then drop the excluded ones ---
     cross_check_with_basicts(run_dirs, preds, true, std)
     cols = kept_columns(args, N)
     true, preds = true[..., cols], preds[..., cols]
@@ -248,7 +256,7 @@ def main():
     # --- baselines (same windows and cells as the models) ---
     last = np.repeat(win[:, cols, IN - 1][keep][:, None, :], OUT, axis=1)        # last observed value
     s0 = IN - STEPS_PER_DAY
-    seasonal = win[:, cols, s0:s0 + OUT][keep].transpose(0, 2, 1)                # same slot, 24h earlier
+    seasonal = win[:, cols, s0:s0 + OUT][keep].transpose(0, 2, 1)                # same slots, 24 h earlier
 
     ens_mean, ens_std = preds.mean(0), preds.std(0)
     rows = {"last value": last, "seasonal naive (24h)": seasonal}
@@ -261,7 +269,7 @@ def main():
         m = metrics(p, true)
         print(f"{name:24s}{m['MAE']:10.3f}{m['RMSE']:10.3f}{m['WAPE']:10.3f}")
 
-    # --- ensemble spread vs error (preview of the uncertainty module) ---
+    # --- is the ensemble spread informative about the error? ---
     if len(preds) > 1:
         err = np.abs(ens_mean - true)
         corr = np.corrcoef(ens_std.ravel()[::50], err.ravel()[::50])[0, 1]
@@ -288,7 +296,7 @@ def main():
     ax[0, 2].plot(lim, lim, "r-")
     ax[0, 2].set(title="pred vs true (h=1)", xlabel="true", ylabel="pred")
 
-    # h=1 over the whole evaluated period, clock labels; dropped windows stay as gaps
+    # h=1 over the whole evaluated period; dropped windows stay as gaps
     xh = np.flatnonzero(keep) * STEP_H            # hours since the first window
     tod0 = round(test_ts[IN, 0] * 24 * 6) / 6
     dow0 = int(round(test_ts[IN, 1] * 7)) % 7
@@ -313,6 +321,7 @@ def main():
     ax[1, 2].set(title=f"residuals h=1 (mean={res.mean():.2f})")
 
     plt.tight_layout()
+    Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(args.out, dpi=130)
     print(f"\nSaved {args.out}")
 

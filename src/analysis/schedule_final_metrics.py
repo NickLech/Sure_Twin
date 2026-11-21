@@ -11,24 +11,25 @@ Approaches, on the test set and in ORIGINAL units:
     fixed 90 % / fixed 75 %                 conformal by level, same eps all day
     scheduled, calibrated per period        the proposal
 
-Every (horizon, window) combination gives one figure, reported for
+Every (horizon, window) combination gives one figure, with the metrics for
 all hours / window hours / other hours. The model outputs are loaded once per horizon.
 
 Saved in --out_dir (default "final_metrics"):
     schedule_final_metrics_h<min>_w<start>-<end>.png   one per combination (3 horizons x 3 windows = 9)
     schedule_final_metrics_all.csv / .json             every number of every combination
 
-Usage (same data/checkpoint arguments as schedule_conformal.py):
-    python schedule_final_metrics.py \
+Usage (from the repository root; data/checkpoint options as in schedule_conformal.py):
+    python src/analysis/schedule_final_metrics.py \
         --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
-    python schedule_final_metrics.py --horizons 0 --windows 8-21     # a single combination
---horizons are 0-based like --horizon (0 = 10 min, 1 = 20 min, 2 = 30 min).
+    python src/analysis/schedule_final_metrics.py --horizons 0 --windows 9-18   # a single combination
+
+--horizons are 0-based like --horizon (0 = 10 min, 1 = 20 min, 2 = 30 min). The per-run options of
+schedule_conformal.py (--horizon, --day_start, --day_end, --out*) are accepted but overridden here.
 """
 import argparse
 import csv
 import json
 import os
-import sys
 
 import matplotlib
 matplotlib.use("Agg")
@@ -36,7 +37,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 import schedule_conformal as sc
-from conformal_eval import conf_q, load_split, subset
+from conformal_eval import conf_q
 
 K_POINT = "STID point prediction (no confidence)"
 K_CONST = "constant margin per period (no deciles)"
@@ -48,40 +49,24 @@ SHORT = {K_POINT: "STID point\n(no confidence)", K_CONST: "const. margin\n(no de
 
 
 def parse_window(s):
+    """'9-18' -> (9.0, 18.0)."""
     a, b = s.split("-")
     return float(a), float(b)
 
 
 def parse_all():
     """Own options + every option of schedule_conformal.py."""
-    ap = argparse.ArgumentParser(add_help=False)
+    ap = argparse.ArgumentParser(add_help=False, allow_abbrev=False)
     ap.add_argument("--out_dir", default="final_metrics")
     ap.add_argument("--horizons", type=int, nargs="*", default=[0, 1, 2],
                     help="0-based horizons to run (0 = 10 min, 1 = 20 min, 2 = 30 min)")
     ap.add_argument("--windows", nargs="*", default=["8-21", "9-18", "9-19"],
                     help="high-coverage windows as START-END hours")
     extra, rest = ap.parse_known_args()
-    sys.argv = [sys.argv[0]] + rest
-    args = sc.parse_args()
+    args = sc.parse_args(rest)
     args.out_dir, args.horizons = extra.out_dir, extra.horizons
     args.windows = [parse_window(w) for w in extra.windows]
     return args
-
-
-def load(args):
-    """Same loading logic as schedule_conformal.main() (uses args.horizon)."""
-    ev = load_split(args.data, args.ckpts, args, "evaluation")
-    if args.cal_data:
-        if not args.cal_ckpts:
-            raise SystemExit("--cal_data needs --cal_ckpts")
-        cal = load_split(args.cal_data, args.cal_ckpts, args, "calibration")
-        if cal["members"] != ev["members"]:
-            raise SystemExit("different number of members between calibration and evaluation")
-    else:
-        cut = int(ev["pred"].shape[0] * args.cal_frac)
-        cal, ev = subset(ev, slice(0, cut)), subset(ev, slice(cut, ev["pred"].shape[0]))
-        print(f"FALLBACK: calibration = first {args.cal_frac:.0%} of test, evaluation = the rest")
-    return cal, ev
 
 
 def constant_margin_bound(c, ev, args):
@@ -92,18 +77,21 @@ def constant_margin_bound(c, ev, args):
 
 
 def compute(est, truth):
+    """Unmet and over-provisioned traffic as % of the total true traffic."""
     d = est - truth
     return {"unmet_%": float(100 * np.maximum(-d, 0).sum() / truth.sum()),
             "overprov_%": float(100 * np.maximum(d, 0).sum() / truth.sum())}
 
 
 def evaluate(estimates, ev, c):
+    """{approach: {period: metrics}} for all hours / window hours / other hours."""
     day = c.day_e[:, 0]
     masks = {"all hours": np.ones_like(day, dtype=bool), "window": day, "other hours": ~day}
     return {n: {p: compute(est[m], ev["truth"][m]) for p, m in masks.items()} for n, est in estimates.items()}
 
 
 def print_tables(res, args):
+    """Print one table: unmet % and over-provisioning % per approach and period."""
     print(f"\n{'approach':40s} | " + " | ".join(
         f"{(f'{args.day_start:g}-{args.day_end:g} h' if p == 'window' else p):^21s}" for p in PERIODS))
     print(f"{'':40s} | " + " | ".join(f"{'unmet%':>9s} {'overprov%':>11s}" for _ in PERIODS))
@@ -114,6 +102,7 @@ def print_tables(res, args):
 
 
 def figure(res, args, path):
+    """Two bar charts (unmet %, over-provisioning %) per period and approach."""
     names = list(res.keys())
     colors = ["tab:blue", "tab:orange", "tab:green", "tab:purple", "tab:red"][:len(names)]
     xt = [f"{args.day_start:g}-{args.day_end:g} h" if p == "window" else p for p in PERIODS]
@@ -139,6 +128,7 @@ def figure(res, args, path):
 
 
 def run_one(cal, ev, args):
+    """Metrics of every approach for the horizon and window currently set in args."""
     c = sc.Calib(cal, ev, args)
     bounds, _, keys = sc.build_bounds(c, ev, args)
     estimates = {K_POINT: ev["pred"], K_CONST: constant_margin_bound(c, ev, args),
@@ -151,11 +141,11 @@ def main():
     if not (0 < args.day_eps < 1 and 0 < args.night_eps < 1):
         raise SystemExit("--day_eps and --night_eps must be in (0, 1)")
     os.makedirs(args.out_dir, exist_ok=True)
-    all_res = []   # list of {"horizon_min", "window", "results"}
+    all_res = []   # one {"horizon_min", "window", "results"} entry per combination
 
     for h in args.horizons:
         args.horizon = h
-        cal, ev = load(args)
+        cal, ev = sc.load_cal_ev(args)
         print(f"\n##### horizon {(h + 1) * 10} min | {ev['members']} members | "
               f"calibration windows {cal['pred'].shape[0]}, evaluation windows {ev['pred'].shape[0]}")
         for start, end in args.windows:

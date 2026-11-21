@@ -54,9 +54,9 @@ Sure_Twin/
 │   ├── git_update.sh         helper to commit and push everything
 │   └── slurm/                run_train.sh, run_eval.sh (job arrays, seeds 0-9)
 └── results/
-    ├── reports/              written analysis (RESULTS_ANALYSIS.md)
+    ├── RESULTS_ANALYSIS.md   written interpretation of the results
     ├── logs/                 raw console output of analysis runs
-    ├── tables/               machine-readable outputs (e.g. schedule margin tables)
+    ├── tables/               machine-readable outputs (schedule_margins.json); created by schedule_conformal.py
     └── figures/
         ├── accuracy/         point-forecast accuracy (analysis, timeseries, signed_error)
         ├── conformal/        upper-bound plots (busiest_levels, busiest_confident, confident_pred)
@@ -64,7 +64,7 @@ Sure_Twin/
         └── data/             data exploration (concentration)
 ```
 
-Checkpoints (`checkpoints/`, `checkpoints_eval/`) and job logs (`out_*.log`, `eval_*.log`) are produced by the runs and are git-ignored.
+Checkpoints (`checkpoints/`, `checkpoints_eval/`) and job logs (`out_*.log`, `eval_*.log`) are produced by the runs and are git-ignored. The scripts in `src/analysis/` create their output folders when missing.
 
 ---
 
@@ -100,7 +100,8 @@ rm -f out_*.log eval_*.log
 python src/data/convert_milan_to_basicts.py
 ```
 - What: pivots the CSV (`time, cell_id, y`) to `[T, N]`, fills missing timestamps and NaN with 0, builds 4 time features, splits 60/20/20.
-- Output: `datasets/MILAN/{train,val,test}_{data,timestamps}.npy`, `meta.json` and `cell_ids.npy`. Printed: step of 10 min, shapes like `(T, 2500, 1)` and `(T, 4)`.
+- Output: `datasets/MILAN/{train,val,test}_{data,timestamps}.npy` and `meta.json`. Printed: step of 10 min and the shapes of data `(T, 2500)` and timestamps `(T, 4)`.
+- `cell_ids.npy` (cell id of each column) is **not** written by the converter. It is only needed for `--exclude`; without it the analysis scripts read the ids from `milan_raw.csv`.
 
 ### Step 2 - Create the val view
 
@@ -132,7 +133,7 @@ python src/analysis/analyse_result.py
 python src/plotting/plot_timeseries.py        # add --horizon 6, --cells ..., --band 1.645 if needed
 python src/plotting/plot_signed_error.py      # add --horizon 6, --cell 1800, --seed 0 if needed
 ```
-- `analyse_result.py` prints sanity checks, then a table (MAE, RMSE, WAPE) of two baselines, each seed and the ensemble mean, then how informative the ensemble spread is.
+- `analyse_result.py` prints sanity checks, then a table (MAE, RMSE, WAPE) of two baselines, each seed and the ensemble mean, then how informative the ensemble spread is. The learning-curve panel reads the training logs `out_*.log` from the current directory (`--logs` to change the pattern).
 - `plot_signed_error.py` also prints bias, MAE and the time of the largest mean error.
 - Sanity checks that must pass: `max |targets - raw test|` about 0 (here 0.0005), `windows evaluated: 709 of 709`, `cells evaluated: 2500 of 2500`, and recomputed normalized MAE equal to the BasicTS one for every seed.
 
@@ -161,13 +162,13 @@ Methods: `point`, `gaussian ensemble (uncalibrated)`, `conformal global`, `confo
 ### Step 6 - Time-of-day schedule and final metrics
 
 ```bash
-python src/analysis/schedule_conformal.py --horizon 0 \
+python src/analysis/schedule_conformal.py --horizon 0 --day_start 9 --day_end 18 \
     --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
 python src/analysis/schedule_final_metrics.py \
     --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
 ```
-- `schedule_conformal.py`: coverage 90% inside a daytime window and 75% outside it, with margins calibrated separately per period and per predicted-level decile. Defaults: window 8-21 h, `--day_eps 0.10`, `--night_eps 0.25`.
-- `schedule_final_metrics.py`: repeats the comparison for several horizons and windows and writes the results to `final_metrics/` (unmet activity % and over-provisioning %, both dimensionless percentages of total activity).
+- `schedule_conformal.py`: coverage 90% inside a daytime window and 75% outside it, with margins calibrated separately per period and per predicted-level decile. Defaults: window 8-21 h, `--day_eps 0.10`, `--night_eps 0.25`; the command above uses the chosen window (section 5).
+- `schedule_final_metrics.py`: repeats the comparison for 3 horizons x 3 windows (`--horizons`, `--windows` to restrict, for example `--horizons 0 --windows 9-18`) and writes the results to `final_metrics/` (unmet activity % and over-provisioning %, both dimensionless percentages of total activity). The per-run options of `schedule_conformal.py` (`--horizon`, `--day_start`, `--day_end`) are overridden there.
 
 ### Optional plots
 

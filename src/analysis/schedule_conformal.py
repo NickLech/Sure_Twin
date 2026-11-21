@@ -1,38 +1,40 @@
 """
-Time-of-day schedule for the conformal upper bound (conformal by level):
-    coverage 90 % (eps 0.10) between 08:00 and 21:00, coverage 75 % (eps 0.25) in the other hours.
+Time-of-day schedule for the conformal upper bound ("conformal by level"):
+by default 90 % coverage (eps 0.10) between 08:00 and 21:00, 75 % (eps 0.25) in the other hours.
 
-How it works (and why it is built like this)
-  The window is assigned by the clock time of the step being FORECAST. The margin is calibrated
-  separately per period and per predicted-level decile (a "Mondrian" conformal split), using only the
-  val residuals of that period:
-        margin[period, decile]   ->   bound = prediction + margin[period(t), decile(prediction)]
-  So 90 % is guaranteed (marginally) INSIDE the daytime window and 75 % inside the night one.
-  Calibrating on the whole day and only switching eps by hour would NOT do that, because the
-  residuals are not the same at all hours: that variant is printed too, for comparison.
+How it works
+  The period of a window is the clock time of the step being FORECAST. The margin is calibrated
+  separately per period and per predicted-level decile (a "Mondrian" conformal split), using only
+  the val residuals of that period:
+        bound = prediction + margin[period(t), decile(prediction)]
+  The target coverage then holds (marginally) INSIDE each period. Calibrating on the whole day and
+  only switching eps by hour would not, because residuals differ across hours; that variant is
+  printed too, for comparison.
 
 Compared on the test set (ORIGINAL units):
     fixed 90 %                         always 90 %
     fixed 75 %                         always 75 %
     scheduled, calibrated per period   the proposal
-    scheduled, calibrated on all day   same switch, margin from the whole-day residuals
+    scheduled, calibrated on all day   same switch, margins from the whole-day residuals
 
-Saved:
-    schedule_summary.png   coverage and margin per clock hour + the margin table by decile
-    schedule_busiest.png   N busiest cells: true (blue), prediction (orange), scheduled bound (red);
-                           grey = hours with the lower coverage
-    schedule_margins.json  decile edges + margin tables, ready to use at run time:
-                           margin = table[period][decile_of(prediction)]
+Saved (default paths, created if missing):
+    results/figures/schedule/schedule_summary.png   coverage and margin per clock hour + margin table
+    results/figures/schedule/schedule_busiest.png   busiest cells: true (blue), prediction (orange),
+                                                    scheduled bound (red); grey = low-coverage hours
+    results/tables/schedule_margins.json            decile edges + margin tables for run-time use:
+                                                    margin = table[period][decile_of(prediction)]
 
-Usage:
-    python schedule_conformal.py --horizon 0 \
+Usage (from the repository root):
+    python src/analysis/schedule_conformal.py --horizon 0 \
         --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
-    python schedule_conformal.py --day_eps 0.10 --night_eps 0.25 --day_start 8 --day_end 21
+    python src/analysis/schedule_conformal.py --day_eps 0.10 --night_eps 0.25 --day_start 9 --day_end 18
 
---horizon is 0-based (0 = 10 min ahead, 2 = 30 min). Needs only analyse_result.py and conformal_eval.py.
+--horizon is 0-based (0 = 10 min ahead, 2 = 30 min).
+Needs analyse_result.py and conformal_eval.py (same folder).
 """
 import argparse
 import json
+from pathlib import Path
 
 import matplotlib
 matplotlib.use("Agg")
@@ -47,7 +49,8 @@ K_SCHED = "scheduled, calibrated per period"
 K_SCHED_ALL = "scheduled, calibrated on all day"
 
 
-def parse_args():
+def parse_args(argv=None):
+    """Command-line options (argv=None reads sys.argv; schedule_final_metrics.py passes its own)."""
     ap = argparse.ArgumentParser()
     ap.add_argument("--ckpts", default="checkpoints/STID_MILAN/seed*/*", help="runs of the EVALUATION split (test)")
     ap.add_argument("--data", default="datasets/MILAN", help="dataset of the EVALUATION split (test)")
@@ -66,14 +69,14 @@ def parse_args():
     ap.add_argument("--n_busy", type=int, default=5, help="cells in schedule_busiest.png")
     ap.add_argument("--start", type=int, default=0, help="first time step of the busiest plot")
     ap.add_argument("--length", type=int, default=None, help="number of time steps (default: all)")
-    ap.add_argument("--out", default="schedule_summary.png")
-    ap.add_argument("--out_busy", default="schedule_busiest.png")
-    ap.add_argument("--out_json", default="schedule_margins.json")
-    return ap.parse_args()
+    ap.add_argument("--out", default="results/figures/schedule/schedule_summary.png")
+    ap.add_argument("--out_busy", default="results/figures/schedule/schedule_busiest.png")
+    ap.add_argument("--out_json", default="results/tables/schedule_margins.json")
+    return ap.parse_args(argv)
 
 
 def in_window(slot, start_h, end_h):
-    """True where the clock time of the slot is inside [start_h, end_h) (wraps over midnight if start > end)."""
+    """True where the clock slot is inside [start_h, end_h) hours (wraps over midnight if start > end)."""
     h = np.asarray(slot) * 24 / STEPS_PER_DAY
     if start_h <= end_h:
         return (h >= start_h) & (h < end_h)
@@ -81,7 +84,7 @@ def in_window(slot, start_h, end_h):
 
 
 class Calib:
-    """Level bins and calibration residuals; margin tables per eps, optionally per period."""
+    """Level deciles and calibration residuals; builds margin tables per eps, optionally per period."""
 
     def __init__(self, cal, ev, args):
         self.edges = np.quantile(cal["pred"], np.linspace(0, 1, N_BINS + 1)[1:-1])
@@ -92,7 +95,7 @@ class Calib:
         self.day_e = in_window(ev["slot"], args.day_start, args.day_end)[:, None]
 
     def table(self, eps, period=None):
-        """Margin per decile. period None = all calibration windows, True = window hours, False = the rest."""
+        """Margin per decile. period: None = all calibration windows, True = window hours only, False = other hours only."""
         qb = []
         for b in range(N_BINS):
             sel = self.lb_c == b
@@ -106,6 +109,7 @@ class Calib:
 
 
 def build_bounds(c, ev, args):
+    """Upper bounds on the evaluation set. Returns (bounds, (q_window, q_outside), (key_hi, key_lo))."""
     pred, d = ev["pred"], c.day_e
     q_day, q_night = c.table(args.day_eps, True), c.table(args.night_eps, False)
     qa_day, qa_night = c.table(args.day_eps), c.table(args.night_eps)
@@ -120,21 +124,45 @@ def build_bounds(c, ev, args):
 
 
 def stats(up, ev, rows=None):
+    """Coverage, mean margin and margin as % of mean traffic (optionally on a subset of windows)."""
     t, p, u = ev["truth"], ev["pred"], up
     if rows is not None:
         t, p, u = t[rows], p[rows], u[rows]
     return {"cover": (t <= u).mean(), "margin": (u - p).mean(),
-            "marg_pct": 100 * (u - p).mean() / t.mean(), "wape_b": np.abs(u - t).sum() / t.sum()}
+            "marg_pct": 100 * (u - p).mean() / t.mean()}
 
 
 def to_full(v, idx, n):
+    """Place per-window values at their position on a continuous time axis (NaN where a window is missing)."""
     full = np.full(n, np.nan)
     full[idx] = v
     return full
 
 
+def load_cal_ev(args):
+    """Calibration and evaluation splits (separate val split, or the fallback split of the test)."""
+    ev = load_split(args.data, args.ckpts, args, "evaluation")
+    if args.cal_data:
+        if not args.cal_ckpts:
+            raise SystemExit("--cal_data needs --cal_ckpts")
+        cal = load_split(args.cal_data, args.cal_ckpts, args, "calibration")
+        if cal["members"] != ev["members"]:
+            raise SystemExit("different number of members between calibration and evaluation")
+    else:
+        cut = int(ev["pred"].shape[0] * args.cal_frac)
+        cal, ev = subset(ev, slice(0, cut)), subset(ev, slice(cut, ev["pred"].shape[0]))
+        print(f"FALLBACK: calibration = first {args.cal_frac:.0%} of test, evaluation = the rest")
+    return cal, ev
+
+
+def prepare(path):
+    """Create the parent folder of an output file."""
+    Path(path).parent.mkdir(parents=True, exist_ok=True)
+
+
 # ----------------------------------------------------------------------
 def report(c, ev, bounds, keys, args):
+    """Print coverage and margin of every approach: all hours, window, other hours."""
     day, night = c.day_e[:, 0], ~c.day_e[:, 0]
     lab_d = f"{args.day_start:g}-{args.day_end:g} h (target {1 - args.day_eps:.0%})"
     lab_n = f"other hours (target {1 - args.night_eps:.0%})"
@@ -150,10 +178,10 @@ def report(c, ev, bounds, keys, args):
               f"{dd['cover']:6.3f} {dd['margin']:7.2f} {dd['marg_pct']:5.1f}%    | "
               f"{nn['cover']:6.3f} {nn['margin']:7.2f} {nn['marg_pct']:5.1f}%{tag}")
     hi = res[keys[0]]
-    sc = res[K_SCHED]
-    print(f"\nscheduled vs {keys[0]}: mean margin {100 * (sc[0]['margin'] / hi[0]['margin'] - 1):+.1f}% overall, "
-          f"{100 * (sc[2]['margin'] / hi[2]['margin'] - 1):+.1f}% in the other hours "
-          f"(coverage there {sc[2]['cover']:.3f} instead of {hi[2]['cover']:.3f})")
+    sched = res[K_SCHED]
+    print(f"\nscheduled vs {keys[0]}: mean margin {100 * (sched[0]['margin'] / hi[0]['margin'] - 1):+.1f}% overall, "
+          f"{100 * (sched[2]['margin'] / hi[2]['margin'] - 1):+.1f}% in the other hours "
+          f"(coverage there {sched[2]['cover']:.3f} instead of {hi[2]['cover']:.3f})")
     print("How to read it:\n"
           "  per-period calibration should give cover ~ target INSIDE each period;\n"
           "  'calibrated on all day' shows what happens if only eps is switched: usually the hours with\n"
@@ -162,6 +190,7 @@ def report(c, ev, bounds, keys, args):
 
 
 def hourly(up, ev):
+    """Coverage and mean margin per clock hour (0-23) of the forecast target."""
     hr = ev["slot"] // (STEPS_PER_DAY // 24)
     cov = np.array([(ev["truth"][hr == h] <= up[hr == h]).mean() for h in range(24)])
     mar = np.array([(up[hr == h] - ev["pred"][hr == h]).mean() for h in range(24)])
@@ -169,13 +198,13 @@ def hourly(up, ev):
 
 
 def figure_summary(c, ev, bounds, tables, keys, args):
+    """Coverage and margin per clock hour for every approach, plus the margin table by decile."""
     colors = {keys[0]: "tab:green", keys[1]: "tab:purple", K_SCHED: C_UP, K_SCHED_ALL: "tab:gray"}
     styles = {keys[0]: "-", keys[1]: "-", K_SCHED: "-", K_SCHED_ALL: "--"}
     hrs = np.arange(24)
     target = np.where(in_window(hrs * (STEPS_PER_DAY // 24), args.day_start, args.day_end),
                       1 - args.day_eps, 1 - args.night_eps)
     fig, axes = plt.subplots(1, 3, figsize=(19, 5.5))
-    h_min = None
 
     ax = axes[0]
     ax.step(np.append(hrs, 24), np.append(target, target[-1]), where="post", color="k", ls=":", lw=1.5,
@@ -215,12 +244,14 @@ def figure_summary(c, ev, bounds, tables, keys, args):
     fig.suptitle(f"Coverage {1 - args.day_eps:.0%} between {args.day_start:g}:00 and {args.day_end:g}:00, "
                  f"{1 - args.night_eps:.0%} otherwise - horizon {(args.horizon + 1) * 10} min - test set", fontsize=12)
     plt.tight_layout(rect=(0, 0, 1, 0.94))
+    prepare(args.out)
     plt.savefig(args.out, dpi=150)
     plt.close(fig)
     print(f"Saved {args.out}")
 
 
 def figure_busiest(ev, up, args):
+    """True value, prediction and scheduled bound for the busiest cells (--n_busy), over the test period."""
     order = np.argsort(ev["truth"].mean(0))[::-1]
     cells = [int(x) for x in order[:min(args.n_busy, order.size)]]
     u = ev["day"] * STEPS_PER_DAY + ev["slot"]
@@ -261,6 +292,7 @@ def figure_busiest(ev, up, args):
         clock_axis(ax, x, tod0, dow0)
     axes[-1, 0].set_xlabel("time (clock) - grey = hours with the lower coverage")
     plt.tight_layout()
+    prepare(args.out_busy)
     plt.savefig(args.out_busy, dpi=150)
     plt.close(fig)
     print(f"cells plotted (busiest first): {cells}")
@@ -268,6 +300,7 @@ def figure_busiest(ev, up, args):
 
 
 def save_json(c, tables, args):
+    """Save decile edges and margin tables, ready to use at run time."""
     q_day, q_night = tables
     data = {
         "horizon_min": (args.horizon + 1) * 10,
@@ -280,6 +313,7 @@ def save_json(c, tables, args):
                  "bound = prediction + margin_<period>[decile]; period = window if the clock time of the "
                  "forecast target is in [window_hours[0], window_hours[1]) else outside",
     }
+    prepare(args.out_json)
     with open(args.out_json, "w") as f:
         json.dump(data, f, indent=2)
     print(f"Saved {args.out_json}")
@@ -298,17 +332,7 @@ def main():
     args = parse_args()
     if not (0 < args.day_eps < 1 and 0 < args.night_eps < 1):
         raise SystemExit("--day_eps and --night_eps must be in (0, 1)")
-    ev = load_split(args.data, args.ckpts, args, "evaluation")
-    if args.cal_data:
-        if not args.cal_ckpts:
-            raise SystemExit("--cal_data needs --cal_ckpts")
-        cal = load_split(args.cal_data, args.cal_ckpts, args, "calibration")
-        if cal["members"] != ev["members"]:
-            raise SystemExit("different number of members between calibration and evaluation")
-    else:
-        cut = int(ev["pred"].shape[0] * args.cal_frac)
-        cal, ev = subset(ev, slice(0, cut)), subset(ev, slice(cut, ev["pred"].shape[0]))
-        print(f"FALLBACK: calibration = first {args.cal_frac:.0%} of test, evaluation = the rest")
+    cal, ev = load_cal_ev(args)
     print(f"\n{ev['members']} members | horizon {(args.horizon + 1) * 10} min | ORIGINAL units | "
           f"calibration windows {cal['pred'].shape[0]}, evaluation windows {ev['pred'].shape[0]}")
     run(cal, ev, args)

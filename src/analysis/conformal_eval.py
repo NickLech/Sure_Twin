@@ -1,14 +1,15 @@
 """
-Compares ways of building an UPPER bound on traffic (for the sleep-mode decision).
+Compares ways of building an UPPER bound on traffic (input of the sleep-mode decision).
 
-Two modes:
+Two modes (run from the repository root):
   1) separate calibration set (recommended): calibrate on the val split, evaluate on the whole test
-         python conformal_eval.py --horizon 2 \
+         python src/analysis/conformal_eval.py --horizon 2 \
              --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
-  2) fallback: no --cal_data -> first --cal_frac of the test = calibration, the rest = evaluation
+  2) fallback, no --cal_data: first --cal_frac of the test = calibration, the rest = evaluation
 
-Loading is shared with analyse_result.py (same scaler, last-batch fix, --exclude), so
-everything is in ORIGINAL units. Horizon 0 = 10 min ahead, 2 = 30 min.
+Loading is shared with analyse_result.py (same scaler, last-batch fix, --exclude); all values
+are in ORIGINAL units. --horizon is 0-based: 0 = 10 min ahead, 2 = 30 min.
+Also provides load_split(), conf_q() and N_BINS to the schedule and plotting scripts.
 """
 import argparse
 import math
@@ -53,7 +54,7 @@ def parse_args():
 
 
 def conf_q(scores, eps):
-    """Finite-sample conformal quantile (upper), numpy-version agnostic."""
+    """Finite-sample conformal quantile: the ceil((n+1)(1-eps))-th smallest score."""
     scores = np.asarray(scores).ravel()
     n = scores.size
     idx = min(n - 1, math.ceil((n + 1) * (1 - eps)) - 1)
@@ -61,13 +62,16 @@ def conf_q(scores, eps):
 
 
 def spearman(a, b):
+    """Spearman rank correlation (ties are ranked arbitrarily)."""
     ra = np.argsort(np.argsort(a))
     rb = np.argsort(np.argsort(b))
     return np.corrcoef(ra, rb)[0, 1]
 
 
 def load_split(data_dir, ckpts, args, tag):
-    """Ensemble prediction, spread and truth at one horizon, original units."""
+    """Ensemble mean (pred), ensemble std (spread) and truth at one horizon, original units.
+    Arrays are [windows, cells]; slot / day / dow give the clock slot, day index and weekday
+    of the forecast target of each window."""
     IN, OUT, H = args.input_len, args.output_len, args.horizon
     data = Path(data_dir)
     train = load_series(data / "train_data.npy")
@@ -102,9 +106,9 @@ def load_split(data_dir, ckpts, args, tag):
     }
     del preds, P
 
-    # target time of each kept window: row of test_ts it predicts
+    # test row forecast by each kept window, and its clock slot / day / weekday
     t = np.flatnonzero(keep) + IN + H
-    off = int(round(test_ts[0, 0] * STEPS_PER_DAY))      # time-of-day slot of the first test row
+    off = int(round(test_ts[0, 0] * STEPS_PER_DAY))      # clock slot of the first test row
     out["slot"] = (t + off) % STEPS_PER_DAY
     out["day"] = (t + off) // STEPS_PER_DAY
     out["dow"] = np.round(test_ts[t, 1] * 7).astype(int) % 7
@@ -112,6 +116,7 @@ def load_split(data_dir, ckpts, args, tag):
 
 
 def subset(d, sl):
+    """Slice every per-window array of a split dict (non-array entries are kept)."""
     return {k: (v[sl] if isinstance(v, np.ndarray) else v) for k, v in d.items()}
 
 
@@ -135,14 +140,14 @@ def main():
     print(f"\n{ev['members']} members | horizon {(H + 1) * 10} min | ORIGINAL units | {mode}")
     print(f"calibration windows: {cal['pred'].shape[0]} | evaluation windows: {ev['pred'].shape[0]}")
 
-    # predicted-level bins, defined on the calibration set
+    # predicted-level deciles, defined on the calibration set
     edges = np.quantile(cal["pred"], np.linspace(0, 1, N_BINS + 1)[1:-1])
     lb_c = np.searchsorted(edges, cal["pred"], side="right")
     lb_e = np.searchsorted(edges, ev["pred"], side="right")
     res_c = cal["truth"] - cal["pred"]                   # positive = underestimation
     res_e = ev["truth"] - ev["pred"]
 
-    # ------------------------------------------------ does spread help beyond the level?
+    # ------------------------------------------------ is the spread useful beyond the level?
     print("\n== SPREAD vs |ERROR| WITHIN each predicted-level decile (evaluation set) ==")
     rng = np.random.default_rng(0)
     within = []
@@ -155,7 +160,7 @@ def main():
     print(f"  mean within-level Spearman = {np.mean(within):.2f}")
     print("  near 0 -> spread adds nothing beyond the level;  clearly > 0 -> spread is useful")
 
-    # ------------------------------------------------ methods (calibrated on cal, applied to ev)
+    # ------------------------------------------------ upper-bound methods (calibrated on cal, applied to ev)
     def build(eps):
         out = {"point (no margin)": ev["pred"]}
         z = NormalDist().inv_cdf(1 - eps)
@@ -174,12 +179,9 @@ def main():
     days_e = np.unique(ev["day"])
     mean_true = ev["truth"].mean()
 
-    def group_cov(ok, labels, values, min_windows=1):
-        covs = []
-        for g in values:
-            m = labels == g
-            if m.sum() >= min_windows:
-                covs.append(ok[m].mean())
+    def group_cov(ok, labels, values):
+        """Lowest and highest coverage over the groups (empty groups are skipped)."""
+        covs = [ok[labels == g].mean() for g in values if (labels == g).any()]
         return (min(covs), max(covs)) if covs else (np.nan, np.nan)
 
     def evaluate(up):
@@ -187,11 +189,8 @@ def main():
         width = (up - ev["pred"]).mean()
         lo_l, hi_l = group_cov(ok, lb_e, range(N_BINS))
         lo_t, hi_t = group_cov(ok, np.broadcast_to(tod_e[:, None], ok.shape), range(TOD_GROUPS))
-        day_lab = ev["day"][:, None]
-        lo_d, hi_d = (np.nan, np.nan)
         covs = [ok[ev["day"] == d].mean() for d in days_e if (ev["day"] == d).sum() >= MIN_DAY_WINDOWS]
-        if covs:
-            lo_d, hi_d = min(covs), max(covs)
+        lo_d, hi_d = (min(covs), max(covs)) if covs else (np.nan, np.nan)
         return ok.mean(), width, width / mean_true, lo_l, hi_l, lo_t, hi_t, lo_d, hi_d
 
     for eps in EPS_LIST:
@@ -203,7 +202,7 @@ def main():
             print(f"{name:34s} {cov:6.3f} {w:7.2f} {100 * wr:5.1f}% | {lo_l:6.3f}/{hi_l:6.3f} | "
                   f"{lo_t:6.3f}/{hi_t:6.3f} | {lo_d:6.3f}/{hi_d:6.3f}")
 
-    # ------------------------------------------------ per-day table (anomalous days?)
+    # ------------------------------------------------ per-day table (do unusual days lose coverage?)
     up = build(DAY_TABLE_EPS)["conformal by level"]
     ok = ev["truth"] <= up
     print(f"\n== PER-DAY on the evaluation set: conformal by level, eps = {DAY_TABLE_EPS} (target coverage {1 - DAY_TABLE_EPS:.0%}) ==")
