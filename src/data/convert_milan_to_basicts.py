@@ -1,17 +1,17 @@
 """
-Converte milan_raw.csv (nella root del progetto; colonne time, cell_id, y)
-nel formato di ETTh1, scrivendo i file in datasets/MILAN/:
+Converts milan_raw.csv (repository root; columns time, cell_id, y) to the ETTh1 format,
+writing the files to datasets/MILAN/:
 
 datasets/MILAN/
     meta.json
-    train_data.npy        [T_train, N, 1]
+    train_data.npy        [T_train, N]
     train_timestamps.npy  [T_train, 4]
     val_data.npy / val_timestamps.npy
     test_data.npy / test_timestamps.npy
 
-Uso:
-    python convert_milan_to_basicts.py
-    python convert_milan_to_basicts.py --csv datasets/MILAN/milan_raw.csv --ref datasets/ETTh1
+Usage (from the repository root):
+    python src/data/convert_milan_to_basicts.py
+    python src/data/convert_milan_to_basicts.py --csv datasets/MILAN/milan_raw.csv --ref datasets/ETTh1
 """
 import argparse
 import json
@@ -23,7 +23,7 @@ import pandas as pd
 p = argparse.ArgumentParser()
 p.add_argument("--csv", default="milan_raw.csv")
 p.add_argument("--out", default="datasets/MILAN")
-p.add_argument("--ref", default="datasets/ETTh1", help="dataset di riferimento (per confronto)")
+p.add_argument("--ref", default="datasets/ETTh1", help="reference dataset (for comparison)")
 p.add_argument("--ratio", nargs=3, type=float, default=[0.6, 0.2, 0.2])
 args = p.parse_args()
 
@@ -35,17 +35,17 @@ df = pd.read_csv(args.csv, parse_dates=["time"])
 wide = df.pivot_table(index="time", columns="cell_id", values="y", aggfunc="mean").sort_index()
 wide = wide[sorted(wide.columns)]
 
-# 2) griglia temporale regolare
+# 2) regular time grid
 step = wide.index.to_series().diff().dropna().mode().iloc[0]
 full_idx = pd.date_range(wide.index[0], wide.index[-1], freq=step)
-print(f"passo: {step} | timestamp mancanti riempiti: {len(full_idx) - len(wide)}")
+print(f"step: {step} | missing timestamps filled: {len(full_idx) - len(wide)}")
 wide = wide.reindex(full_idx)
-print(f"NaN: {int(wide.isna().sum().sum())} (riempiti con 0)")
+print(f"NaN: {int(wide.isna().sum().sum())} (filled with 0)")
 
-data = wide.fillna(0.0).to_numpy(dtype=np.float32)  # [T, N] come ETTh1 (T, num_vars)
+data = wide.fillna(0.0).to_numpy(dtype=np.float32)  # [T, N], like ETTh1 (T, num_vars)
 T, N = data.shape
 
-# 3) timestamp: time-of-day, day-of-week, day-of-month, day-of-year (tutti normalizzati in [0,1))
+# 3) timestamp: time-of-day, day-of-week, day-of-month, day-of-year (all normalized to [0, 1))
 idx = wide.index
 ts = np.stack([
     (idx.hour * 3600 + idx.minute * 60 + idx.second) / 86400.0,
@@ -54,7 +54,7 @@ ts = np.stack([
     (idx.dayofyear - 1) / 366.0,
 ], axis=1).astype(np.float32)  # [T, 4]
 
-# 4) split cronologico
+# 4) chronological split
 r_train, r_val, _ = args.ratio
 n_train, n_val = int(T * r_train), int(T * r_val)
 bounds = {"train": (0, n_train), "val": (n_train, n_train + n_val), "test": (n_train + n_val, T)}
@@ -63,7 +63,7 @@ for split, (a, b) in bounds.items():
     np.save(out / f"{split}_timestamps.npy", ts[a:b])
     print(f"{split}: data {data[a:b].shape}, timestamps {ts[a:b].shape}")
 
-# 5) meta.json (generico: confrontalo con quello di ETTh1)
+# 5) meta.json (generic: compare it with the ETTh1 one)
 meta = {
     "name": "MILAN",
     "domain": "mobile network traffic",
@@ -85,10 +85,10 @@ meta = {
 with open(out / "meta.json", "w") as f:
     json.dump(meta, f, indent=2)
 
-# 6) confronto con il dataset di riferimento
+# 6) comparison with the reference dataset
 ref = Path(args.ref)
 if (ref / "meta.json").exists():
-    print("\n--- meta.json di riferimento ---")
+    print("\n--- reference meta.json ---")
     print(json.dumps(json.load(open(ref / "meta.json")), indent=2))
     for name in ["train_data", "train_timestamps"]:
         f = ref / f"{name}.npy"
@@ -96,4 +96,4 @@ if (ref / "meta.json").exists():
             a = np.load(f, mmap_mode="r")
             print(f"{ref.name}/{name}.npy: shape={a.shape} dtype={a.dtype}")
             if "timestamps" in name:
-                print("prime righe:\n", np.asarray(a[:3]))
+                print("first rows:\n", np.asarray(a[:3]))

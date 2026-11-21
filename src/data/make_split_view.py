@@ -5,8 +5,8 @@ train_* files are linked unchanged, so the z-score statistics stay identical.
 No data is duplicated (symlinks; falls back to copies if symlinks are not allowed).
 
 Usage:
-    python make_split_view.py --split val
-    python make_split_view.py --split train
+    python src/data/make_split_view.py --split val
+    python src/data/make_split_view.py --split train
 """
 import argparse
 import json
