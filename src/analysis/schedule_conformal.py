@@ -11,7 +11,7 @@ How it works
   only switching eps by hour would not, because residuals differ across hours; that variant is
   printed too, for comparison.
 
-Compared on the test set (ORIGINAL units):
+Compared on the test set (ORIGINAL scale [a.u.]):
     fixed 90 %                         always 90 %
     fixed 75 %                         always 75 %
     scheduled, calibrated per period   the proposal
@@ -124,7 +124,7 @@ def build_bounds(c, ev, args):
 
 
 def stats(up, ev, rows=None):
-    """Coverage, mean margin and margin as % of mean traffic (optionally on a subset of windows)."""
+    """Coverage, mean margin and margin as % of mean activity (optionally on a subset of windows)."""
     t, p, u = ev["truth"], ev["pred"], up
     if rows is not None:
         t, p, u = t[rows], p[rows], u[rows]
@@ -212,7 +212,7 @@ def figure_summary(c, ev, bounds, tables, keys, args):
     for k, up in bounds.items():
         ax.plot(hrs + 0.5, hourly(up, ev)[0], "o" + styles[k], color=colors[k], ms=4, label=k)
     ax.set_xlabel("clock hour of the forecast target")
-    ax.set_ylabel("coverage on test")
+    ax.set_ylabel("coverage on test (fraction)")
     ax.set_title("(a) coverage per clock hour", fontsize=10)
     ax.set_xticks(range(0, 25, 3))
     ax.grid(alpha=0.3)
@@ -222,7 +222,7 @@ def figure_summary(c, ev, bounds, tables, keys, args):
     for k, up in bounds.items():
         ax.plot(hrs + 0.5, hourly(up, ev)[1], "o" + styles[k], color=colors[k], ms=4, label=k)
     ax.set_xlabel("clock hour of the forecast target")
-    ax.set_ylabel("mean margin (traffic units)")
+    ax.set_ylabel("mean margin [a.u.]")
     ax.set_title("(b) margin per clock hour (smaller = more energy saved)", fontsize=10)
     ax.set_xticks(range(0, 25, 3))
     ax.grid(alpha=0.3)
@@ -235,8 +235,8 @@ def figure_summary(c, ev, bounds, tables, keys, args):
     ax.plot(dec, q_night, "o-", color="tab:purple", label=f"other hours, {1 - args.night_eps:.0%}")
     ax.set_xticks(dec)
     ax.set_xticklabels([f"{v:.0f}" for v in lvl], fontsize=8)
-    ax.set_xlabel("predicted level (mean prediction of the decile)")
-    ax.set_ylabel("margin added to the prediction")
+    ax.set_xlabel("predicted level (mean prediction of the decile) [a.u.]")
+    ax.set_ylabel("margin added to the prediction [a.u.]")
     ax.set_title("(c) margin table used by the schedule", fontsize=10)
     ax.grid(alpha=0.3)
     ax.legend(fontsize=8)
@@ -283,10 +283,10 @@ def figure_busiest(ev, up, args):
                       f"{1 - args.night_eps:.0%} otherwise)")
         ok = ev["truth"][:, c] <= up[:, c]
         ax.set_ylim(bottom=0)
-        ax.set_ylabel("traffic")
+        ax.set_ylabel("activity [a.u.]")
         ax.grid(alpha=0.3)
         ax.legend(fontsize=8, loc="upper right")
-        ax.set_title(f"#{j + 1} busiest (col {c}): mean traffic {ev['truth'][:, c].mean():.0f}, coverage "
+        ax.set_title(f"#{j + 1} busiest (col {c}): mean activity {ev['truth'][:, c].mean():.0f} a.u., coverage "
                      f"{ok[day_rows].mean():.3f} in {args.day_start:g}-{args.day_end:g} h / "
                      f"{ok[~day_rows].mean():.3f} otherwise", fontsize=10, pad=14)
         clock_axis(ax, x, tod0, dow0)
@@ -333,7 +333,7 @@ def main():
     if not (0 < args.day_eps < 1 and 0 < args.night_eps < 1):
         raise SystemExit("--day_eps and --night_eps must be in (0, 1)")
     cal, ev = load_cal_ev(args)
-    print(f"\n{ev['members']} members | horizon {(args.horizon + 1) * 10} min | ORIGINAL units | "
+    print(f"\n{ev['members']} members | horizon {(args.horizon + 1) * 10} min | ORIGINAL scale [a.u.] | "
           f"calibration windows {cal['pred'].shape[0]}, evaluation windows {ev['pred'].shape[0]}")
     run(cal, ev, args)
 

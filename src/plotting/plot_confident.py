@@ -19,7 +19,7 @@ Usage:
     python src/plotting/plot_confident.py --horizon 2 --eps 0.10 --start 0 --length 432     # first 3 days only
 
 --horizon is 0-based like in conformal_eval.py (0 = 10 min ahead, 2 = 30 min).
-Everything is in ORIGINAL traffic units.
+Everything is in ORIGINAL scale [a.u.].
 """
 import argparse
 import sys
@@ -109,13 +109,13 @@ def draw(ev, up, cells, labels, h_min, eps, start, length, path):
         ax.plot(x, p, color=C_PRED, lw=1.3, ls="--", label="pred (ensemble mean)")
         ax.plot(x, U, color=C_UP, lw=1.2, label=f"pred + conformal margin ({1 - eps:.0%} target)")
         ax.set_ylim(bottom=0)
-        ax.set_ylabel("traffic")
+        ax.set_ylabel("activity [a.u.]")
         ax.grid(alpha=0.3)
         ax.legend(fontsize=8, loc="upper right")
         mae = np.abs(ev["truth"][:, c] - ev["pred"][:, c]).mean()
-        ax.set_title(f"{labels[j]} (col {c}): mean traffic {ev['truth'][:, c].mean():.0f}, MAE {mae:.1f}, "
+        ax.set_title(f"{labels[j]} (col {c}): mean activity {ev['truth'][:, c].mean():.0f}, MAE {mae:.1f}, "
                      f"coverage {ok[:, c].mean():.3f}, mean margin {(up[:, c] - ev['pred'][:, c]).mean():.1f} "
-                     f"(h={h_min} min, all evaluated windows)", fontsize=10, pad=14)
+                     f"(h={h_min} min, all evaluated windows; values in a.u.)", fontsize=10, pad=14)
         clock_axis(ax, x, tod0, dow0)
     axes[-1, 0].set_xlabel("time (clock) - gaps = windows dropped by the last-batch fix")
     plt.tight_layout()

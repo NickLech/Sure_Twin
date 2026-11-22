@@ -11,6 +11,24 @@ Goal: forecast mobile-network activity per cell and build a **calibrated upper b
 Detailed interpretation of the results: [`results/RESULTS_ANALYSIS.md`](results/RESULTS_ANALYSIS.md).
 Final configuration and its motivation: [`final_metrics/README.md`](final_metrics/README.md).
 
+### Metrics and units
+
+| Quantity | Definition | Unit |
+|---|---|---|
+| `y`, prediction, true value | activity index of one cell in one 10-minute step | [a.u.] |
+| MAE, RMSE | mean absolute / root-mean-square error, original scale | [a.u.] |
+| bias | mean signed error (prediction - true); negative = under-estimate | [a.u.] |
+| margin | upper bound - prediction | [a.u.] |
+| `marg%` | mean margin / mean true activity | % |
+| WAPE | sum of absolute errors / sum of true values | dimensionless |
+| coverage (`cover`) | fraction of (window, cell) pairs with true value <= upper bound | dimensionless, 0-1 |
+| unmet % | sum(max(true - bound, 0)) / sum(true) | % of total true activity |
+| over-provisioning % | sum(max(bound - true, 0)) / sum(true) | % of total true activity |
+| normalized MAE (BasicTS logs) | MAE on z-scored data | dimensionless |
+| horizon | steps ahead x 10 min (`--horizon 0` = 10 min) | min |
+
+Plots show the activity index on the y axis as `activity [a.u.]` and errors or margins as `[a.u.]`. None of these quantities is power or energy (see [`docs/DATA_NOTES.md`](docs/DATA_NOTES.md)).
+
 ---
 
 ## 1. Pipeline at a glance
@@ -100,8 +118,7 @@ rm -f out_*.log eval_*.log
 python src/data/convert_milan_to_basicts.py
 ```
 - What: pivots the CSV (`time, cell_id, y`) to `[T, N]`, fills missing timestamps and NaN with 0, builds 4 time features, splits 60/20/20.
-- Output: `datasets/MILAN/{train,val,test}_{data,timestamps}.npy` and `meta.json`. Printed: step of 10 min and the shapes of data `(T, 2500)` and timestamps `(T, 4)`.
-- `cell_ids.npy` (cell id of each column) is **not** written by the converter. It is only needed for `--exclude`; without it the analysis scripts read the ids from `milan_raw.csv`.
+- Output: `datasets/MILAN/{train,val,test}_{data,timestamps}.npy`, `meta.json` and `cell_ids.npy` (cell id of each column, needed by `--exclude`). Printed: step of 10 min and the shapes of data `(T, 2500)` and timestamps `(T, 4)`.
 
 ### Step 2 - Create the val view
 

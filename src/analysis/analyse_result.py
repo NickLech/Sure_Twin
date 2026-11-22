@@ -264,7 +264,7 @@ def main():
     if len(preds) > 1:
         rows["ensemble mean"] = ens_mean
 
-    print(f"\n{'model':24s}{'MAE':>10s}{'RMSE':>10s}{'WAPE':>10s}   (original units)")
+    print(f"\n{'model':24s}{'MAE':>10s}{'RMSE':>10s}{'WAPE':>10s}   (original scale: MAE, RMSE in a.u.; WAPE dimensionless)")
     for name, p in rows.items():
         m = metrics(p, true)
         print(f"{name:24s}{m['MAE']:10.3f}{m['RMSE']:10.3f}{m['WAPE']:10.3f}")
@@ -286,7 +286,7 @@ def main():
     for name, p in rows.items():
         if not name.startswith("seed"):
             ax[0, 1].plot(range(1, OUT + 1), np.abs(p - true).mean((0, 2)), marker="o", label=name)
-    ax[0, 1].set(title="MAE per horizon", xlabel="horizon (x10 min)")
+    ax[0, 1].set(title="MAE per horizon", xlabel="horizon (x10 min)", ylabel="MAE [a.u.]")
     ax[0, 1].legend(fontsize=7)
 
     idx = np.random.default_rng(0).choice(S * N, min(20000, S * N), replace=False)
@@ -294,7 +294,7 @@ def main():
     lim = [min(0, t1.min(), p1.min()), max(t1.max(), p1.max())]
     ax[0, 2].scatter(t1, p1, s=2, alpha=0.3)
     ax[0, 2].plot(lim, lim, "r-")
-    ax[0, 2].set(title="pred vs true (h=1)", xlabel="true", ylabel="pred")
+    ax[0, 2].set(title="pred vs true (h=1)", xlabel="true [a.u.]", ylabel="pred [a.u.]")
 
     # h=1 over the whole evaluated period; dropped windows stay as gaps
     xh = np.flatnonzero(keep) * STEP_H            # hours since the first window
@@ -312,13 +312,13 @@ def main():
     mae_step = np.abs(best[:, 0] - true[:, 0]).mean(1)
     ax[1, 1].plot([mae_step[slot == s].mean() if (slot == s).any() else np.nan
                    for s in range(STEPS_PER_DAY)])
-    ax[1, 1].set(title="MAE by time of day (h=1)", xlabel="time of day")
+    ax[1, 1].set(title="MAE by time of day (h=1)", xlabel="time of day", ylabel="MAE [a.u.]")
     ax[1, 1].set_xticks(range(0, STEPS_PER_DAY, 18))
     ax[1, 1].set_xticklabels([f"{s * 10 // 60:02d}:00" for s in range(0, STEPS_PER_DAY, 18)])
 
     res = (best[:, 0] - true[:, 0]).ravel()[idx]
     ax[1, 2].hist(res, bins=100)
-    ax[1, 2].set(title=f"residuals h=1 (mean={res.mean():.2f})")
+    ax[1, 2].set(title=f"residuals h=1 (mean={res.mean():.2f} a.u.)", xlabel="pred - true [a.u.]")
 
     plt.tight_layout()
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)

@@ -15,7 +15,7 @@ Usage:
     python src/plotting/busiest_levels.py --horizon 2 --start 0 --length 432        # 30 min ahead, first 3 days
     python src/plotting/busiest_levels.py --levels 0.95 0.90 0.80 --n_busy 3
 
---horizon is 0-based (0 = 10 min ahead, 2 = 30 min). Original traffic units.
+--horizon is 0-based (0 = 10 min ahead, 2 = 30 min). Original scale [a.u.].
 Needs only analyse_result.py and conformal_eval.py (in src/analysis/).
 """
 import argparse
@@ -112,11 +112,11 @@ def plot(cal, ev, args):
             ax.plot(x, U, color=shade[lev], lw=1.0, label=f"{lev:.0%} (cell coverage {cov:.3f})", zorder=2)
         mae = np.abs(ev["truth"][:, c] - ev["pred"][:, c]).mean()
         ax.set_ylim(bottom=0)
-        ax.set_ylabel("traffic")
+        ax.set_ylabel("activity [a.u.]")
         ax.grid(alpha=0.3)
         ax.legend(fontsize=7, loc="upper right", ncol=4)
-        ax.set_title(f"#{j + 1} busiest (col {c}): mean traffic {ev['truth'][:, c].mean():.0f}, MAE {mae:.1f} "
-                     f"(h={h_min} min, all evaluated windows)", fontsize=10, pad=14)
+        ax.set_title(f"#{j + 1} busiest (col {c}): mean activity {ev['truth'][:, c].mean():.0f}, MAE {mae:.1f} "
+                     f"(h={h_min} min, all evaluated windows; values in a.u.)", fontsize=10, pad=14)
         clock_axis(ax, x, tod0, dow0)
     axes[-1, 0].set_xlabel("time (clock) - gaps = windows dropped by the last-batch fix")
     plt.tight_layout()

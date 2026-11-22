@@ -1,11 +1,11 @@
 """
-Final metrics (companion of schedule_conformal.py): unmet traffic and over-provisioning,
+Final metrics (companion of schedule_conformal.py): unmet activity and over-provisioning,
 repeated for several horizons and several high-coverage windows.
 
-    unmet_%      sum(max(truth - est, 0)) / sum(truth)   traffic NOT covered (under-provisioning)
+    unmet_%      sum(max(truth - est, 0)) / sum(truth)   activity NOT covered (under-provisioning)
     overprov_%   sum(max(est - truth, 0)) / sum(truth)   capacity reserved but unused (wasted energy)
 
-Approaches, on the test set and in ORIGINAL units:
+Approaches, on the test set and in ORIGINAL scale [a.u.]:
     STID point prediction (no confidence)   ensemble mean, the "before"
     constant margin per period              pred + ONE margin per period (no deciles): ablation
     fixed 90 % / fixed 75 %                 conformal by level, same eps all day
@@ -42,7 +42,7 @@ from conformal_eval import conf_q
 K_POINT = "STID point prediction (no confidence)"
 K_CONST = "constant margin per period (no deciles)"
 PERIODS = ("all hours", "window", "other hours")
-METRICS = [("unmet_%", "unmet traffic, % of total (lower = safer)"),
+METRICS = [("unmet_%", "unmet activity, % of total (lower = safer)"),
            ("overprov_%", "over-provisioning, % of total (lower = less waste)")]
 SHORT = {K_POINT: "STID point\n(no confidence)", K_CONST: "const. margin\n(no deciles)",
          sc.K_SCHED: "scheduled\n(proposal)"}
@@ -77,7 +77,7 @@ def constant_margin_bound(c, ev, args):
 
 
 def compute(est, truth):
-    """Unmet and over-provisioned traffic as % of the total true traffic."""
+    """Unmet and over-provisioned activity as % of the total true activity."""
     d = est - truth
     return {"unmet_%": float(100 * np.maximum(-d, 0).sum() / truth.sum()),
             "overprov_%": float(100 * np.maximum(d, 0).sum() / truth.sum())}
@@ -116,9 +116,10 @@ def figure(res, args, path):
         ax.set_xticks(x)
         ax.set_xticklabels(xt)
         ax.set_title(title, fontsize=10)
+        ax.set_ylabel("% of total true activity")
         ax.grid(alpha=0.3, axis="y")
     axes[0].legend(fontsize=7, loc="upper right")
-    fig.suptitle(f"Unmet traffic vs over-provisioning - horizon {(args.horizon + 1) * 10} min - "
+    fig.suptitle(f"Unmet activity vs over-provisioning - horizon {(args.horizon + 1) * 10} min - "
                  f"window {args.day_start:g}-{args.day_end:g} h ({1 - args.day_eps:.0%}) / other hours "
                  f"({1 - args.night_eps:.0%}) - test set", fontsize=12)
     plt.tight_layout(rect=(0, 0, 1, 0.94))

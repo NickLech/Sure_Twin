@@ -8,7 +8,7 @@ Two modes (run from the repository root):
   2) fallback, no --cal_data: first --cal_frac of the test = calibration, the rest = evaluation
 
 Loading is shared with analyse_result.py (same scaler, last-batch fix, --exclude); all values
-are in ORIGINAL units. --horizon is 0-based: 0 = 10 min ahead, 2 = 30 min.
+are in ORIGINAL scale [a.u.]. --horizon is 0-based: 0 = 10 min ahead, 2 = 30 min.
 Also provides load_split(), conf_q() and N_BINS to the schedule and plotting scripts.
 """
 import argparse
@@ -137,7 +137,7 @@ def main():
         cut = int(S * args.cal_frac)
         cal, ev = subset(ev, slice(0, cut)), subset(ev, slice(cut, S))
         mode = f"FALLBACK: calibration = first {args.cal_frac:.0%} of test, evaluation = the rest"
-    print(f"\n{ev['members']} members | horizon {(H + 1) * 10} min | ORIGINAL units | {mode}")
+    print(f"\n{ev['members']} members | horizon {(H + 1) * 10} min | ORIGINAL scale [a.u.] | {mode}")
     print(f"calibration windows: {cal['pred'].shape[0]} | evaluation windows: {ev['pred'].shape[0]}")
 
     # predicted-level deciles, defined on the calibration set
@@ -206,18 +206,18 @@ def main():
     up = build(DAY_TABLE_EPS)["conformal by level"]
     ok = ev["truth"] <= up
     print(f"\n== PER-DAY on the evaluation set: conformal by level, eps = {DAY_TABLE_EPS} (target coverage {1 - DAY_TABLE_EPS:.0%}) ==")
-    print(f"{'day':>5s} {'weekday':>8s} {'windows':>8s} {'MAE':>8s} {'mean traffic':>13s} {'coverage':>9s}")
+    print(f"{'day':>5s} {'weekday':>8s} {'windows':>8s} {'MAE[a.u.]':>10s} {'mean act.[a.u.]':>16s} {'coverage':>9s}")
     for d in days_e:
         m = ev["day"] == d
         wd = WEEKDAYS[int(ev["dow"][m][0])]
         note = "" if m.sum() >= MIN_DAY_WINDOWS else "  (partial day)"
-        print(f"{int(d - days_e[0]):5d} {wd:>8s} {int(m.sum()):8d} {np.abs(res_e[m]).mean():8.2f} "
-              f"{ev['truth'][m].mean():13.1f} {ok[m].mean():9.3f}{note}")
+        print(f"{int(d - days_e[0]):5d} {wd:>8s} {int(m.sum()):8d} {np.abs(res_e[m]).mean():10.2f} "
+              f"{ev['truth'][m].mean():16.1f} {ok[m].mean():9.3f}{note}")
 
     print(
         "\nHow to read it:\n"
         "  cover        : should be ~ 1-eps. Below = more QoS violations than promised.\n"
-        "  margin       : mean (upper bound - prediction), original units; marg% = relative to mean traffic.\n"
+        "  margin       : mean (upper bound - prediction), in a.u.; marg% = relative to mean activity.\n"
         "                 Smaller at equal coverage = more energy saved.\n"
         "  level / clock / day min/max : worst and best coverage across predicted-level deciles,\n"
         "                 4-hour blocks of the clock, and days (partial days ignored). Should be uniform.\n"

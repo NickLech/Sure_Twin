@@ -6,8 +6,10 @@
 
 For each time band (window and other hours) we look for the lowest bar on two metrics:
 
-- **Unmet traffic (%)**: traffic not covered (lower = safer)
-- **Over-provisioning (%)**: wasted resources (lower = less waste)
+- **Unmet activity (%)**: activity not covered, as % of the total true activity (lower = safer)
+- **Over-provisioning (%)**: capacity reserved but unused, as % of the total true activity (lower = less waste)
+
+Both metrics are dimensionless percentages of the total true activity index (arbitrary units, [a.u.]); they are not energy.
 
 The "all hours" column is ignored. Values computed on the test set (`schedule_final_metrics_all.csv`), *scheduled* approach.
 

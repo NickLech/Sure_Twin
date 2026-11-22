@@ -117,11 +117,11 @@ def main():
             ax.fill_between(x, lo, hi, color="tab:orange", alpha=0.25,
                             label=f"mean ± {args.band:g}·std (uncalibrated)")
         ax.set_ylim(bottom=0)
-        ax.set_ylabel("traffic")
+        ax.set_ylabel("activity [a.u.]")
         ax.grid(alpha=0.3)
         ax.legend(fontsize=8, loc="upper right")
-        ax.set_title(f"{labels[j]} (col {nodes[j]}): mean traffic {cell_avg[j]:.0f}, "
-                     f"MAE {cell_mae[j]:.1f} (h={args.horizon}, all evaluated windows)",
+        ax.set_title(f"{labels[j]} (col {nodes[j]}): mean activity {cell_avg[j]:.0f}, "
+                     f"MAE {cell_mae[j]:.1f} (h={args.horizon}, all evaluated windows; values in a.u.)",
                      fontsize=10, pad=14)
         clock_axis(ax, x, tod0, dow0)  # clock labels on EVERY panel
     axes[-1, 0].set_xlabel("time (clock) - gaps = windows dropped by the last-batch fix")

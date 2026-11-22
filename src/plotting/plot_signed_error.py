@@ -8,7 +8,7 @@ Signed error (pred - true) over the whole evaluated test period.
            right = mean over weekdays only (Saturday/Sunday excluded)
 
 Default series: mean error over all cells. Use --cell N for a single cell.
-Units are the original traffic units.
+Units are the original scale [a.u.].
 
 Usage:
     python src/plotting/plot_signed_error.py
@@ -139,9 +139,9 @@ def main():
 
     bias, mae = np.nanmean(full), np.nanmean(np.abs(full))
     signed_fill(ax_t, x, full)
-    ax_t.set_ylabel("error = pred - true (traffic)")
+    ax_t.set_ylabel("error = pred - true [a.u.]")
     ax_t.set_title(f"{label} - signed error over time ({who}, horizon {args.horizon * 10} min)\n"
-                   f"bias {bias:+.2f}  |  MAE {mae:.2f}  (red = over, blue = under)",
+                   f"bias {bias:+.2f} a.u.  |  MAE {mae:.2f} a.u.  (red = over, blue = under)",
                    fontsize=10, pad=16)
     clock_axis(ax_t, x, tod0, dow0)
 
@@ -167,12 +167,12 @@ def main():
         ax.set_xticks(range(0, 25, 3))
         ax.set_xticklabels([f"{t:02d}:00" for t in range(0, 25, 3)], fontsize=8)
         ax.set_xlabel("time of day")
-    ax_a.set_ylabel("mean error = pred - true (traffic)")
+    ax_a.set_ylabel("mean error = pred - true [a.u.]")
 
     for name, m in [("all days", mean_all), ("weekdays", mean_wd)]:
         w = int(np.nanargmax(np.abs(m)))
-        print(f"{name:10s} largest mean error {m[w]:+.2f} at {hhmm(w)}")
-    print(f"{label}: bias {bias:+.2f}, MAE {mae:.2f}")
+        print(f"{name:10s} largest mean error {m[w]:+.2f} a.u. at {hhmm(w)}")
+    print(f"{label}: bias {bias:+.2f} a.u., MAE {mae:.2f} a.u.")
 
     plt.tight_layout()
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
