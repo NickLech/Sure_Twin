@@ -62,6 +62,9 @@ for split, (a, b) in bounds.items():
     np.save(out / f"{split}_data.npy", data[a:b])
     np.save(out / f"{split}_timestamps.npy", ts[a:b])
     print(f"{split}: data {data[a:b].shape}, timestamps {ts[a:b].shape}")
+    
+# cell_id of each column (same order as the data): needed by --exclude in the analysis scripts
+np.save(out / "cell_ids.npy", wide.columns.to_numpy())
 
 # 5) meta.json (generic: compare it with the ETTh1 one)
 meta = {
