@@ -25,7 +25,7 @@ def main():
         output_len=OUTPUT_LEN,
         num_features=2500,
         input_hidden_size=args.hidden,
-        num_layers=args.layers,  # was passed to the wrong config before (silently ignored)
+        num_layers=args.layers,
         if_time_in_day=True,
         if_day_in_week=True,
         num_time_in_day=144,

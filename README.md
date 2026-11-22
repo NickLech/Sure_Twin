@@ -25,7 +25,7 @@ Final configuration and its motivation: [`final_metrics/README.md`](final_metric
 | unmet % | sum(max(true - bound, 0)) / sum(true) | % of total true activity |
 | over-provisioning % | sum(max(bound - true, 0)) / sum(true) | % of total true activity |
 | normalized MAE (BasicTS logs) | MAE on z-scored data | dimensionless |
-| horizon | steps ahead x 10 min (`--horizon 0` = 10 min) | min |
+| horizon | steps ahead x 10 min. `--horizon` is 0-based in `conformal_eval`, `schedule_conformal`, `plot_confident`, `busiest_levels` (0 = 10 min) and 1-based in `plot_timeseries`, `plot_signed_error` (1 = 10 min) | min |
 
 Plots show the activity index on the y axis as `activity [a.u.]` and errors or margins as `[a.u.]`. None of these quantities is power or energy (see [`docs/DATA_NOTES.md`](docs/DATA_NOTES.md)).
 

@@ -7,6 +7,8 @@ checkpoints/
 checkpoints_old/
 checkpoints_eval/
 out_*.log
+eval_*.log
 test_*.log
 datasets/MILAN_synth_burst/
-logs/
+/logs/
+/milan_raw.csv

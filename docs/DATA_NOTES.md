@@ -5,7 +5,7 @@
 The variable `y` is an **aggregate cell activity index**: the overall usage of a cell in terms of Internet traffic, calls and SMS, acquired every 10 minutes for a 50x50 grid of cells (2500 cells) in Milan, from 2013-11-01 00:00 (4320 steps, 30 days).
 
 - **Unit:** arbitrary units, written **[a.u.]** in this repository. It is **not** a number of bytes, and the data set does not state a physical unit.
-- **Not power:** the data set does **not** contain power-consumption measurements (confirmed by the data provider). Estimating the power of the base stations requires a separate traffic-to-power model, calibrated on these data or on a different data set. In this repository, "margin", "over-provisioning" and "unmet traffic" are therefore proxies expressed in activity units (or as percentages of total activity), not in energy.
+- **Not power:** the data set does **not** contain power-consumption measurements (confirmed by the data provider). Estimating the power of the base stations requires a separate traffic-to-power model, calibrated on these data or on a different data set. In this repository, "margin", "over-provisioning" and "unmet activity" are therefore proxies expressed in activity units (or as percentages of total activity), not in energy.
 - **Dimensionless quantities:** coverage, WAPE, unmet % and over-provisioning % are ratios and have no unit.
 
 ## Data format

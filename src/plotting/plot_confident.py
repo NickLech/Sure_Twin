@@ -1,7 +1,7 @@
 """
 True vs prediction vs conformal upper bound ("conformal by level"), same style as timeseries.png.
 
-  blue   = real traffic
+  blue   = real activity
   orange = simple prediction (ensemble mean), dashed
   red    = prediction + conformal margin by level (upper bound)
 
@@ -131,7 +131,7 @@ def make_figures(cal, ev, args):
     up = conformal_upper(cal, ev, args.eps)
     print(f"overall test coverage {(ev['truth'] <= up).mean():.3f} (target {1 - args.eps:.0%})")
 
-    order = np.argsort(ev["truth"].mean(0))              # ascending mean traffic
+    order = np.argsort(ev["truth"].mean(0))              # ascending mean activity
     N = order.size
     cells = [int(order[-1]), int(order[N // 2]), int(order[0])]
     draw(ev, up, cells, ["busiest", "median", "quietest"], h_min, args.eps, args.start, args.length, args.out_pred)

@@ -35,7 +35,7 @@ What it shows
 - The table is averaged over the 12 horizons (10 to 120 min). Per horizon (MAE in a.u., read from the "MAE per horizon" panel of `results/figures/accuracy/analysis.png`, approximate values): the ensemble goes from about 13.6 at 10 min to about 18.0 at 120 min; last value from about 16.7 to about 37; seasonal naive stays flat at about 28.5. The gain over last value is therefore about 19% at 10 min and about 51% at 120 min. Last value beats seasonal naive only up to about 70 min, which is why it looks better in the average.
 - Seeds are consistent (MAE spread about 2.8%), with two groups: seeds 4, 5, 7, 9 are slightly worse (MAE 16.63 - 16.76 a.u.) than the rest (16.30 - 16.39 a.u.).
 - The ensemble is about 1% better than the average member (average MAE of the seeds is 16.48 a.u.) but **not better than the best seed** (seed 6: MAE 16.30 a.u., RMSE 38.59 a.u.). Members differ only by initialization, so their errors are highly correlated and averaging gives little.
-Known issue: the top-left panel of `results/figures/accuracy/analysis.png` (train loss vs val MAE) is empty, in the same run in which `analyse_result.py` printed `no log files match: out_*.log`. The training curves apparently come from those logs, so they are missing, not the results. The conformal results below are at fixed horizons (10 and 30 min).
+The conformal results below are at fixed horizons (10 and 30 min).
  
 ---
  
@@ -59,7 +59,7 @@ Target coverage 90 / 95 / 99%, test set:
 | gaussian ensemble (mean + z * std) | 0.566 / 0.578 / 0.601 | 0.575 / 0.590 / 0.616 |
  
 - The point forecast is above the truth about half of the time, as expected: using it as a bound violates QoS in almost half of the cases.
-- The Gaussian bound built on the ensemble spread is far from the target (57% when 90% is promised, 60% when 99% is promised). Its margin is tiny (1.6 to 2.9 a.u.) because the seeds agree with each other.
+- The Gaussian bound built on the ensemble spread is far from the target (57% when 90% is promised, 60% when 99% is promised). Its margin is tiny (1.6 to 4.1 a.u.) because the seeds agree with each other.
 - The two-sided band mean +/- 1.645 std covers only 0.171 of the data (nominal 0.90). This is the clearest evidence: ensemble disagreement measures only the variability from initialization, not the real prediction uncertainty (noise, bursts), which all members miss in the same way.
 Spread is weakly informative:
 - Overall correlation between std and |error| is 0.375, but inside a predicted-level decile the Spearman correlation drops to 0.11 (10 min) and 0.15 (30 min). Most of the 0.375 comes from the level: busy cells have both larger spread and larger errors.
@@ -91,11 +91,11 @@ Conclusion: an uncalibrated bound is unsafe and the ensemble spread is not a rel
 ### 5.3 What this shows
  
 1. **Calibration on val transfers to test.** Every conformal method reaches at least the target on test. It slightly over-covers (for example 0.918 vs 0.90, 0.963 vs 0.95, 0.993 vs 0.99). This is the safe direction and is consistent with val being the harder split (section 1): the calibration errors are a bit larger than the test errors.
-2. **The global margin hides a strong heterogeneity.** The overall coverage is right, but by predicted level it ranges from 0.666 to 0.999 at 90% (0.782 to 1.000 at 95%, 0.947 to 1.000 at 99%). A constant margin is far too large for low-traffic predictions (coverage about 100%) and too small for high ones. Presumably the undercovered group is the highest-level cells, which are also the most critical for QoS. The extremes (min/max) are read from the table; the script does not say which decile is which.
+2. **The global margin hides a strong heterogeneity.** The overall coverage is right, but by predicted level it ranges from 0.666 to 0.999 at 90% (0.782 to 1.000 at 95%, 0.947 to 1.000 at 99%). A constant margin is far too large for low-activity predictions (coverage about 100%) and too small for high ones. Presumably the undercovered group is the highest-level cells, which are also the most critical for QoS. The extremes (min/max) are read from the table; the script does not say which decile is which.
 3. **Level-conditional calibration fixes it.** `conformal by level` brings the level coverage to 0.905 - 0.924 (90%), 0.956 - 0.965 (95%) and 0.992 - 0.995 (99%), and also keeps the clock-block range (0.906 - 0.941 at 90%) and day range (0.912 - 0.926) narrow.
 4. **It is also the cheapest among the uniform methods.** At 95% and 99% it has a smaller margin than the global one (41.6 vs 49.1 a.u.; 85.6 vs 144.0 a.u. at 10 min), because it does not waste margin on low-activity cells. At 90% the global margin is smaller (23.5 vs 27.5 a.u.), but only at the price of the 0.67 coverage in the top level.
 5. **Dividing by the ensemble spread does not help.** Margins are larger (for example 52.0 and 54.0 vs 41.6 a.u. at 95%, 10 min) and uniformity is not better: the clock-block range gets wider (0.883 - 0.965 vs 0.906 - 0.941 at 90%). This is what section 4 predicted: spread carries little information beyond the level.
-6. **The price of safety grows fast with the target.** At 10 min the margin is 17.6% of mean activity at 90%, 26.7% at 95% and 55.0% at 99%. At 30 min it is 19.8%, 30.1% and 61.7%. Going from 95% to 99% roughly doubles the margin: the error distribution has a heavy tail. The dependence on horizon is mild (about 10% more margin from 10 to 30 min).
+6. **The price of safety grows fast with the target.** At 10 min the margin is 17.6% of mean activity at 90%, 26.7% at 95% and 55.0% at 99%. At 30 min it is 19.8%, 30.1% and 61.7%. Going from 95% to 99% roughly doubles the margin: the error distribution has a heavy tail. The dependence on horizon is mild (about 12% more margin from 10 to 30 min).
 7. **Per-day coverage is uniform, including Saturday.** At 95%, 10 min: Tue 0.960, Wed 0.957, Thu 0.965, Fri 0.969, Sat 0.963. Saturday has about 22% less activity (129 vs 166 a.u. on Tue) and lower MAE (11.9 vs 14.2 to 15.1 a.u.) and keeps the coverage. Per-day numbers at 30 min are equivalent (0.957 - 0.969).
 ---
  
@@ -138,4 +138,4 @@ Chosen configuration, horizon 10 min, window 9-18 h, scheduled and calibrated pe
 | inside the window (9-18 h) | 1.06 | 16.60 |
 | other hours | 2.62 | 9.08 |
 
-Differences between the three windows are small (at most 0.5 percentage points in over-provisioning and 0.03 in unmet at 10 min), so the choice of the window is a marginal optimization; shorter horizons are clearly better. Note that the "window" and "other hours" metrics are computed on different sets of hours for each window, so the comparison between windows is not strictly like-for-like. These percentages are expressed in activity units, not in energy.
+Differences between the three windows are small (at most 0.55 percentage points in over-provisioning and 0.03 in unmet at 10 min), so the choice of the window is a marginal optimization; shorter horizons are clearly better. Note that the "window" and "other hours" metrics are computed on different sets of hours for each window, so the comparison between windows is not strictly like-for-like. These percentages are expressed in activity units, not in energy.

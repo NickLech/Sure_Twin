@@ -2,7 +2,7 @@
 The N busiest cells (default 5), one panel each, with the conformal-by-level upper bound drawn at
 several coverage levels (default 70 / 75 / 80 / 85 / 90 / 95 %). Saves ONE png (default results/figures/conformal/busiest_levels.png).
 
-  blue   = real traffic
+  blue   = real activity
   orange = simple prediction (ensemble mean), dashed
   red    = prediction + conformal margin by level, one line per coverage level
            (darker red = higher coverage; the legend also gives the coverage reached by THAT cell)

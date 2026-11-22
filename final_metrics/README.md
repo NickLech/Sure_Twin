@@ -42,4 +42,4 @@ At horizon 10 min the three windows are very close, but 9-18 is the best or tied
 
 ## Limitations
 
-Differences between the three windows are small (≤ 0.5 percentage points in over-provisioning, ≤ 0.03 in unmet). The choice of 9-18 is therefore a marginal optimization; the choice of horizon 10 min is clear-cut.
+Differences between the three windows are small (≤ 0.55 percentage points in over-provisioning, ≤ 0.03 in unmet). The choice of 9-18 is therefore a marginal optimization; the choice of horizon 10 min is clear-cut.

@@ -1,5 +1,5 @@
 """
-Compares ways of building an UPPER bound on traffic (input of the sleep-mode decision).
+Compares ways of building an UPPER bound on activity (input of the sleep-mode decision).
 
 Two modes (run from the repository root):
   1) separate calibration set (recommended): calibrate on the val split, evaluate on the whole test

@@ -1,6 +1,6 @@
 """
-True vs predicted traffic for a few cells: one panel per cell, each with its own y-axis,
-so cells with very different traffic stay readable (analysis.png squashes them together).
+True vs predicted activity for a few cells: one panel per cell, each with its own y-axis,
+so cells with very different activity stay readable (analysis.png squashes them together).
 By default the whole evaluated period is plotted, with clock labels on every panel.
 
 Usage:
@@ -88,7 +88,7 @@ def main():
             raise ValueError(f"--cells must be in 0..{N - 1}")
     else:
         order = np.argsort(true_h.mean(0))
-        q = 0.05  # 5th percentile of mean traffic
+        q = 0.05  # 5th percentile of mean activity
         nodes = [int(order[-1]), int(order[N // 2]), int(order[int(q * N)])]  # N = 2500 -> the 125th quietest cell
         labels = ["busiest", "median", f"quiet (p{int(q*100)})"]
     cell_mae = np.abs(mean_h[:, nodes] - true_h[:, nodes]).mean(0)  # over all evaluated windows

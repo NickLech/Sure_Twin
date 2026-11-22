@@ -4,7 +4,7 @@ Activity concentration across cells: how many cells carry most of the activity?
 Cells are sorted by mean activity (descending); the plot shows the cumulative
 share of activity against the cumulative share of cells (Pareto / Lorenz-like
 curve). Prints the number of cells needed to reach 50/80/90% of the activity,
-the mean-traffic level of the last cell in that group, the Gini coefficient
+the mean-activity level of the last cell in that group, the Gini coefficient
 and the point where the slope of the curve is 1 (cell activity = mean activity
 per cell), a data-driven threshold between "busy" and "quiet" cells.
 
@@ -16,6 +16,7 @@ Usage:
 """
 
 import argparse
+import sys
 from pathlib import Path
 
 import matplotlib
@@ -24,12 +25,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-try:  # reuse the project loader if available
-    from analyse_result import load_series
-except Exception:  # fallback: plain numpy, squeeze trailing singleton dims
-    def load_series(path):
-        x = np.load(path)
-        return x.reshape(x.shape[0], -1)
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "analysis"))  # analyse_result.py
+from analyse_result import kept_columns, load_series
 
 
 def parse_args():
@@ -39,9 +36,11 @@ def parse_args():
                     choices=["train", "val", "test"],
                     help="splits to concatenate in time (default: test)")
     ap.add_argument("--exclude", type=int, nargs="*", default=[],
-                    help="column indices to drop (e.g. 858 808: cells with missing rows)")
+                    help="cell_ids to drop (e.g. 858 808: cells with missing rows)")
+    ap.add_argument("--csv", default="milan_raw.csv",
+                    help="raw csv, only used with --exclude if datasets/MILAN/cell_ids.npy is missing")
     ap.add_argument("--levels", type=float, nargs="*", default=[0.5, 0.8, 0.9],
-                    help="traffic shares to report")
+                    help="activity shares to report")
     ap.add_argument("--out", default="results/figures/data/concentration.png")
     return ap.parse_args()
 
@@ -58,7 +57,7 @@ def main():
     series = np.concatenate([load_series(data / f"{s}_data.npy") for s in args.splits], axis=0)
     N = series.shape[1]
 
-    keep = np.setdiff1d(np.arange(N), args.exclude)
+    keep = kept_columns(args, N)
     m = series[:, keep].mean(0)  # mean activity per cell
     n = m.size
 
@@ -78,7 +77,7 @@ def main():
     print(f"Gini = {G:.3f}")
 
     # slope = 1: slope of the curve at cell k is m_k / mean(m), so slope = 1
-    # where a cell's traffic equals the mean activity per cell
+    # where a cell's activity equals the mean activity per cell
     mu = m.mean()
     k_star = int(np.sum(ms > mu))
     x_s, y_s = k_star / n, cum[k_star - 1]

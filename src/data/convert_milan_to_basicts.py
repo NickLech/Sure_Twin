@@ -4,6 +4,7 @@ writing the files to datasets/MILAN/:
 
 datasets/MILAN/
     meta.json
+    cell_ids.npy          [N] cell_id of each column (needed by --exclude)
     train_data.npy        [T_train, N]
     train_timestamps.npy  [T_train, 4]
     val_data.npy / val_timestamps.npy
@@ -62,7 +63,7 @@ for split, (a, b) in bounds.items():
     np.save(out / f"{split}_data.npy", data[a:b])
     np.save(out / f"{split}_timestamps.npy", ts[a:b])
     print(f"{split}: data {data[a:b].shape}, timestamps {ts[a:b].shape}")
-    
+
 # cell_id of each column (same order as the data): needed by --exclude in the analysis scripts
 np.save(out / "cell_ids.npy", wide.columns.to_numpy())
 
