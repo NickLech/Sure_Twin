@@ -1,0 +1,690 @@
+{
+  "eps_window": 0.1,
+  "eps_outside": 0.25,
+  "runs": [
+    {
+      "horizon_min": 10,
+      "window": "8-21",
+      "results": {
+        "STID point prediction (no confidence)": {
+          "all hours": {
+            "unmet_%": 5.0004308686901355,
+            "overprov_%": 3.750104089336051
+          },
+          "window": {
+            "unmet_%": 4.945839819889148,
+            "overprov_%": 3.642350705304505
+          },
+          "other hours": {
+            "unmet_%": 5.123192784900505,
+            "overprov_%": 3.992415094389044
+          }
+        },
+        "constant margin per period (no deciles)": {
+          "all hours": {
+            "unmet_%": 2.7779633897520433,
+            "overprov_%": 13.272190749459778
+          },
+          "window": {
+            "unmet_%": 2.1994761665763995,
+            "overprov_%": 16.402336207644755
+          },
+          "other hours": {
+            "unmet_%": 4.078839661229219,
+            "overprov_%": 6.2332592230697035
+          }
+        },
+        "fixed 90% (always)": {
+          "all hours": {
+            "unmet_%": 1.1326956940671482,
+            "overprov_%": 17.520624701498633
+          },
+          "window": {
+            "unmet_%": 1.1058092602397178,
+            "overprov_%": 16.831680527491283
+          },
+          "other hours": {
+            "unmet_%": 1.193156707533864,
+            "overprov_%": 19.069891638491097
+          }
+        },
+        "fixed 75% (always)": {
+          "all hours": {
+            "unmet_%": 2.5145465368087807,
+            "overprov_%": 8.643605268247297
+          },
+          "window": {
+            "unmet_%": 2.4955659280895297,
+            "overprov_%": 8.337739157063695
+          },
+          "other hours": {
+            "unmet_%": 2.557229283310115,
+            "overprov_%": 9.331423339843562
+          }
+        },
+        "scheduled, calibrated per period": {
+          "all hours": {
+            "unmet_%": 1.5606486778227857,
+            "overprov_%": 14.63677339456672
+          },
+          "window": {
+            "unmet_%": 1.07720035502286,
+            "overprov_%": 17.13973744618659
+          },
+          "other hours": {
+            "unmet_%": 2.647805708125786,
+            "overprov_%": 9.008219447880776
+          }
+        }
+      }
+    },
+    {
+      "horizon_min": 10,
+      "window": "9-18",
+      "results": {
+        "STID point prediction (no confidence)": {
+          "all hours": {
+            "unmet_%": 5.0004308686901355,
+            "overprov_%": 3.750104089336051
+          },
+          "window": {
+            "unmet_%": 4.852829987088683,
+            "overprov_%": 3.508696930535595
+          },
+          "other hours": {
+            "unmet_%": 5.1480653385599915,
+            "overprov_%": 3.991566183095946
+          }
+        },
+        "constant margin per period (no deciles)": {
+          "all hours": {
+            "unmet_%": 3.1411505979627505,
+            "overprov_%": 11.03840391913396
+          },
+          "window": {
+            "unmet_%": 2.192539993785963,
+            "overprov_%": 15.821633035723826
+          },
+          "other hours": {
+            "unmet_%": 4.089977069329741,
+            "overprov_%": 6.254086324063085
+          }
+        },
+        "fixed 90% (always)": {
+          "all hours": {
+            "unmet_%": 1.1326956940671482,
+            "overprov_%": 17.520624701498633
+          },
+          "window": {
+            "unmet_%": 1.086884256084403,
+            "overprov_%": 16.357219051285963
+          },
+          "other hours": {
+            "unmet_%": 1.1785175569664534,
+            "overprov_%": 18.68429509797038
+          }
+        },
+        "fixed 75% (always)": {
+          "all hours": {
+            "unmet_%": 2.5145465368087807,
+            "overprov_%": 8.643605268247297
+          },
+          "window": {
+            "unmet_%": 2.4472622376067967,
+            "overprov_%": 8.07774894328722
+          },
+          "other hours": {
+            "unmet_%": 2.581846147322434,
+            "overprov_%": 9.209590360284604
+          }
+        },
+        "scheduled, calibrated per period": {
+          "all hours": {
+            "unmet_%": 1.8423018083647993,
+            "overprov_%": 12.83786366988599
+          },
+          "window": {
+            "unmet_%": 1.064815742548693,
+            "overprov_%": 16.59839470369825
+          },
+          "other hours": {
+            "unmet_%": 2.6199648000256217,
+            "overprov_%": 9.076476884235863
+          }
+        }
+      }
+    },
+    {
+      "horizon_min": 10,
+      "window": "9-19",
+      "results": {
+        "STID point prediction (no confidence)": {
+          "all hours": {
+            "unmet_%": 5.0004308686901355,
+            "overprov_%": 3.750104089336051
+          },
+          "window": {
+            "unmet_%": 4.859846293504723,
+            "overprov_%": 3.5444403256166024
+          },
+          "other hours": {
+            "unmet_%": 5.1746428075899304,
+            "overprov_%": 4.004961942637101
+          }
+        },
+        "constant margin per period (no deciles)": {
+          "all hours": {
+            "unmet_%": 3.0431274600757767,
+            "overprov_%": 11.65541361193537
+          },
+          "window": {
+            "unmet_%": 2.179051143004333,
+            "overprov_%": 15.997560658548243
+          },
+          "other hours": {
+            "unmet_%": 4.113887963892624,
+            "overprov_%": 6.274639405513493
+          }
+        },
+        "fixed 90% (always)": {
+          "all hours": {
+            "unmet_%": 1.1326956940671482,
+            "overprov_%": 17.520624701498633
+          },
+          "window": {
+            "unmet_%": 1.0848660694662642,
+            "overprov_%": 16.462150611793838
+          },
+          "other hours": {
+            "unmet_%": 1.1919660061023045,
+            "overprov_%": 18.832282279860053
+          }
+        },
+        "fixed 75% (always)": {
+          "all hours": {
+            "unmet_%": 2.5145465368087807,
+            "overprov_%": 8.643605268247297
+          },
+          "window": {
+            "unmet_%": 2.4488528745070943,
+            "overprov_%": 8.140693069919102
+          },
+          "other hours": {
+            "unmet_%": 2.595953905063165,
+            "overprov_%": 9.266812395000446
+          }
+        },
+        "scheduled, calibrated per period": {
+          "all hours": {
+            "unmet_%": 1.7686038213468058,
+            "overprov_%": 13.315512990262034
+          },
+          "window": {
+            "unmet_%": 1.0610181288171556,
+            "overprov_%": 16.72324601940963
+          },
+          "other hours": {
+            "unmet_%": 2.6454416627015016,
+            "overprov_%": 9.092661532499312
+          }
+        }
+      }
+    },
+    {
+      "horizon_min": 20,
+      "window": "8-21",
+      "results": {
+        "STID point prediction (no confidence)": {
+          "all hours": {
+            "unmet_%": 5.347600789790796,
+            "overprov_%": 4.019842684951182
+          },
+          "window": {
+            "unmet_%": 5.261275240171441,
+            "overprov_%": 3.947537075936241
+          },
+          "other hours": {
+            "unmet_%": 5.541589052450854,
+            "overprov_%": 4.182325745125533
+          }
+        },
+        "constant margin per period (no deciles)": {
+          "all hours": {
+            "unmet_%": 2.9672039587391725,
+            "overprov_%": 14.368787877680619
+          },
+          "window": {
+            "unmet_%": 2.3325262474660478,
+            "overprov_%": 17.801211215629625
+          },
+          "other hours": {
+            "unmet_%": 4.393433239662622,
+            "overprov_%": 6.655546050914762
+          }
+        },
+        "fixed 90% (always)": {
+          "all hours": {
+            "unmet_%": 1.2202447370544696,
+            "overprov_%": 19.008584751897786
+          },
+          "window": {
+            "unmet_%": 1.1820610664390725,
+            "overprov_%": 18.304163397372278
+          },
+          "other hours": {
+            "unmet_%": 1.3060499703524446,
+            "overprov_%": 20.591539918098185
+          }
+        },
+        "fixed 75% (always)": {
+          "all hours": {
+            "unmet_%": 2.7032913226721726,
+            "overprov_%": 9.336312044590874
+          },
+          "window": {
+            "unmet_%": 2.663111086798257,
+            "overprov_%": 9.056450620552218
+          },
+          "other hours": {
+            "unmet_%": 2.7935831793104597,
+            "overprov_%": 9.965208491520135
+          }
+        },
+        "scheduled, calibrated per period": {
+          "all hours": {
+            "unmet_%": 1.6862512915435905,
+            "overprov_%": 15.843550837612229
+          },
+          "window": {
+            "unmet_%": 1.1553547771082133,
+            "overprov_%": 18.59622104027125
+          },
+          "other hours": {
+            "unmet_%": 2.8792664874121785,
+            "overprov_%": 9.65783047273193
+          }
+        }
+      }
+    },
+    {
+      "horizon_min": 20,
+      "window": "9-18",
+      "results": {
+        "STID point prediction (no confidence)": {
+          "all hours": {
+            "unmet_%": 5.347600789790796,
+            "overprov_%": 4.019842684951182
+          },
+          "window": {
+            "unmet_%": 5.186732312419045,
+            "overprov_%": 3.7809921270254385
+          },
+          "other hours": {
+            "unmet_%": 5.508436050880981,
+            "overprov_%": 4.258643924778601
+          }
+        },
+        "constant margin per period (no deciles)": {
+          "all hours": {
+            "unmet_%": 3.3493246122832976,
+            "overprov_%": 11.977068272770403
+          },
+          "window": {
+            "unmet_%": 2.330113147956516,
+            "overprov_%": 17.234182728254567
+          },
+          "other hours": {
+            "unmet_%": 4.36832562882362,
+            "overprov_%": 6.721039311454064
+          }
+        },
+        "fixed 90% (always)": {
+          "all hours": {
+            "unmet_%": 1.2202447370544696,
+            "overprov_%": 19.008584751897786
+          },
+          "window": {
+            "unmet_%": 1.1693260603746731,
+            "overprov_%": 17.736208334257856
+          },
+          "other hours": {
+            "unmet_%": 1.271152899995781,
+            "overprov_%": 20.280698448002482
+          }
+        },
+        "fixed 75% (always)": {
+          "all hours": {
+            "unmet_%": 2.7032913226721726,
+            "overprov_%": 9.336312044590874
+          },
+          "window": {
+            "unmet_%": 2.6270730295349756,
+            "overprov_%": 8.738700355191726
+          },
+          "other hours": {
+            "unmet_%": 2.779493878181174,
+            "overprov_%": 9.93380033854011
+          }
+        },
+        "scheduled, calibrated per period": {
+          "all hours": {
+            "unmet_%": 1.9825724179981727,
+            "overprov_%": 13.925387452529003
+          },
+          "window": {
+            "unmet_%": 1.1379203777548856,
+            "overprov_%": 18.089598213648337
+          },
+          "other hours": {
+            "unmet_%": 2.8270500536567216,
+            "overprov_%": 9.762036521746836
+          }
+        }
+      }
+    },
+    {
+      "horizon_min": 20,
+      "window": "9-19",
+      "results": {
+        "STID point prediction (no confidence)": {
+          "all hours": {
+            "unmet_%": 5.347600789790796,
+            "overprov_%": 4.019842684951182
+          },
+          "window": {
+            "unmet_%": 5.174440797531109,
+            "overprov_%": 3.8340073506001815
+          },
+          "other hours": {
+            "unmet_%": 5.562075842897629,
+            "overprov_%": 4.250017349918154
+          }
+        },
+        "constant margin per period (no deciles)": {
+          "all hours": {
+            "unmet_%": 3.249722705543347,
+            "overprov_%": 12.621062091893275
+          },
+          "window": {
+            "unmet_%": 2.3113600133165235,
+            "overprov_%": 17.377607047008123
+          },
+          "other hours": {
+            "unmet_%": 4.411973786884344,
+            "overprov_%": 6.7296305981601625
+          }
+        },
+        "fixed 90% (always)": {
+          "all hours": {
+            "unmet_%": 1.2202447370544696,
+            "overprov_%": 19.008584751897786
+          },
+          "window": {
+            "unmet_%": 1.1611805084764966,
+            "overprov_%": 17.885164868664308
+          },
+          "other hours": {
+            "unmet_%": 1.2934013790458658,
+            "overprov_%": 20.400046693963642
+          }
+        },
+        "fixed 75% (always)": {
+          "all hours": {
+            "unmet_%": 2.7032913226721726,
+            "overprov_%": 9.336312044590874
+          },
+          "window": {
+            "unmet_%": 2.6159517340872913,
+            "overprov_%": 8.831050174726032
+          },
+          "other hours": {
+            "unmet_%": 2.8114696764340446,
+            "overprov_%": 9.962126731678662
+          }
+        },
+        "scheduled, calibrated per period": {
+          "all hours": {
+            "unmet_%": 1.9065709411774971,
+            "overprov_%": 14.432680323152786
+          },
+          "window": {
+            "unmet_%": 1.1337099156357648,
+            "overprov_%": 18.193456022863856
+          },
+          "other hours": {
+            "unmet_%": 2.863832531075682,
+            "overprov_%": 9.774603377129466
+          }
+        }
+      }
+    },
+    {
+      "horizon_min": 30,
+      "window": "8-21",
+      "results": {
+        "STID point prediction (no confidence)": {
+          "all hours": {
+            "unmet_%": 5.4831648135072095,
+            "overprov_%": 4.212869503752039
+          },
+          "window": {
+            "unmet_%": 5.3959265871631406,
+            "overprov_%": 4.13916852377617
+          },
+          "other hours": {
+            "unmet_%": 5.679060732695518,
+            "overprov_%": 4.378367151085097
+          }
+        },
+        "constant margin per period (no deciles)": {
+          "all hours": {
+            "unmet_%": 3.0475320731230426,
+            "overprov_%": 14.883660734964108
+          },
+          "window": {
+            "unmet_%": 2.393153758470522,
+            "overprov_%": 18.436257932240284
+          },
+          "other hours": {
+            "unmet_%": 4.516957195777083,
+            "overprov_%": 6.906202656879775
+          }
+        },
+        "fixed 90% (always)": {
+          "all hours": {
+            "unmet_%": 1.2527935486552655,
+            "overprov_%": 19.759489828345178
+          },
+          "window": {
+            "unmet_%": 1.2109550443619517,
+            "overprov_%": 19.018114268783172
+          },
+          "other hours": {
+            "unmet_%": 1.3467431003538262,
+            "overprov_%": 21.42426973952022
+          }
+        },
+        "fixed 75% (always)": {
+          "all hours": {
+            "unmet_%": 2.775324045644864,
+            "overprov_%": 9.74271089917689
+          },
+          "window": {
+            "unmet_%": 2.730034920505121,
+            "overprov_%": 9.45182781119073
+          },
+          "other hours": {
+            "unmet_%": 2.8770220646244478,
+            "overprov_%": 10.395897148890898
+          }
+        },
+        "scheduled, calibrated per period": {
+          "all hours": {
+            "unmet_%": 1.734403138633575,
+            "overprov_%": 16.44095011079985
+          },
+          "window": {
+            "unmet_%": 1.187678924983772,
+            "overprov_%": 19.270827990091064
+          },
+          "other hours": {
+            "unmet_%": 2.9620879147204646,
+            "overprov_%": 10.086378822658153
+          }
+        }
+      }
+    },
+    {
+      "horizon_min": 30,
+      "window": "9-18",
+      "results": {
+        "STID point prediction (no confidence)": {
+          "all hours": {
+            "unmet_%": 5.4831648135072095,
+            "overprov_%": 4.212869503752039
+          },
+          "window": {
+            "unmet_%": 5.327388469075735,
+            "overprov_%": 3.9683757203799006
+          },
+          "other hours": {
+            "unmet_%": 5.638838868760872,
+            "overprov_%": 4.457202742413922
+          }
+        },
+        "constant margin per period (no deciles)": {
+          "all hours": {
+            "unmet_%": 3.4395618232775336,
+            "overprov_%": 12.427336871435173
+          },
+          "window": {
+            "unmet_%": 2.3948623088142713,
+            "overprov_%": 17.877281715592805
+          },
+          "other hours": {
+            "unmet_%": 4.4835753449170195,
+            "overprov_%": 6.980970686022293
+          }
+        },
+        "fixed 90% (always)": {
+          "all hours": {
+            "unmet_%": 1.2527935486552655,
+            "overprov_%": 19.759489828345178
+          },
+          "window": {
+            "unmet_%": 1.204606364189087,
+            "overprov_%": 18.42921921441843
+          },
+          "other hours": {
+            "unmet_%": 1.3009490914270767,
+            "overprov_%": 21.088886931676573
+          }
+        },
+        "fixed 75% (always)": {
+          "all hours": {
+            "unmet_%": 2.775324045644864,
+            "overprov_%": 9.74271089917689
+          },
+          "window": {
+            "unmet_%": 2.7011494895158603,
+            "overprov_%": 9.124631155836099
+          },
+          "other hours": {
+            "unmet_%": 2.849449895698572,
+            "overprov_%": 10.36038478584542
+          }
+        },
+        "scheduled, calibrated per period": {
+          "all hours": {
+            "unmet_%": 2.0381645772912185,
+            "overprov_%": 14.468614019002182
+          },
+          "window": {
+            "unmet_%": 1.1743609691434813,
+            "overprov_%": 18.769582028473778
+          },
+          "other hours": {
+            "unmet_%": 2.9014009763341946,
+            "overprov_%": 10.170470202658795
+          }
+        }
+      }
+    },
+    {
+      "horizon_min": 30,
+      "window": "9-19",
+      "results": {
+        "STID point prediction (no confidence)": {
+          "all hours": {
+            "unmet_%": 5.4831648135072095,
+            "overprov_%": 4.212869503752039
+          },
+          "window": {
+            "unmet_%": 5.310251314672421,
+            "overprov_%": 4.021732251547663
+          },
+          "other hours": {
+            "unmet_%": 5.697226621270172,
+            "overprov_%": 4.449491780285849
+          }
+        },
+        "constant margin per period (no deciles)": {
+          "all hours": {
+            "unmet_%": 3.337565328552478,
+            "overprov_%": 13.08925538789795
+          },
+          "window": {
+            "unmet_%": 2.3739092195763183,
+            "overprov_%": 18.013289381443528
+          },
+          "other hours": {
+            "unmet_%": 4.530543147747227,
+            "overprov_%": 6.99344664394472
+          }
+        },
+        "fixed 90% (always)": {
+          "all hours": {
+            "unmet_%": 1.2527935486552655,
+            "overprov_%": 19.759489828345178
+          },
+          "window": {
+            "unmet_%": 1.193915721253951,
+            "overprov_%": 18.584039177401763
+          },
+          "other hours": {
+            "unmet_%": 1.3256825611130096,
+            "overprov_%": 21.214663039070093
+          }
+        },
+        "fixed 75% (always)": {
+          "all hours": {
+            "unmet_%": 2.775324045644864,
+            "overprov_%": 9.74271089917689
+          },
+          "window": {
+            "unmet_%": 2.6860106521543603,
+            "overprov_%": 9.219501302242705
+          },
+          "other hours": {
+            "unmet_%": 2.8858913905708317,
+            "overprov_%": 10.39042893688587
+          }
+        },
+        "scheduled, calibrated per period": {
+          "all hours": {
+            "unmet_%": 1.9605705795903772,
+            "overprov_%": 14.983666795095203
+          },
+          "window": {
+            "unmet_%": 1.170126538643021,
+            "overprov_%": 18.849341456096596
+          },
+          "other hours": {
+            "unmet_%": 2.939116971172678,
+            "overprov_%": 10.198075665809958
+          }
+        }
+      }
+    }
+  ]
+}
