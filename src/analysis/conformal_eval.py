@@ -3,12 +3,12 @@ Compares ways of building an UPPER bound on activity (input of the sleep-mode de
 
 Two modes (run from the repository root):
   1) separate calibration set (recommended): calibrate on the val split, evaluate on the whole test
-         python src/analysis/conformal_eval.py --horizon 2 \
+         python src/analysis/conformal_eval.py --horizon 3 \
              --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
   2) fallback, no --cal_data: first --cal_frac of the test = calibration, the rest = evaluation
 
 Loading is shared with analyse_result.py (same scaler, last-batch fix, --exclude); all values
-are in ORIGINAL scale [a.u.]. --horizon is 0-based: 0 = 10 min ahead, 2 = 30 min.
+are in ORIGINAL scale [a.u.]. --horizon is 1-based: 1 = 10 min ahead, 3 = 30 min.
 Also provides load_split(), conf_q() and N_BINS to the schedule and plotting scripts.
 """
 import argparse
@@ -46,7 +46,7 @@ def parse_args():
     ap.add_argument("--cal_data", default=None, help="dataset view of the calibration split")
     ap.add_argument("--input_len", type=int, default=144)
     ap.add_argument("--output_len", type=int, default=12)
-    ap.add_argument("--horizon", type=int, default=0, help="0 = first step = 10 min ahead")
+    ap.add_argument("--horizon", type=int, default=1, help="1..output_len (x10 min ahead; 1 = first step = 10 min)")
     ap.add_argument("--cal_frac", type=float, default=0.5, help="only used without --cal_data")
     ap.add_argument("--exclude", type=int, nargs="*", default=[])
     ap.add_argument("--csv", default="milan_raw.csv")
@@ -72,7 +72,9 @@ def load_split(data_dir, ckpts, args, tag):
     """Ensemble mean (pred), ensemble std (spread) and truth at one horizon, original units.
     Arrays are [windows, cells]; slot / day / dow give the clock slot, day index and weekday
     of the forecast target of each window."""
-    IN, OUT, H = args.input_len, args.output_len, args.horizon
+    IN, OUT, H = args.input_len, args.output_len, args.horizon - 1   # H = 0-based index
+    if not 1 <= args.horizon <= OUT:
+        raise ValueError(f"--horizon must be in 1..{OUT}")
     data = Path(data_dir)
     train = load_series(data / "train_data.npy")
     test = load_series(data / "test_data.npy")
@@ -122,7 +124,6 @@ def subset(d, sl):
 
 def main():
     args = parse_args()
-    H = args.horizon
 
     ev = load_split(args.data, args.ckpts, args, "evaluation")
     if args.cal_data:
@@ -137,7 +138,7 @@ def main():
         cut = int(S * args.cal_frac)
         cal, ev = subset(ev, slice(0, cut)), subset(ev, slice(cut, S))
         mode = f"FALLBACK: calibration = first {args.cal_frac:.0%} of test, evaluation = the rest"
-    print(f"\n{ev['members']} members | horizon {(H + 1) * 10} min | ORIGINAL scale [a.u.] | {mode}")
+    print(f"\n{ev['members']} members | horizon {args.horizon * 10} min | ORIGINAL scale [a.u.] | {mode}")
     print(f"calibration windows: {cal['pred'].shape[0]} | evaluation windows: {ev['pred'].shape[0]}")
 
     # predicted-level deciles, defined on the calibration set

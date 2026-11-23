@@ -14,11 +14,11 @@ Calibration is done on the val split, the plots show the test split (as in confo
 Needs only analyse_result.py and conformal_eval.py (in src/analysis/).
 
 Usage:
-    python src/plotting/plot_confident.py --horizon 0 --eps 0.05 \
+    python src/plotting/plot_confident.py --horizon 1 --eps 0.05 \
         --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
-    python src/plotting/plot_confident.py --horizon 2 --eps 0.10 --start 0 --length 432     # first 3 days only
+    python src/plotting/plot_confident.py --horizon 3 --eps 0.10 --start 0 --length 432     # first 3 days only
 
---horizon is 0-based like in conformal_eval.py (0 = 10 min ahead, 2 = 30 min).
+--horizon is 1-based like in conformal_eval.py (1 = 10 min ahead, 3 = 30 min).
 Everything is in ORIGINAL scale [a.u.].
 """
 import argparse
@@ -65,7 +65,7 @@ def parse_args():
     ap.add_argument("--cal_data", default=None, help="dataset view of the calibration split")
     ap.add_argument("--input_len", type=int, default=144)
     ap.add_argument("--output_len", type=int, default=12)
-    ap.add_argument("--horizon", type=int, default=0, help="0 = first step = 10 min ahead")
+    ap.add_argument("--horizon", type=int, default=1, help="1..output_len (x10 min ahead; 1 = first step = 10 min)")
     ap.add_argument("--cal_frac", type=float, default=0.5, help="only used without --cal_data")
     ap.add_argument("--exclude", type=int, nargs="*", default=[])
     ap.add_argument("--csv", default="milan_raw.csv")
@@ -127,7 +127,7 @@ def draw(ev, up, cells, labels, h_min, eps, start, length, path):
 
 
 def make_figures(cal, ev, args):
-    h_min = (args.horizon + 1) * 10
+    h_min = args.horizon * 10
     up = conformal_upper(cal, ev, args.eps)
     print(f"overall test coverage {(ev['truth'] <= up).mean():.3f} (target {1 - args.eps:.0%})")
 

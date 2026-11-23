@@ -25,7 +25,7 @@ Final configuration and its motivation: [`final_metrics/README.md`](final_metric
 | unmet % | sum(max(true - bound, 0)) / sum(true) | % of total true activity |
 | over-provisioning % | sum(max(bound - true, 0)) / sum(true) | % of total true activity |
 | normalized MAE (BasicTS logs) | MAE on z-scored data | dimensionless |
-| horizon | steps ahead x 10 min. `--horizon` is 0-based in `conformal_eval`, `schedule_conformal`, `plot_confident`, `busiest_levels` (0 = 10 min) and 1-based in `plot_timeseries`, `plot_signed_error` (1 = 10 min) | min |
+| horizon | steps ahead x 10 min. `--horizon` is 1-based in every script (1 = 10 min, 3 = 30 min) | min |
 
 Plots show the activity index on the y axis as `activity [a.u.]` and errors or margins as `[a.u.]`. None of these quantities is power or energy (see [`docs/DATA_NOTES.md`](docs/DATA_NOTES.md)).
 
@@ -157,12 +157,12 @@ python src/plotting/plot_signed_error.py      # add --horizon 6, --cell 1800, --
 ### Step 5 - Conformal upper bounds
 
 ```bash
-python src/analysis/conformal_eval.py --horizon 0 \
+python src/analysis/conformal_eval.py --horizon 1 \
     --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
-python src/analysis/conformal_eval.py --horizon 2 \
+python src/analysis/conformal_eval.py --horizon 3 \
     --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
 ```
-`--horizon 0` = 10 min ahead, `2` = 30 min. Calibration = val split, evaluation = whole test.
+`--horizon 1` = 10 min ahead, `3` = 30 min. Calibration = val split, evaluation = whole test.
 
 Output, for target coverage 90 / 95 / 99%, one row per method:
 
@@ -179,20 +179,20 @@ Methods: `point`, `gaussian ensemble (uncalibrated)`, `conformal global`, `confo
 ### Step 6 - Time-of-day schedule and final metrics
 
 ```bash
-python src/analysis/schedule_conformal.py --horizon 0 --day_start 9 --day_end 18 \
+python src/analysis/schedule_conformal.py --horizon 1 --day_start 9 --day_end 18 \
     --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
 python src/analysis/schedule_final_metrics.py \
     --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
 ```
 - `schedule_conformal.py`: coverage 90% inside a daytime window and 75% outside it, with margins calibrated separately per period and per predicted-level decile. Defaults: window 8-21 h, `--day_eps 0.10`, `--night_eps 0.25`; the command above uses the chosen window (section 5).
-- `schedule_final_metrics.py`: repeats the comparison for 3 horizons x 3 windows (`--horizons`, `--windows` to restrict, for example `--horizons 0 --windows 9-18`) and writes the results to `final_metrics/` (unmet activity % and over-provisioning %, both dimensionless percentages of total activity). The per-run options of `schedule_conformal.py` (`--horizon`, `--day_start`, `--day_end`) are overridden there.
+- `schedule_final_metrics.py`: repeats the comparison for 3 horizons x 3 windows (`--horizons`, `--windows` to restrict, for example `--horizons 1 --windows 9-18`) and writes the results to `final_metrics/` (unmet activity % and over-provisioning %, both dimensionless percentages of total activity). The per-run options of `schedule_conformal.py` (`--horizon`, `--day_start`, `--day_end`) are overridden there.
 
 ### Optional plots
 
 ```bash
-python src/plotting/plot_confident.py --horizon 0 --eps 0.05 \
+python src/plotting/plot_confident.py --horizon 1 --eps 0.05 \
     --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
-python src/plotting/busiest_levels.py --horizon 0 \
+python src/plotting/busiest_levels.py --horizon 1 \
     --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
 python src/plotting/plot_concentration.py
 ```

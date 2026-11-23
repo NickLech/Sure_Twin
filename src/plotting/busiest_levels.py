@@ -10,12 +10,12 @@ several coverage levels (default 70 / 75 / 80 / 85 / 90 / 95 %). Saves ONE png (
 Calibration on the val split, plot on the test split (same setup as conformal_eval.py).
 
 Usage:
-    python src/plotting/busiest_levels.py --horizon 0 \
+    python src/plotting/busiest_levels.py --horizon 1 \
         --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
-    python src/plotting/busiest_levels.py --horizon 2 --start 0 --length 432        # 30 min ahead, first 3 days
+    python src/plotting/busiest_levels.py --horizon 3 --start 0 --length 432        # 30 min ahead, first 3 days
     python src/plotting/busiest_levels.py --levels 0.95 0.90 0.80 --n_busy 3
 
---horizon is 0-based (0 = 10 min ahead, 2 = 30 min). Original scale [a.u.].
+--horizon is 1-based (1 = 10 min ahead, 3 = 30 min). Original scale [a.u.].
 Needs only analyse_result.py and conformal_eval.py (in src/analysis/).
 """
 import argparse
@@ -42,7 +42,7 @@ def parse_args():
     ap.add_argument("--cal_data", default=None, help="dataset view of the calibration split")
     ap.add_argument("--input_len", type=int, default=144)
     ap.add_argument("--output_len", type=int, default=12)
-    ap.add_argument("--horizon", type=int, default=0, help="0 = first step = 10 min ahead")
+    ap.add_argument("--horizon", type=int, default=1, help="1..output_len (x10 min ahead; 1 = first step = 10 min)")
     ap.add_argument("--cal_frac", type=float, default=0.5, help="only used without --cal_data")
     ap.add_argument("--exclude", type=int, nargs="*", default=[])
     ap.add_argument("--csv", default="milan_raw.csv")
@@ -77,7 +77,7 @@ def bounds_for_cells(cal, ev, cells, levels):
 
 def plot(cal, ev, args):
     levels = sorted(args.levels)
-    h_min = (args.horizon + 1) * 10
+    h_min = args.horizon * 10
     order = np.argsort(ev["truth"].mean(0))[::-1]        # busiest first
     cells = [int(c) for c in order[:min(args.n_busy, order.size)]]
     bounds = bounds_for_cells(cal, ev, cells, levels)

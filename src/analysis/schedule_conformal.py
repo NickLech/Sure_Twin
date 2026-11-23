@@ -25,11 +25,11 @@ Saved (default paths, created if missing):
                                                     margin = table[period][decile_of(prediction)]
 
 Usage (from the repository root):
-    python src/analysis/schedule_conformal.py --horizon 0 \
+    python src/analysis/schedule_conformal.py --horizon 1 \
         --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
     python src/analysis/schedule_conformal.py --day_eps 0.10 --night_eps 0.25 --day_start 9 --day_end 18
 
---horizon is 0-based (0 = 10 min ahead, 2 = 30 min).
+--horizon is 1-based (1 = 10 min ahead, 3 = 30 min).
 Needs analyse_result.py and conformal_eval.py (same folder).
 """
 import argparse
@@ -58,7 +58,7 @@ def parse_args(argv=None):
     ap.add_argument("--cal_data", default=None, help="dataset view of the calibration split")
     ap.add_argument("--input_len", type=int, default=144)
     ap.add_argument("--output_len", type=int, default=12)
-    ap.add_argument("--horizon", type=int, default=0, help="0 = first step = 10 min ahead")
+    ap.add_argument("--horizon", type=int, default=1, help="1..output_len (x10 min ahead; 1 = first step = 10 min)")
     ap.add_argument("--cal_frac", type=float, default=0.5, help="only used without --cal_data")
     ap.add_argument("--exclude", type=int, nargs="*", default=[])
     ap.add_argument("--csv", default="milan_raw.csv")
@@ -242,7 +242,7 @@ def figure_summary(c, ev, bounds, tables, keys, args):
     ax.legend(fontsize=8)
 
     fig.suptitle(f"Coverage {1 - args.day_eps:.0%} between {args.day_start:g}:00 and {args.day_end:g}:00, "
-                 f"{1 - args.night_eps:.0%} otherwise - horizon {(args.horizon + 1) * 10} min - test set", fontsize=12)
+                 f"{1 - args.night_eps:.0%} otherwise - horizon {args.horizon * 10} min - test set", fontsize=12)
     plt.tight_layout(rect=(0, 0, 1, 0.94))
     prepare(args.out)
     plt.savefig(args.out, dpi=150)
@@ -303,7 +303,7 @@ def save_json(c, tables, args):
     """Save decile edges and margin tables, ready to use at run time."""
     q_day, q_night = tables
     data = {
-        "horizon_min": (args.horizon + 1) * 10,
+        "horizon_min": args.horizon * 10,
         "window_hours": [args.day_start, args.day_end],
         "eps_window": args.day_eps, "eps_outside": args.night_eps,
         "decile_edges": [float(e) for e in c.edges],
@@ -333,7 +333,7 @@ def main():
     if not (0 < args.day_eps < 1 and 0 < args.night_eps < 1):
         raise SystemExit("--day_eps and --night_eps must be in (0, 1)")
     cal, ev = load_cal_ev(args)
-    print(f"\n{ev['members']} members | horizon {(args.horizon + 1) * 10} min | ORIGINAL scale [a.u.] | "
+    print(f"\n{ev['members']} members | horizon {args.horizon * 10} min | ORIGINAL scale [a.u.] | "
           f"calibration windows {cal['pred'].shape[0]}, evaluation windows {ev['pred'].shape[0]}")
     run(cal, ev, args)
 

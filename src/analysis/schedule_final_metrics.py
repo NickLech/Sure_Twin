@@ -21,9 +21,9 @@ Saved in --out_dir (default "final_metrics"):
 Usage (from the repository root; data/checkpoint options as in schedule_conformal.py):
     python src/analysis/schedule_final_metrics.py \
         --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
-    python src/analysis/schedule_final_metrics.py --horizons 0 --windows 9-18   # a single combination
+    python src/analysis/schedule_final_metrics.py --horizons 1 --windows 9-18   # a single combination
 
---horizons are 0-based like --horizon (0 = 10 min, 1 = 20 min, 2 = 30 min). The per-run options of
+--horizons are 1-based like --horizon (1 = 10 min, 2 = 20 min, 3 = 30 min). The per-run options of
 schedule_conformal.py (--horizon, --day_start, --day_end, --out*) are accepted but overridden here.
 """
 import argparse
@@ -58,8 +58,8 @@ def parse_all():
     """Own options + every option of schedule_conformal.py."""
     ap = argparse.ArgumentParser(add_help=False, allow_abbrev=False)
     ap.add_argument("--out_dir", default="final_metrics")
-    ap.add_argument("--horizons", type=int, nargs="*", default=[0, 1, 2],
-                    help="0-based horizons to run (0 = 10 min, 1 = 20 min, 2 = 30 min)")
+    ap.add_argument("--horizons", type=int, nargs="*", default=[1, 2, 3],
+                    help="1-based horizons to run (1 = 10 min, 2 = 20 min, 3 = 30 min)")
     ap.add_argument("--windows", nargs="*", default=["8-21", "9-18", "9-19"],
                     help="high-coverage windows as START-END hours")
     extra, rest = ap.parse_known_args()
@@ -119,7 +119,7 @@ def figure(res, args, path):
         ax.set_ylabel("% of total true activity")
         ax.grid(alpha=0.3, axis="y")
     axes[0].legend(fontsize=7, loc="upper right")
-    fig.suptitle(f"Unmet activity vs over-provisioning - horizon {(args.horizon + 1) * 10} min - "
+    fig.suptitle(f"Unmet activity vs over-provisioning - horizon {args.horizon * 10} min - "
                  f"window {args.day_start:g}-{args.day_end:g} h ({1 - args.day_eps:.0%}) / other hours "
                  f"({1 - args.night_eps:.0%}) - test set", fontsize=12)
     plt.tight_layout(rect=(0, 0, 1, 0.94))
@@ -147,11 +147,11 @@ def main():
     for h in args.horizons:
         args.horizon = h
         cal, ev = sc.load_cal_ev(args)
-        print(f"\n##### horizon {(h + 1) * 10} min | {ev['members']} members | "
+        print(f"\n##### horizon {h * 10} min | {ev['members']} members | "
               f"calibration windows {cal['pred'].shape[0]}, evaluation windows {ev['pred'].shape[0]}")
         for start, end in args.windows:
             args.day_start, args.day_end = start, end
-            print(f"\n--- horizon {(h + 1) * 10} min, window {start:g}-{end:g} h ---")
+            print(f"\n--- horizon {h * 10} min, window {start:g}-{end:g} h ---")
             try:
                 res = run_one(cal, ev, args)
             except SystemExit as e:
@@ -159,8 +159,8 @@ def main():
                 continue
             print_tables(res, args)
             figure(res, args, os.path.join(
-                args.out_dir, f"schedule_final_metrics_h{(h + 1) * 10}_w{start:g}-{end:g}.png"))
-            all_res.append({"horizon_min": (h + 1) * 10, "window": f"{start:g}-{end:g}", "results": res})
+                args.out_dir, f"schedule_final_metrics_h{h * 10}_w{start:g}-{end:g}.png"))
+            all_res.append({"horizon_min": h * 10, "window": f"{start:g}-{end:g}", "results": res})
 
     csv_path = os.path.join(args.out_dir, "schedule_final_metrics_all.csv")
     with open(csv_path, "w", newline="") as f:
