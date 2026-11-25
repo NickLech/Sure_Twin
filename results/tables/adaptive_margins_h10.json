@@ -6,12 +6,19 @@
   ],
   "eps_window": 0.1,
   "eps_outside": 0.25,
-  "ramp_lambda": 1.0,
+  "ramp_lambda": 0.30000000000000004,
   "bin_edges": [
     19.046122436523437,
     45.23077362060548,
     105.91415466308595,
     250.81976928710938
+  ],
+  "bin_underest_weights": [
+    1.1878592187520087,
+    1.0331024293380282,
+    0.9925134560371057,
+    0.9180615931254065,
+    0.8684633027474509
   ],
   "margin_window": [
     2.827114677429199,
@@ -27,5 +34,5 @@
     11.52514038085937,
     32.68059997558595
   ],
-  "formula": "bound(t) = pred(t) + margin_<period>[searchsorted(bin_edges, pred(t), side='right')] + ramp_lambda * max(0, pred(t) - pred(t-1))"
+  "formula": "b = searchsorted(bin_edges, pred(t), side='right'); bound(t) = pred(t) + margin_<period>[b] + ramp_lambda * bin_underest_weights[b] * max(0, pred(t) - pred(t-1))"
 }
