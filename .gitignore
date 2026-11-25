@@ -12,3 +12,4 @@ test_*.log
 datasets/MILAN_synth_burst/
 /logs/
 /milan_raw.csv
+final_metrics/busy_gate/logs/
