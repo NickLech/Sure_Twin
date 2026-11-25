@@ -1,0 +1,53 @@
+{
+  "horizon_min": 60,
+  "window_hours": [
+    9.0,
+    18.0
+  ],
+  "eps_window": 0.1,
+  "eps_outside": 0.2,
+  "busy_threshold_au": 49.345960101252004,
+  "spread_mode": "busy",
+  "spread_relative": false,
+  "spread_quantile": null,
+  "spread_threshold": null,
+  "quiet_eps": null,
+  "decile_edges": [
+    63.440333404541015,
+    81.16791976928711,
+    103.42511566162112,
+    132.6182293701172,
+    172.33667602539063,
+    220.39529663085938,
+    279.17020507812504,
+    367.1625830078125,
+    534.1126672363282
+  ],
+  "margin_window": [
+    14.224936294555661,
+    17.97140045166016,
+    21.28082122802735,
+    27.316394805908203,
+    35.51825561523438,
+    44.80481414794923,
+    55.299786376953136,
+    70.95099792480471,
+    93.85785522460935,
+    166.6815307617187
+  ],
+  "margin_outside": [
+    7.04243621826172,
+    9.330378723144534,
+    11.40396499633789,
+    13.988088989257818,
+    17.42169189453125,
+    22.936880493164068,
+    28.940101623535156,
+    39.41070861816405,
+    58.26221923828126,
+    95.63217773437509
+  ],
+  "quiet_margin_window": 0.0,
+  "quiet_margin_outside": 0.0,
+  "usage": "signal = spread (or spread/max(pred,1) if spread_relative). busy = pred >= busy_threshold_au (| signal >= spread_threshold if mode 'busy'); busy: bound = pred + margin_<period>[searchsorted(decile_edges, pred, side='right')]. protected quiet = quiet & signal >= spread_threshold (mode 'quiet_only') or every quiet pair (mode 'busy'): bound = pred + quiet_margin_<period> (if quiet_eps). other quiet pairs: bound = pred"
+}

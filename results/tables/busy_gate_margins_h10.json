@@ -5,10 +5,13 @@
     18.0
   ],
   "eps_window": 0.1,
-  "eps_outside": 0.25,
+  "eps_outside": 0.2,
   "busy_threshold_au": 59.28641481217094,
-  "busy_spread_threshold_au": null,
-  "quiet_eps": 0.5,
+  "spread_mode": "busy",
+  "spread_relative": false,
+  "spread_quantile": null,
+  "spread_threshold": null,
+  "quiet_eps": null,
   "decile_edges": [
     74.91011711120606,
     93.63969772338866,
@@ -33,16 +36,18 @@
     141.64373779296875
   ],
   "margin_outside": [
-    5.209668731689447,
-    6.324713134765631,
-    7.959987640380859,
-    9.45941772460938,
-    11.618360900878912,
-    15.133598327636719,
-    19.333489990234398,
-    25.686419677734364,
-    39.25018005371095,
-    66.05560302734375
+    6.928855895996094,
+    8.325366210937503,
+    10.450978088378903,
+    12.595089721679685,
+    15.432104492187506,
+    20.161729431152338,
+    25.5245346069336,
+    34.41169128417971,
+    51.289031982421875,
+    85.45231323242183
   ],
-  "usage": "busy = prediction >= busy_threshold_au (or spread >= busy_spread_threshold_au); busy: bound = prediction + margin_<period>[searchsorted(decile_edges, prediction, side='right')]; quiet: bound = prediction (+ quiet margin if quiet_eps)"
+  "quiet_margin_window": 0.0,
+  "quiet_margin_outside": 0.0,
+  "usage": "signal = spread (or spread/max(pred,1) if spread_relative). busy = pred >= busy_threshold_au (| signal >= spread_threshold if mode 'busy'); busy: bound = pred + margin_<period>[searchsorted(decile_edges, pred, side='right')]. protected quiet = quiet & signal >= spread_threshold (mode 'quiet_only') or every quiet pair (mode 'busy'): bound = pred + quiet_margin_<period> (if quiet_eps). other quiet pairs: bound = pred"
 }

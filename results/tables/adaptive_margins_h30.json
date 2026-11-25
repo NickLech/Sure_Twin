@@ -5,8 +5,8 @@
     18.0
   ],
   "eps_window": 0.1,
-  "eps_outside": 0.25,
-  "ramp_lambda": 0.125,
+  "eps_outside": 0.2,
+  "ramp_lambda": 0.0,
   "bin_edges": [
     18.962733840942384,
     45.06814903259277,
@@ -28,11 +28,11 @@
     101.8303283691406
   ],
   "margin_outside": [
-    0.9849997758865356,
-    2.638744354248047,
-    5.874150848388666,
-    12.831076049804693,
-    36.475555419921875
+    1.3126016616821286,
+    3.489083480834964,
+    7.882834243774411,
+    17.24388885498047,
+    49.34104614257808
   ],
   "formula": "b = searchsorted(bin_edges, pred(t), side='right'); bound(t) = pred(t) + margin_<period>[b] + ramp_lambda * bin_underest_weights[b] * max(0, pred(t) - pred(t-1))"
 }

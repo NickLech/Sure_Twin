@@ -1,0 +1,442 @@
+    --horizons 1 3 6 \
+    --day_start 9 \
+    --day_end 18 \
+    --day_eps 0.1 \
+    --night_eps 0.2 \
+    --ramp_lambda auto \
+    --cal_data datasets/MILAN_val \
+    --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*" \
+    --out_dir final_metrics/adaptive_ramp
+
+[evaluation] 10 run(s) from checkpoints/STID_MILAN/seed*/*
+[evaluation] windows evaluated: 709 of 709; max |targets - raw| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2679 vs 0.2679 (should agree within ~1%)
+  seed1: 0.2678 vs 0.2678 (should agree within ~1%)
+  seed2: 0.2685 vs 0.2685 (should agree within ~1%)
+  seed3: 0.2690 vs 0.2690 (should agree within ~1%)
+  seed4: 0.2717 vs 0.2717 (should agree within ~1%)
+  seed5: 0.2712 vs 0.2712 (should agree within ~1%)
+  seed6: 0.2681 vs 0.2681 (should agree within ~1%)
+  seed7: 0.2713 vs 0.2713 (should agree within ~1%)
+  seed8: 0.2680 vs 0.2680 (should agree within ~1%)
+  seed9: 0.2726 vs 0.2726 (should agree within ~1%)
+
+[calibration] 10 run(s) from checkpoints_eval/MILAN_val/seed*/*
+[calibration] windows evaluated: 709 of 709; max |targets - raw| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2956 vs 0.2956 (should agree within ~1%)
+  seed1: 0.2955 vs 0.2955 (should agree within ~1%)
+  seed2: 0.2959 vs 0.2959 (should agree within ~1%)
+  seed3: 0.2958 vs 0.2958 (should agree within ~1%)
+  seed4: 0.3011 vs 0.3011 (should agree within ~1%)
+  seed5: 0.2984 vs 0.2984 (should agree within ~1%)
+  seed6: 0.2952 vs 0.2952 (should agree within ~1%)
+  seed7: 0.2999 vs 0.2999 (should agree within ~1%)
+  seed8: 0.2957 vs 0.2957 (should agree within ~1%)
+  seed9: 0.3011 vs 0.3011 (should agree within ~1%)
+
+##### Horizon 10 min | cells 2500 | window 9-18 h
+
+Adaptive bins: 5 | ramp lambda = 0.075 (cost_w=0.80) | iso-overprov scale alpha = 1.027 | hysteresis = [23.4, 33.5] a.u.
+
+== 1) GLOBAL, ALL CELLS (cover, unmet %, over-prov. %, ON/OFF switch %) ==
+approach                       |             all hours             |              9-18 h               |            other hours
+                               |  cover   unmet%    over%     sw% |  cover   unmet%    over%     sw% |  cover   unmet%    over%     sw%
+STID point (no margin)         |  0.518     5.00     3.75    0.31 |  0.515     4.85     3.51    0.15 |  0.519     5.15     3.99    0.41
+Scheduled 10-deciles (orig)    |  0.859     1.61    13.83    0.32 |  0.919     1.06    16.60    0.15 |  0.821     2.15    11.07    0.43
+Iso-overprov baseline          |  0.863     1.57    14.15    0.33 |  0.922     1.03    17.01    0.15 |  0.826     2.11    11.29    0.43  <- fair ref
+Adaptive conformal (5 bins)    |  0.858     1.73    13.70    0.32 |  0.918     1.18    16.57    0.18 |  0.821     2.28    10.83    0.41
+Adaptive + ramp (new)          |  0.860     1.70    13.82    0.33 |  0.919     1.16    16.68    0.18 |  0.824     2.25    10.95    0.42  <- new
+
+[Efficiency Check — All Hours]
+  vs Scheduled 10-deciles (orig): unmet +0.10 pp | overprov -0.02 pp | switch +0.003 pp
+  vs Iso-overprov baseline      : unmet +0.14 pp at equal over-provisioning (~13.82%)
+
+== 2) CORRECTION PROFILE BY PREDICTED TRAFFIC BIN (all hours) ==
+bin      pred_avg  underest    orig_m     new_m  unmet_pt%  unmet_orig%  unmet_new%
+bin_1        10.7       0.8       1.6       1.6       7.18         2.91        3.04
+bin_2        30.4       1.8       4.4       4.4       5.90         2.05        2.08
+bin_3        71.2       4.0       9.8       9.9       5.61         1.99        2.01
+bin_4       168.5       8.8      21.9      21.8       5.16         1.83        1.88
+bin_5       508.0      24.4      69.9      68.9       4.75         1.42        1.55
+Saved final_metrics/adaptive_ramp/adaptive_h10_w9-18_summary.png
+Saved results/tables/adaptive_margins_h10.json
+
+[evaluation] 10 run(s) from checkpoints/STID_MILAN/seed*/*
+[evaluation] windows evaluated: 709 of 709; max |targets - raw| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2679 vs 0.2679 (should agree within ~1%)
+  seed1: 0.2678 vs 0.2678 (should agree within ~1%)
+  seed2: 0.2685 vs 0.2685 (should agree within ~1%)
+  seed3: 0.2690 vs 0.2690 (should agree within ~1%)
+  seed4: 0.2717 vs 0.2717 (should agree within ~1%)
+  seed5: 0.2712 vs 0.2712 (should agree within ~1%)
+  seed6: 0.2681 vs 0.2681 (should agree within ~1%)
+  seed7: 0.2713 vs 0.2713 (should agree within ~1%)
+  seed8: 0.2680 vs 0.2680 (should agree within ~1%)
+  seed9: 0.2726 vs 0.2726 (should agree within ~1%)
+
+[calibration] 10 run(s) from checkpoints_eval/MILAN_val/seed*/*
+[calibration] windows evaluated: 709 of 709; max |targets - raw| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2956 vs 0.2956 (should agree within ~1%)
+  seed1: 0.2955 vs 0.2955 (should agree within ~1%)
+  seed2: 0.2959 vs 0.2959 (should agree within ~1%)
+  seed3: 0.2958 vs 0.2958 (should agree within ~1%)
+  seed4: 0.3011 vs 0.3011 (should agree within ~1%)
+  seed5: 0.2984 vs 0.2984 (should agree within ~1%)
+  seed6: 0.2952 vs 0.2952 (should agree within ~1%)
+  seed7: 0.2999 vs 0.2999 (should agree within ~1%)
+  seed8: 0.2957 vs 0.2957 (should agree within ~1%)
+  seed9: 0.3011 vs 0.3011 (should agree within ~1%)
+
+##### Horizon 30 min | cells 2500 | window 9-18 h
+
+Adaptive bins: 5 | ramp lambda = 0.000 (cost_w=0.80) | iso-overprov scale alpha = 1.016 | hysteresis = [23.4, 33.5] a.u.
+
+== 1) GLOBAL, ALL CELLS (cover, unmet %, over-prov. %, ON/OFF switch %) ==
+approach                       |             all hours             |              9-18 h               |            other hours
+                               |  cover   unmet%    over%     sw% |  cover   unmet%    over%     sw% |  cover   unmet%    over%     sw%
+STID point (no margin)         |  0.520     5.48     4.21    0.29 |  0.521     5.33     3.97    0.12 |  0.520     5.64     4.46    0.39
+Scheduled 10-deciles (orig)    |  0.860     1.78    15.61    0.31 |  0.920     1.17    18.77    0.14 |  0.823     2.38    12.46    0.42
+Iso-overprov baseline          |  0.863     1.75    15.83    0.31 |  0.922     1.15    19.05    0.14 |  0.826     2.35    12.61    0.41  <- fair ref
+Adaptive conformal (5 bins)    |  0.859     1.90    15.45    0.31 |  0.918     1.29    18.72    0.17 |  0.823     2.52    12.17    0.40
+Adaptive + ramp (new)          |  0.859     1.90    15.45    0.31 |  0.918     1.29    18.72    0.17 |  0.823     2.52    12.17    0.40  <- new
+
+[Efficiency Check — All Hours]
+  vs Scheduled 10-deciles (orig): unmet +0.13 pp | overprov -0.17 pp | switch +0.003 pp
+  vs Iso-overprov baseline      : unmet +0.16 pp at equal over-provisioning (~15.45%)
+
+== 2) CORRECTION PROFILE BY PREDICTED TRAFFIC BIN (all hours) ==
+bin      pred_avg  underest    orig_m     new_m  unmet_pt%  unmet_orig%  unmet_new%
+bin_1        10.6       0.9       1.8       1.8       8.25         3.44        3.65
+bin_2        30.3       2.0       4.9       4.8       6.50         2.32        2.41
+bin_3        71.0       4.5      11.1      11.1       6.25         2.26        2.31
+bin_4       168.0       9.7      24.6      24.3       5.72         2.06        2.14
+bin_5       507.0      26.5      77.9      76.0       5.17         1.54        1.70
+Saved final_metrics/adaptive_ramp/adaptive_h30_w9-18_summary.png
+Saved results/tables/adaptive_margins_h30.json
+
+[evaluation] 10 run(s) from checkpoints/STID_MILAN/seed*/*
+[evaluation] windows evaluated: 709 of 709; max |targets - raw| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2679 vs 0.2679 (should agree within ~1%)
+  seed1: 0.2678 vs 0.2678 (should agree within ~1%)
+  seed2: 0.2685 vs 0.2685 (should agree within ~1%)
+  seed3: 0.2690 vs 0.2690 (should agree within ~1%)
+  seed4: 0.2717 vs 0.2717 (should agree within ~1%)
+  seed5: 0.2712 vs 0.2712 (should agree within ~1%)
+  seed6: 0.2681 vs 0.2681 (should agree within ~1%)
+  seed7: 0.2713 vs 0.2713 (should agree within ~1%)
+  seed8: 0.2680 vs 0.2680 (should agree within ~1%)
+  seed9: 0.2726 vs 0.2726 (should agree within ~1%)
+
+[calibration] 10 run(s) from checkpoints_eval/MILAN_val/seed*/*
+[calibration] windows evaluated: 709 of 709; max |targets - raw| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2956 vs 0.2956 (should agree within ~1%)
+  seed1: 0.2955 vs 0.2955 (should agree within ~1%)
+  seed2: 0.2959 vs 0.2959 (should agree within ~1%)
+  seed3: 0.2958 vs 0.2958 (should agree within ~1%)
+  seed4: 0.3011 vs 0.3011 (should agree within ~1%)
+  seed5: 0.2984 vs 0.2984 (should agree within ~1%)
+  seed6: 0.2952 vs 0.2952 (should agree within ~1%)
+  seed7: 0.2999 vs 0.2999 (should agree within ~1%)
+  seed8: 0.2957 vs 0.2957 (should agree within ~1%)
+  seed9: 0.3011 vs 0.3011 (should agree within ~1%)
+
+##### Horizon 60 min | cells 2500 | window 9-18 h
+
+Adaptive bins: 5 | ramp lambda = 0.000 (cost_w=0.80) | iso-overprov scale alpha = 1.014 | hysteresis = [23.4, 33.5] a.u.
+
+== 1) GLOBAL, ALL CELLS (cover, unmet %, over-prov. %, ON/OFF switch %) ==
+approach                       |             all hours             |              9-18 h               |            other hours
+                               |  cover   unmet%    over%     sw% |  cover   unmet%    over%     sw% |  cover   unmet%    over%     sw%
+STID point (no margin)         |  0.525     5.77     4.71    0.28 |  0.530     5.60     4.45    0.12 |  0.522     5.95     4.97    0.38
+Scheduled 10-deciles (orig)    |  0.860     1.86    17.02    0.30 |  0.918     1.25    20.32    0.12 |  0.824     2.47    13.73    0.41
+Iso-overprov baseline          |  0.862     1.84    17.23    0.30 |  0.920     1.23    20.59    0.13 |  0.827     2.44    13.88    0.41  <- fair ref
+Adaptive conformal (5 bins)    |  0.859     1.99    16.84    0.30 |  0.918     1.37    20.26    0.15 |  0.824     2.62    13.44    0.40
+Adaptive + ramp (new)          |  0.859     1.99    16.84    0.30 |  0.918     1.37    20.26    0.15 |  0.824     2.62    13.44    0.40  <- new
+
+[Efficiency Check — All Hours]
+  vs Scheduled 10-deciles (orig): unmet +0.13 pp | overprov -0.18 pp | switch +0.003 pp
+  vs Iso-overprov baseline      : unmet +0.16 pp at equal over-provisioning (~16.84%)
+
+== 2) CORRECTION PROFILE BY PREDICTED TRAFFIC BIN (all hours) ==
+bin      pred_avg  underest    orig_m     new_m  unmet_pt%  unmet_orig%  unmet_new%
+bin_1        10.6       1.0       2.1       2.0       9.41         3.94        4.13
+bin_2        30.3       2.2       5.3       5.2       7.03         2.52        2.59
+bin_3        71.0       4.9      12.0      12.0       6.74         2.42        2.47
+bin_4       168.1      10.4      26.6      26.3       6.11         2.19        2.27
+bin_5       507.7      27.4      83.2      81.1       5.36         1.58        1.74
+Saved final_metrics/adaptive_ramp/adaptive_h60_w9-18_summary.png
+Saved results/tables/adaptive_margins_h60.json
+
+Saved final_metrics/adaptive_ramp/adaptive_all.json and .csv
+------>python src/analysis/schedule_busy_gate.py \
+    --horizons 1 3 6 \
+    --day_start 9 \
+    --day_end 18 \
+    --day_eps 0.1 \
+    --night_eps 0.2 \
+    --cal_data datasets/MILAN_val \
+    --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*" \
+    --out_dir final_metrics/busy_gate
+
+[evaluation] 10 run(s) from checkpoints/STID_MILAN/seed*/*
+[evaluation] windows evaluated: 709 of 709; max |targets - raw| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2679 vs 0.2679 (should agree within ~1%)
+  seed1: 0.2678 vs 0.2678 (should agree within ~1%)
+  seed2: 0.2685 vs 0.2685 (should agree within ~1%)
+  seed3: 0.2690 vs 0.2690 (should agree within ~1%)
+  seed4: 0.2717 vs 0.2717 (should agree within ~1%)
+  seed5: 0.2712 vs 0.2712 (should agree within ~1%)
+  seed6: 0.2681 vs 0.2681 (should agree within ~1%)
+  seed7: 0.2713 vs 0.2713 (should agree within ~1%)
+  seed8: 0.2680 vs 0.2680 (should agree within ~1%)
+  seed9: 0.2726 vs 0.2726 (should agree within ~1%)
+
+[calibration] 10 run(s) from checkpoints_eval/MILAN_val/seed*/*
+[calibration] windows evaluated: 709 of 709; max |targets - raw| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2956 vs 0.2956 (should agree within ~1%)
+  seed1: 0.2955 vs 0.2955 (should agree within ~1%)
+  seed2: 0.2959 vs 0.2959 (should agree within ~1%)
+  seed3: 0.2958 vs 0.2958 (should agree within ~1%)
+  seed4: 0.3011 vs 0.3011 (should agree within ~1%)
+  seed5: 0.2984 vs 0.2984 (should agree within ~1%)
+  seed6: 0.2952 vs 0.2952 (should agree within ~1%)
+  seed7: 0.2999 vs 0.2999 (should agree within ~1%)
+  seed8: 0.2957 vs 0.2957 (should agree within ~1%)
+  seed9: 0.3011 vs 0.3011 (should agree within ~1%)
+
+##### horizon 10 min | 10 members | cells 2500 | window 9-18 h | calibration windows 709, evaluation windows 709
+[auto] tau = 59.3 a.u. chosen on val (global unmet <= ungated + 0.25 pp): busy pairs 53.6%, activity 92.6%
+
+busy threshold tau = 59.3 a.u. | busy pairs 52.2% | protected quiet pairs 47.8% | deciles used: 10
+spread: off | protected quiet pairs get: no margin | iso alpha: overprov 0.935, unmet 0.876
+
+== 1) GLOBAL, ALL 2500 CELLS (unmet % and over-prov. % of total true activity; cover = fraction 0-1) ==
+approach                           |          all hours          |           9-18 h            |         other hours
+                                   |  cover   unmet%  overprov% |  cover   unmet%  overprov% |  cover   unmet%  overprov%
+STID point (no margin)             |  0.518     5.00       3.75 |  0.515     4.85       3.51 |  0.519     5.15       3.99
+scheduled, all cells (current)     |  0.859     1.61      13.83 |  0.919     1.06      16.60 |  0.821     2.15      11.07
+iso-overprov baseline              |  0.848     1.71      13.06 |  0.910     1.16      15.59 |  0.809     2.26      10.53  <- fair ref
+iso-unmet baseline                 |  0.836     1.81      12.36 |  0.900     1.25      14.68 |  0.797     2.37      10.04  <- fair ref
+scheduled + busy gate (new)        |  0.700     1.86      13.06 |  0.752     1.29      15.69 |  0.667     2.44      10.44  <- new
+
+== 2) BY STATIC TIER of cells (train-mean activity), period = all hours ==
+tier              cells mean[a.u.] share act%  busy% |         point         |       all cells       |     iso-overprov      |       iso-unmet       |         gate
+                                                     | cover unmet%  over% | cover unmet%  over% | cover unmet%  over% | cover unmet%  over% | cover unmet%  over%
+cells 0%-50%       1250       36.1      10.16   13.5 | 0.511   6.31   4.49 | 0.850   2.25  15.62 | 0.839   2.37  14.77 | 0.828   2.50  13.99 | 0.559   4.82   8.64
+cells 50%-75%       625      144.0      21.14   83.3 | 0.521   5.43   4.06 | 0.860   1.80  14.67 | 0.849   1.91  13.85 | 0.838   2.02  13.11 | 0.808   1.97  14.04
+cells 75%-90%       375      303.8      28.43   98.2 | 0.528   4.92   3.72 | 0.879   1.43  15.25 | 0.868   1.53  14.37 | 0.858   1.62  13.57 | 0.872   1.49  14.34
+cells 90%-97%       175      514.7      23.85   99.4 | 0.527   4.57   3.48 | 0.880   1.30  13.46 | 0.869   1.39  12.69 | 0.858   1.49  12.00 | 0.883   1.22  14.01
+cells 97%-100%       75      808.5      16.42   99.9 | 0.526   4.39   3.35 | 0.837   1.72   9.74 | 0.825   1.82   9.26 | 0.815   1.92   8.81 | 0.860   1.48  10.96
+
+== 3) BY DYNAMIC STATE at prediction time, period = all hours ==
+busy (pred >= tau): 52.2% of pairs, 92.3% of total activity
+   STID point (no margin)             cover 0.521 | unmet   4.91% | overprov   3.67%
+   scheduled, all cells (current)     cover 0.867 | unmet   1.56% | overprov  13.70%
+   iso-overprov baseline              cover 0.856 | unmet   1.66% | overprov  12.93%
+   iso-unmet baseline                 cover 0.845 | unmet   1.76% | overprov  12.24%
+   scheduled + busy gate (new)        cover 0.869 | unmet   1.51% | overprov  13.76%
+quiet, protected: 47.8% of pairs, 7.7% of total activity
+   STID point (no margin)             cover 0.514 | unmet   6.09% | overprov   4.68%
+   scheduled, all cells (current)     cover 0.850 | unmet   2.15% | overprov  15.45%
+   iso-overprov baseline              cover 0.839 | unmet   2.27% | overprov  14.62%
+   iso-unmet baseline                 cover 0.827 | unmet   2.40% | overprov  13.87%
+   scheduled + busy gate (new)        cover 0.514 | unmet   6.09% | overprov   4.68%
+
+== 4) PER-CELL distribution (unmet % of each cell's own activity; cover = per-cell fraction) ==
+approach                           unmet med     p90     p99     max | cov med    p10    min
+STID point (no margin)                  5.43    8.81   13.90  114.74 |   0.515  0.478  0.415
+scheduled, all cells (current)          1.64    3.74    7.36   23.29 |   0.862  0.794  0.676
+iso-overprov baseline                   1.75    3.92    7.63   25.42 |   0.850  0.783  0.669
+iso-unmet baseline                      1.86    4.07    7.89   28.09 |   0.839  0.770  0.663
+scheduled + busy gate (new)             3.02    7.98   13.90  114.74 |   0.738  0.492  0.415
+
+GATE vs ALL-CELLS   (all hours): over-provisioning -0.77 pp, unmet +0.26 pp
+GATE vs ISO-OVERPROV (all hours): unmet +0.15 pp (over 13.06 vs 13.06)   [negative = gate better]
+GATE vs ISO-UNMET    (all hours): over  +0.70 pp (unmet 1.86 vs 1.81)   [negative = gate better]
+Saved final_metrics/busy_gate/busy_gate_h10_w9-18_tiers.png
+Saved final_metrics/busy_gate/busy_gate_h10_w9-18_threshold.png
+Saved results/tables/busy_gate_margins_h10.json
+
+[evaluation] 10 run(s) from checkpoints/STID_MILAN/seed*/*
+[evaluation] windows evaluated: 709 of 709; max |targets - raw| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2679 vs 0.2679 (should agree within ~1%)
+  seed1: 0.2678 vs 0.2678 (should agree within ~1%)
+  seed2: 0.2685 vs 0.2685 (should agree within ~1%)
+  seed3: 0.2690 vs 0.2690 (should agree within ~1%)
+  seed4: 0.2717 vs 0.2717 (should agree within ~1%)
+  seed5: 0.2712 vs 0.2712 (should agree within ~1%)
+  seed6: 0.2681 vs 0.2681 (should agree within ~1%)
+  seed7: 0.2713 vs 0.2713 (should agree within ~1%)
+  seed8: 0.2680 vs 0.2680 (should agree within ~1%)
+  seed9: 0.2726 vs 0.2726 (should agree within ~1%)
+
+[calibration] 10 run(s) from checkpoints_eval/MILAN_val/seed*/*
+[calibration] windows evaluated: 709 of 709; max |targets - raw| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2956 vs 0.2956 (should agree within ~1%)
+  seed1: 0.2955 vs 0.2955 (should agree within ~1%)
+  seed2: 0.2959 vs 0.2959 (should agree within ~1%)
+  seed3: 0.2958 vs 0.2958 (should agree within ~1%)
+  seed4: 0.3011 vs 0.3011 (should agree within ~1%)
+  seed5: 0.2984 vs 0.2984 (should agree within ~1%)
+  seed6: 0.2952 vs 0.2952 (should agree within ~1%)
+  seed7: 0.2999 vs 0.2999 (should agree within ~1%)
+  seed8: 0.2957 vs 0.2957 (should agree within ~1%)
+  seed9: 0.3011 vs 0.3011 (should agree within ~1%)
+
+##### horizon 30 min | 10 members | cells 2500 | window 9-18 h | calibration windows 709, evaluation windows 709
+[auto] tau = 49.4 a.u. chosen on val (global unmet <= ungated + 0.25 pp): busy pairs 57.8%, activity 94.0%
+
+busy threshold tau = 49.4 a.u. | busy pairs 56.6% | protected quiet pairs 43.4% | deciles used: 10
+spread: off | protected quiet pairs get: no margin | iso alpha: overprov 0.948, unmet 0.901
+
+== 1) GLOBAL, ALL 2500 CELLS (unmet % and over-prov. % of total true activity; cover = fraction 0-1) ==
+approach                           |          all hours          |           9-18 h            |         other hours
+                                   |  cover   unmet%  overprov% |  cover   unmet%  overprov% |  cover   unmet%  overprov%
+STID point (no margin)             |  0.520     5.48       4.21 |  0.521     5.33       3.97 |  0.520     5.64       4.46
+scheduled, all cells (current)     |  0.860     1.78      15.61 |  0.920     1.17      18.77 |  0.823     2.38      12.46
+iso-overprov baseline              |  0.852     1.86      14.91 |  0.913     1.25      17.86 |  0.814     2.47      11.97  <- fair ref
+iso-unmet baseline                 |  0.843     1.95      14.29 |  0.905     1.33      17.04 |  0.805     2.57      11.53  <- fair ref
+scheduled + busy gate (new)        |  0.714     2.00      14.92 |  0.772     1.37      17.96 |  0.679     2.64      11.89  <- new
+
+== 2) BY STATIC TIER of cells (train-mean activity), period = all hours ==
+tier              cells mean[a.u.] share act%  busy% |         point         |       all cells       |     iso-overprov      |       iso-unmet       |         gate
+                                                     | cover unmet%  over% | cover unmet%  over% | cover unmet%  over% | cover unmet%  over% | cover unmet%  over%
+cells 0%-50%       1250       36.1      10.16   19.4 | 0.512   6.96   4.84 | 0.852   2.50  17.44 | 0.843   2.62  16.66 | 0.835   2.72  15.96 | 0.580   4.86  10.81
+cells 50%-75%       625      144.0      21.14   88.3 | 0.523   5.95   4.49 | 0.862   1.98  16.57 | 0.853   2.07  15.83 | 0.845   2.17  15.16 | 0.823   2.11  16.02
+cells 75%-90%       375      303.8      28.42   98.8 | 0.535   5.37   4.16 | 0.881   1.56  17.24 | 0.873   1.64  16.44 | 0.865   1.72  15.72 | 0.875   1.62  16.28
+cells 90%-97%       175      514.7      23.86   99.6 | 0.536   5.01   3.98 | 0.878   1.44  15.19 | 0.870   1.52  14.50 | 0.862   1.60  13.88 | 0.882   1.36  15.90
+cells 97%-100%       75      808.5      16.42   99.9 | 0.531   4.85   3.90 | 0.836   1.93  11.05 | 0.828   2.01  10.61 | 0.819   2.09  10.22 | 0.856   1.69  12.30
+
+== 3) BY DYNAMIC STATE at prediction time, period = all hours ==
+busy (pred >= tau): 56.6% of pairs, 93.8% of total activity
+   STID point (no margin)             cover 0.528 | unmet   5.39% | overprov   4.16%
+   scheduled, all cells (current)     cover 0.869 | unmet   1.73% | overprov  15.51%
+   iso-overprov baseline              cover 0.861 | unmet   1.81% | overprov  14.82%
+   iso-unmet baseline                 cover 0.853 | unmet   1.90% | overprov  14.19%
+   scheduled + busy gate (new)        cover 0.870 | unmet   1.68% | overprov  15.57%
+quiet, protected: 43.4% of pairs, 6.2% of total activity
+   STID point (no margin)             cover 0.511 | unmet   6.91% | overprov   5.02%
+   scheduled, all cells (current)     cover 0.848 | unmet   2.54% | overprov  17.14%
+   iso-overprov baseline              cover 0.839 | unmet   2.65% | overprov  16.40%
+   iso-unmet baseline                 cover 0.831 | unmet   2.76% | overprov  15.72%
+   scheduled + busy gate (new)        cover 0.511 | unmet   6.91% | overprov   5.02%
+
+== 4) PER-CELL distribution (unmet % of each cell's own activity; cover = per-cell fraction) ==
+approach                           unmet med     p90     p99     max | cov med    p10    min
+STID point (no margin)                  5.92    9.97   17.06  124.90 |   0.518  0.471  0.392
+scheduled, all cells (current)          1.79    4.22    9.84   21.69 |   0.865  0.793  0.671
+iso-overprov baseline                   1.89    4.36   10.05   22.58 |   0.856  0.784  0.667
+iso-unmet baseline                      1.98    4.53   10.24   23.38 |   0.846  0.776  0.654
+scheduled + busy gate (new)             3.04    8.61   17.06  124.90 |   0.761  0.488  0.398
+
+GATE vs ALL-CELLS   (all hours): over-provisioning -0.69 pp, unmet +0.23 pp
+GATE vs ISO-OVERPROV (all hours): unmet +0.14 pp (over 14.92 vs 14.91)   [negative = gate better]
+GATE vs ISO-UNMET    (all hours): over  +0.64 pp (unmet 2.00 vs 1.95)   [negative = gate better]
+Saved final_metrics/busy_gate/busy_gate_h30_w9-18_tiers.png
+Saved final_metrics/busy_gate/busy_gate_h30_w9-18_threshold.png
+Saved results/tables/busy_gate_margins_h30.json
+
+[evaluation] 10 run(s) from checkpoints/STID_MILAN/seed*/*
+[evaluation] windows evaluated: 709 of 709; max |targets - raw| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2679 vs 0.2679 (should agree within ~1%)
+  seed1: 0.2678 vs 0.2678 (should agree within ~1%)
+  seed2: 0.2685 vs 0.2685 (should agree within ~1%)
+  seed3: 0.2690 vs 0.2690 (should agree within ~1%)
+  seed4: 0.2717 vs 0.2717 (should agree within ~1%)
+  seed5: 0.2712 vs 0.2712 (should agree within ~1%)
+  seed6: 0.2681 vs 0.2681 (should agree within ~1%)
+  seed7: 0.2713 vs 0.2713 (should agree within ~1%)
+  seed8: 0.2680 vs 0.2680 (should agree within ~1%)
+  seed9: 0.2726 vs 0.2726 (should agree within ~1%)
+
+[calibration] 10 run(s) from checkpoints_eval/MILAN_val/seed*/*
+[calibration] windows evaluated: 709 of 709; max |targets - raw| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2956 vs 0.2956 (should agree within ~1%)
+  seed1: 0.2955 vs 0.2955 (should agree within ~1%)
+  seed2: 0.2959 vs 0.2959 (should agree within ~1%)
+  seed3: 0.2958 vs 0.2958 (should agree within ~1%)
+  seed4: 0.3011 vs 0.3011 (should agree within ~1%)
+  seed5: 0.2984 vs 0.2984 (should agree within ~1%)
+  seed6: 0.2952 vs 0.2952 (should agree within ~1%)
+  seed7: 0.2999 vs 0.2999 (should agree within ~1%)
+  seed8: 0.2957 vs 0.2957 (should agree within ~1%)
+  seed9: 0.3011 vs 0.3011 (should agree within ~1%)
+
+##### horizon 60 min | 10 members | cells 2500 | window 9-18 h | calibration windows 709, evaluation windows 709
+[auto] tau = 49.3 a.u. chosen on val (global unmet <= ungated + 0.25 pp): busy pairs 57.8%, activity 94.0%
+
+busy threshold tau = 49.3 a.u. | busy pairs 56.7% | protected quiet pairs 43.3% | deciles used: 10
+spread: off | protected quiet pairs get: no margin | iso alpha: overprov 0.949, unmet 0.899
+
+== 1) GLOBAL, ALL 2500 CELLS (unmet % and over-prov. % of total true activity; cover = fraction 0-1) ==
+approach                           |          all hours          |           9-18 h            |         other hours
+                                   |  cover   unmet%  overprov% |  cover   unmet%  overprov% |  cover   unmet%  overprov%
+STID point (no margin)             |  0.525     5.77       4.71 |  0.530     5.60       4.45 |  0.522     5.95       4.97
+scheduled, all cells (current)     |  0.860     1.86      17.02 |  0.918     1.25      20.32 |  0.824     2.47      13.73
+iso-overprov baseline              |  0.852     1.95      16.29 |  0.911     1.33      19.38 |  0.815     2.57      13.21  <- fair ref
+iso-unmet baseline                 |  0.843     2.05      15.58 |  0.903     1.42      18.46 |  0.806     2.68      12.71  <- fair ref
+scheduled + busy gate (new)        |  0.715     2.11      16.31 |  0.775     1.45      19.50 |  0.678     2.76      13.12  <- new
+
+== 2) BY STATIC TIER of cells (train-mean activity), period = all hours ==
+tier              cells mean[a.u.] share act%  busy% |         point         |       all cells       |     iso-overprov      |       iso-unmet       |         gate
+                                                     | cover unmet%  over% | cover unmet%  over% | cover unmet%  over% | cover unmet%  over% | cover unmet%  over%
+cells 0%-50%       1250       36.1      10.16   19.6 | 0.515   7.44   5.34 | 0.852   2.64  19.00 | 0.844   2.76  18.18 | 0.835   2.89  17.38 | 0.582   5.20  11.88
+cells 50%-75%       625      144.0      21.13   88.4 | 0.528   6.31   5.03 | 0.861   2.09  18.11 | 0.852   2.19  17.32 | 0.844   2.29  16.57 | 0.822   2.24  17.56
+cells 75%-90%       375      303.8      28.41   98.8 | 0.544   5.58   4.66 | 0.882   1.60  18.81 | 0.874   1.69  17.97 | 0.866   1.78  17.16 | 0.877   1.65  17.81
+cells 90%-97%       175      514.7      23.86   99.5 | 0.540   5.25   4.45 | 0.877   1.50  16.50 | 0.869   1.59  15.78 | 0.860   1.68  15.09 | 0.880   1.42  17.28
+cells 97%-100%       75      808.5      16.43   99.9 | 0.538   5.14   4.41 | 0.834   2.06  12.08 | 0.825   2.15  11.62 | 0.816   2.25  11.18 | 0.853   1.81  13.42
+
+== 3) BY DYNAMIC STATE at prediction time, period = all hours ==
+busy (pred >= tau): 56.7% of pairs, 93.9% of total activity
+   STID point (no margin)             cover 0.537 | unmet   5.65% | overprov   4.66%
+   scheduled, all cells (current)     cover 0.871 | unmet   1.80% | overprov  16.92%
+   iso-overprov baseline              cover 0.863 | unmet   1.89% | overprov  16.19%
+   iso-unmet baseline                 cover 0.855 | unmet   1.99% | overprov  15.48%
+   scheduled + busy gate (new)        cover 0.872 | unmet   1.75% | overprov  17.01%
+quiet, protected: 43.3% of pairs, 6.1% of total activity
+   STID point (no margin)             cover 0.509 | unmet   7.60% | overprov   5.49%
+   scheduled, all cells (current)     cover 0.846 | unmet   2.80% | overprov  18.60%
+   iso-overprov baseline              cover 0.837 | unmet   2.93% | overprov  17.81%
+   iso-unmet baseline                 cover 0.827 | unmet   3.05% | overprov  17.04%
+   scheduled + busy gate (new)        cover 0.509 | unmet   7.60% | overprov   5.49%
+
+== 4) PER-CELL distribution (unmet % of each cell's own activity; cover = per-cell fraction) ==
+approach                           unmet med     p90     p99     max | cov med    p10    min
+STID point (no margin)                  6.26   10.90   19.33  148.28 |   0.524  0.458  0.343
+scheduled, all cells (current)          1.83    4.69   11.22   17.85 |   0.866  0.783  0.633
+iso-overprov baseline                   1.94    4.85   11.51   18.90 |   0.858  0.773  0.623
+iso-unmet baseline                      2.04    5.02   11.80   19.92 |   0.848  0.763  0.609
+scheduled + busy gate (new)             3.21    9.39   19.33  148.28 |   0.760  0.478  0.343
+
+GATE vs ALL-CELLS   (all hours): over-provisioning -0.72 pp, unmet +0.25 pp
+GATE vs ISO-OVERPROV (all hours): unmet +0.15 pp (over 16.31 vs 16.29)   [negative = gate better]
+GATE vs ISO-UNMET    (all hours): over  +0.73 pp (unmet 2.11 vs 2.05)   [negative = gate better]
+Saved final_metrics/busy_gate/busy_gate_h60_w9-18_tiers.png
+Saved final_metrics/busy_gate/busy_gate_h60_w9-18_threshold.png
+Saved results/tables/busy_gate_margins_h60.json
+
+Saved final_metrics/busy_gate/busy_gate_all.json / .csv
