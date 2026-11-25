@@ -1,0 +1,297 @@
+{
+  "eps_window": 0.1,
+  "eps_outside": 0.25,
+  "runs": [
+    {
+      "horizon_min": 10,
+      "window": "9-18",
+      "n_bins": 5,
+      "ramp_lambda": 1.0,
+      "results": {
+        "global": {
+          "STID point (no margin)": {
+            "all hours": {
+              "cover": 0.5177015514809591,
+              "unmet_%": 5.000430868690135,
+              "overprov_%": 3.750104089336055,
+              "switch_%": 0.30672316384180787,
+              "n": 1772500
+            },
+            "window": {
+              "cover": 0.5151585185185186,
+              "unmet_%": 4.8528299870886835,
+              "overprov_%": 3.5086969305355957,
+              "switch_%": 0.1471111111111111,
+              "n": 675000
+            },
+            "other hours": {
+              "cover": 0.5192656036446469,
+              "unmet_%": 5.148065338559993,
+              "overprov_%": 3.991566183095948,
+              "switch_%": 0.40511415525114153,
+              "n": 1097500
+            }
+          },
+          "Adaptive conformal (5 bins)": {
+            "all hours": {
+              "cover": 0.8266070521861777,
+              "unmet_%": 1.966983578746148,
+              "overprov_%": 12.693887043542391,
+              "switch_%": 0.33237288135593224,
+              "n": 1772500
+            },
+            "window": {
+              "cover": 0.9177674074074074,
+              "unmet_%": 1.1750142121064018,
+              "overprov_%": 16.572509152645882,
+              "switch_%": 0.18933333333333333,
+              "n": 675000
+            },
+            "other hours": {
+              "cover": 0.7705403189066059,
+              "unmet_%": 2.759133167071326,
+              "overprov_%": 8.814382309626474,
+              "switch_%": 0.42054794520547945,
+              "n": 1097500
+            }
+          },
+          "Adaptive + ramp penalty (new)": {
+            "all hours": {
+              "cover": 0.8551644569816643,
+              "unmet_%": 1.6544225335615466,
+              "overprov_%": 14.422559700348392,
+              "switch_%": 0.3884745762711864,
+              "n": 1772500
+            },
+            "window": {
+              "cover": 0.9311762962962963,
+              "unmet_%": 0.9760170215292272,
+              "overprov_%": 18.251981590912084,
+              "switch_%": 0.24325925925925926,
+              "n": 675000
+            },
+            "other hours": {
+              "cover": 0.8084145785876993,
+              "unmet_%": 2.3329824245255937,
+              "overprov_%": 10.592266381044633,
+              "switch_%": 0.4779908675799087,
+              "n": 1097500
+            }
+          }
+        },
+        "tiers": {
+          "cells 0%-50%": {
+            "n_cells": 1250,
+            "train_mean_activity_au": 36.06504821777344,
+            "share_activity_%": 10.161922391899648,
+            "approaches": {
+              "STID point (no margin)": {
+                "cover": 0.511475317348378,
+                "unmet_%": 6.313076444366089,
+                "overprov_%": 4.48765057441752,
+                "switch_%": 0.5588700564971751,
+                "n": 886250
+              },
+              "Adaptive conformal (5 bins)": {
+                "cover": 0.8209647390691114,
+                "unmet_%": 2.5466926029071026,
+                "overprov_%": 15.037006211792994,
+                "switch_%": 0.6195480225988701,
+                "n": 886250
+              },
+              "Adaptive + ramp penalty (new)": {
+                "cover": 0.850563610719323,
+                "unmet_%": 2.15542241127534,
+                "overprov_%": 17.105081152154863,
+                "switch_%": 0.7220338983050847,
+                "n": 886250
+              }
+            }
+          },
+          "cells 50%-75%": {
+            "n_cells": 625,
+            "train_mean_activity_au": 143.98593139648438,
+            "share_activity_%": 21.139606297668372,
+            "approaches": {
+              "STID point (no margin)": {
+                "cover": 0.5205935119887165,
+                "unmet_%": 5.428953300170804,
+                "overprov_%": 4.055159756719226,
+                "switch_%": 0.10079096045197741,
+                "n": 443125
+              },
+              "Adaptive conformal (5 bins)": {
+                "cover": 0.8285856135401974,
+                "unmet_%": 2.0375939378134427,
+                "overprov_%": 14.762586201576223,
+                "switch_%": 0.08293785310734464,
+                "n": 443125
+              },
+              "Adaptive + ramp penalty (new)": {
+                "cover": 0.8574939351198871,
+                "unmet_%": 1.7233943338134834,
+                "overprov_%": 16.61911881440348,
+                "switch_%": 0.09785310734463278,
+                "n": 443125
+              }
+            }
+          },
+          "cells 75%-90%": {
+            "n_cells": 375,
+            "train_mean_activity_au": 303.7839660644531,
+            "share_activity_%": 28.425759948484142,
+            "approaches": {
+              "STID point (no margin)": {
+                "cover": 0.5275900329102021,
+                "unmet_%": 4.924917105811058,
+                "overprov_%": 3.715305454224355,
+                "switch_%": 0.008662900188323917,
+                "n": 265875
+              },
+              "Adaptive conformal (5 bins)": {
+                "cover": 0.8553718852844382,
+                "unmet_%": 1.6014628733844332,
+                "overprov_%": 15.174388648641107,
+                "switch_%": 0.0064030131826741995,
+                "n": 265875
+              },
+              "Adaptive + ramp penalty (new)": {
+                "cover": 0.8789882463563705,
+                "unmet_%": 1.3554698160490641,
+                "overprov_%": 16.89828458771243,
+                "switch_%": 0.007909604519774011,
+                "n": 265875
+              }
+            }
+          },
+          "cells 90%-97%": {
+            "n_cells": 175,
+            "train_mean_activity_au": 514.682861328125,
+            "share_activity_%": 23.851977158607173,
+            "approaches": {
+              "STID point (no margin)": {
+                "cover": 0.5270118879709853,
+                "unmet_%": 4.568262258692828,
+                "overprov_%": 3.479508721812856,
+                "switch_%": 0.011299435028248588,
+                "n": 124075
+              },
+              "Adaptive conformal (5 bins)": {
+                "cover": 0.8212693935119887,
+                "unmet_%": 1.855751708716766,
+                "overprov_%": 10.431528104954943,
+                "switch_%": 0.0129136400322841,
+                "n": 124075
+              },
+              "Adaptive + ramp penalty (new)": {
+                "cover": 0.8488091879911344,
+                "unmet_%": 1.5547406372566626,
+                "overprov_%": 12.048330346309719,
+                "switch_%": 0.0258272800645682,
+                "n": 124075
+              }
+            }
+          },
+          "cells 97%-100%": {
+            "n_cells": 75,
+            "train_mean_activity_au": 808.4878540039062,
+            "share_activity_%": 16.420734203340665,
+            "approaches": {
+              "STID point (no margin)": {
+                "cover": 0.5262059238363893,
+                "unmet_%": 4.394904591639912,
+                "overprov_%": 3.354248788649281,
+                "switch_%": 0.0,
+                "n": 53175
+              },
+              "Adaptive conformal (5 bins)": {
+                "cover": 0.7727879642689234,
+                "unmet_%": 2.3116496865675646,
+                "overprov_%": 7.572892494748796,
+                "switch_%": 0.0,
+                "n": 53175
+              },
+              "Adaptive + ramp penalty (new)": {
+                "cover": 0.808142924306535,
+                "unmet_%": 1.9178949133910113,
+                "overprov_%": 9.097690201174176,
+                "switch_%": 0.0,
+                "n": 53175
+              }
+            }
+          }
+        },
+        "bins": {
+          "bin_1": {
+            "pred_mean_au": 10.68542661230225,
+            "truth_mean_au": 10.868939501100963,
+            "underest_point_au": 0.780225812990868,
+            "adaptive_margin_au": 1.3892691544159599,
+            "final_margin_au": 1.6971374736806355,
+            "unmet_point_%": 7.178490715785432,
+            "unmet_final_%": 2.968731208869688
+          },
+          "bin_2": {
+            "pred_mean_au": 30.399074940928603,
+            "truth_mean_au": 30.80388112457111,
+            "underest_point_au": 1.818076757351815,
+            "adaptive_margin_au": 3.8929599804079134,
+            "final_margin_au": 4.637913978230869,
+            "unmet_point_%": 5.902102887618284,
+            "unmet_final_%": 2.048216027380709
+          },
+          "bin_3": {
+            "pred_mean_au": 71.18058761186653,
+            "truth_mean_au": 72.18001271273538,
+            "underest_point_au": 4.045866624852119,
+            "adaptive_margin_au": 8.717673877349105,
+            "final_margin_au": 10.33098644114884,
+            "unmet_point_%": 5.6052450987422295,
+            "unmet_final_%": 1.9929253936882652
+          },
+          "bin_4": {
+            "pred_mean_au": 168.54161842280993,
+            "truth_mean_au": 170.67200938708837,
+            "underest_point_au": 8.810167354096347,
+            "adaptive_margin_au": 19.122846607065593,
+            "final_margin_au": 22.679165997304445,
+            "unmet_point_%": 5.162045836183172,
+            "unmet_final_%": 1.8629834904957405
+          },
+          "bin_5": {
+            "pred_mean_au": 507.9782720643172,
+            "truth_mean_au": 514.2393727099311,
+            "underest_point_au": 24.43840222139877,
+            "adaptive_margin_au": 62.54222429785627,
+            "final_margin_au": 72.60681906010439,
+            "unmet_point_%": 4.752339769826187,
+            "unmet_final_%": 1.4806860504710255
+          }
+        },
+        "per_cell": {
+          "STID point (no margin)": {
+            "unmet_%_median": 5.433539976127335,
+            "unmet_%_p90": 8.805835545827815,
+            "unmet_%_max": 114.73991853017608,
+            "cover_median": 0.5148095909732017,
+            "cover_p10": 0.4781382228490832
+          },
+          "Adaptive conformal (5 bins)": {
+            "unmet_%_median": 1.9311331271273722,
+            "unmet_%_p90": 3.9921992782197684,
+            "unmet_%_max": 24.34368950248708,
+            "cover_median": 0.8272214386459803,
+            "cover_p10": 0.763046544428773
+          },
+          "Adaptive + ramp penalty (new)": {
+            "unmet_%_median": 1.6080756388345419,
+            "unmet_%_p90": 3.4187423832231514,
+            "unmet_%_max": 24.34368950248708,
+            "cover_median": 0.8561354019746121,
+            "cover_p10": 0.7983074753173484
+          }
+        }
+      }
+    }
+  ]
+}

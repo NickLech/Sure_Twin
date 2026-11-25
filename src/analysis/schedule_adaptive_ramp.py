@@ -156,14 +156,14 @@ def apply_ramp_penalty(pred, base_bound, lam):
 def tune_lambda(calib_model, val_data, args):
     """Select optimal ramp_lambda on the disjoint validation split."""
     base_val, _, _ = calib_model.predict(val_data)
-    base_m = global_metrics(base_val, val_data["truth"], args.on_thr, args.off_thr)
+    base_m = global_metrics(base_val, val_data["truth"], args.on_thr_used, args.off_thr_used)
     candidates = np.linspace(0.0, 1.0, 21)
 
     best_lam = 0.0
     best_unmet = base_m["unmet_%"]
     for lam in candidates:
         est = apply_ramp_penalty(val_data["pred"], base_val, lam)
-        m = global_metrics(est, val_data["truth"], args.on_thr, args.off_thr)
+        m = global_metrics(est, val_data["truth"], args.on_thr_used, args.off_thr_used)
         if m["overprov_%"] <= base_m["overprov_%"] + args.max_overprov_increase:
             if m["unmet_%"] < best_unmet - 1e-4:
                 best_unmet = m["unmet_%"]
