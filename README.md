@@ -64,7 +64,8 @@ Sure_Twin/
 │   ├── data/                 convert_milan_to_basicts.py, make_split_view.py
 │   ├── training/             train_STID.py, eval_split.py
 │   ├── analysis/             analyse_result.py, conformal_eval.py,
-│   │                         schedule_conformal.py, schedule_final_metrics.py
+│   │                         schedule_conformal.py, schedule_final_metrics.py,
+│   │                         schedule_busy_gate.py
 │   └── plotting/             plot_timeseries.py, plot_signed_error.py, plot_concentration.py,
 │                             plot_confident.py, busiest_levels.py
 ├── scripts/
@@ -187,6 +188,17 @@ python src/analysis/schedule_final_metrics.py \
 - `schedule_conformal.py`: coverage 90% inside a daytime window and 75% outside it, with margins calibrated separately per period and per predicted-level decile. Defaults: window 8-21 h, `--day_eps 0.10`, `--night_eps 0.25`; the command above uses the chosen window (section 5).
 - `schedule_final_metrics.py`: repeats the comparison for 3 horizons x 3 windows (`--horizons`, `--windows` to restrict, for example `--horizons 1 --windows 9-18`) and writes the results to `final_metrics/` (unmet activity % and over-provisioning %, both dimensionless percentages of total activity). The per-run options of `schedule_conformal.py` (`--horizon`, `--day_start`, `--day_end`) are overridden there.
 
+### Step 7 - Busy gate and global evaluation on all cells
+
+```bash
+python src/analysis/schedule_busy_gate.py --horizons 1 --day_start 9 --day_end 18 \
+    --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
+```
+- What: the conformal margin is added only where a cell is **busy**, decided at prediction time as `prediction >= tau` (tau in [a.u.]; a cell can be busy at noon and quiet at night). Margins and deciles are calibrated only on busy calibration pairs; quiet pairs keep the point prediction (`--quiet_eps` gives them a smaller coverage target instead).
+- `tau`: `--busy_thr auto` (default) picks on **val** the largest tau such that the global unmet % grows by at most `--max_unmet_increase` pp (default 0.25) w.r.t. the ungated schedule; `--busy_thr 1000` fixes it by hand. `--spread_q 0.98` also marks as busy the pairs with a very high ensemble spread.
+- Evaluation is always on **all cells** (test): global table, breakdown by static tier of cells (train-mean activity quantiles, `--tiers`), by dynamic state (busy / quiet), and per-cell distribution of unmet %. Compared: STID point, scheduled on all cells (current), scheduled + busy gate (new).
+- Output: `final_metrics/busy_gate/` (figures `*_tiers.png`, `*_threshold.png`, `busy_gate_all.json/.csv`) and `results/tables/busy_gate_margins_h<min>.json`. Unmet % and over-provisioning % are % of the total true activity of the group they refer to (dimensionless, not energy); tau and margins in [a.u.].
+
 ### Optional plots
 
 ```bash
@@ -208,6 +220,7 @@ python src/plotting/plot_concentration.py
 | `busiest_levels.py` | `results/figures/conformal/busiest_levels.png` |
 | `schedule_conformal.py` | `results/figures/schedule/schedule_summary.png`, `schedule_busiest.png`; margin tables in `results/tables/schedule_margins.json` |
 | `schedule_final_metrics.py` | `final_metrics/` |
+| `schedule_busy_gate.py` | `final_metrics/busy_gate/`, `results/tables/busy_gate_margins_h<min>.json` |
 | `plot_concentration.py` | `results/figures/data/concentration.png` |
 
 Save the console output of an analysis run under `results/logs/` (for example `python ... | tee results/logs/analysis_<date>.txt`).
