@@ -1,44 +1,39 @@
 """
-Busy-gated conformal schedule + GLOBAL evaluation on ALL cells  (v2: spread signal, quiet_eps, iso baselines).
+Busy-gated conformal schedule (extension of schedule_conformal.py), evaluated on ALL cells.
 
-Three groups of (window, cell) pairs, decided at PREDICTION time:
-    busy            : pred >= tau                                  -> full Mondrian margin (period x decile)
-    quiet-protected : quiet pairs that get a reduced margin        -> margin_quiet[period] with --quiet_eps
-    quiet-calm      : all other quiet pairs                        -> bound = pred (no margin)
+Pairs (window, cell) are split at PREDICTION time:
+    busy            : pred >= tau  (| signal >= tau_spread with --spread_mode busy)
+                      -> full Mondrian margin (period x decile of the predicted level), calibrated ONLY on busy pairs
+    protected quiet : only with --quiet_eps: ONE reduced margin per period for the quiet pairs
+                      (all of them, or only those with signal >= tau_spread with --spread_mode quiet_only)
+    other quiet     : bound = pred
+signal = ensemble spread, or spread / max(pred, 1) with --spread_rel.
+tau: --busy_thr auto = largest tau whose GLOBAL unmet on val grows by at most --max_unmet_increase pp w.r.t.
+the ungated schedule (never chosen on test), or a fixed number in [a.u.]. tau_spread = --spread_q quantile of the
+val signal (over all pairs in mode busy, over the quiet pairs in mode quiet_only).
 
-Which quiet pairs are "protected" depends on --spread_mode:
-    busy        (default, as v1) : spread >= tau_spread makes a pair BUSY (full margin). Quiet pairs are all
-                                   protected by --quiet_eps (if given), otherwise no margin.
-    quiet_only  (new)            : spread >= tau_spread does NOT make a pair busy. It only flags a QUIET pair
-                                   as "risky"; only risky quiet pairs get the reduced margin (--quiet_eps).
-                                   = "quiet cells with high variability get a smaller margin instead of zero".
-tau_spread is the --spread_q quantile of the VAL signal (over all pairs in 'busy' mode, over quiet pairs in
-'quiet_only' mode). --spread_rel uses spread / max(pred, 1) instead of the raw spread: the raw spread grows with
-the level, so it is mostly a proxy of pred; the relative spread is the genuinely new information.
+Fair verdict: on test the gate is compared with the ungated schedule whose margin is scaled by ONE constant
+alpha chosen on val: iso-overprov (same over-provisioning as the gate) and iso-unmet (same unmet as the gate).
+The gate is useful only if it beats both (negative deltas).
 
-Fair verdict (new): the gate is compared on TEST with two baselines built from the ungated schedule, with the
-margin scaled by ONE constant alpha chosen on VAL (never on test):
-    iso-overprov : same over-provisioning as the gate (on val)  -> who has less unmet?
-    iso-unmet    : same unmet as the gate (on val)              -> who has less over-provisioning?
-The gate is useful only if it beats BOTH. Negative deltas = gate better.
+--sweep runs a grid spread_mode x spread_q x quiet_eps (tau auto each time), ranked by the VAL delta vs
+iso-overprov; the TEST columns are not used by the selection.
 
---sweep runs a grid (spread_mode x spread_q x quiet_eps, tau auto each time), ranks the configurations by the
-VAL delta w.r.t. iso-overprov and reports the TEST deltas (no selection on test).
+Output (--out_dir, default final_metrics/busy_gate): ONE csv with the schema of metrics_common.py
+(scopes global / tier / dynamic). Single run: busy_gate_metrics.csv + two figures. Sweep: busy_gate_sweep_metrics.csv
+(every configuration is an approach named "busy gate [<config>]", with its two iso baselines).
+Units: unmet / over-provisioning are % of the total TRUE activity of the group (activity index [a.u.], NOT
+energy); cover is a fraction (0-1); tau and margins in [a.u.].
 
-Units: unmet % and over-provisioning % are % of the total TRUE activity of the group they refer to
-(activity index in [a.u.], NOT energy); coverage is a fraction (0-1); tau and margins in [a.u.].
-
-Usage (repository root; no change to the checkpoint arguments):
+Usage (from the repository root; --horizons are 1-based, 1 = 10 min):
     python src/analysis/schedule_busy_gate.py --horizons 1 --day_start 9 --day_end 18 \
-        --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*" --sweep
-    # single runs
-    python src/analysis/schedule_busy_gate.py ... --quiet_eps 0.5                       # all quiet pairs, 50% cov.
-    python src/analysis/schedule_busy_gate.py ... --spread_mode quiet_only --spread_q 0.9 --spread_rel --quiet_eps 0.5
-    python src/analysis/schedule_busy_gate.py ... --spread_mode busy --spread_q 0.98
+        --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
+    python src/analysis/schedule_busy_gate.py ... --quiet_eps 0.3
+    python src/analysis/schedule_busy_gate.py ... --spread_mode quiet_only --spread_q 0.9 --spread_rel --quiet_eps 0.3
+    python src/analysis/schedule_busy_gate.py ... --sweep --sweep_quiet_eps 0.4 0.3 0.2 --sweep_spread_q 0.9 0.95
+The per-run options of schedule_conformal.py are accepted (--day_eps, --night_eps, --cal_data, ...); window 9-18 h.
 """
 import argparse
-import csv
-import json
 import os
 from pathlib import Path
 
@@ -47,19 +42,18 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
+import metrics_common as mc
 import schedule_conformal as sc
 from analyse_result import kept_columns, load_series
 from conformal_eval import N_BINS, conf_q
 
-K_POINT = "STID point (no margin)"
-K_ALL = "scheduled, all cells (current)"
+METHOD = "busy_gate"
 K_ISOO = "iso-overprov baseline"
 K_ISOU = "iso-unmet baseline"
-K_GATE = "scheduled + busy gate (new)"
-APPROACHES = (K_POINT, K_ALL, K_ISOO, K_ISOU, K_GATE)
-SHORT = {K_POINT: "point", K_ALL: "all cells", K_ISOO: "iso-overprov", K_ISOU: "iso-unmet", K_GATE: "gate"}
-COLORS = {K_POINT: "tab:blue", K_ALL: "tab:green", K_ISOO: "tab:gray", K_ISOU: "tab:orange", K_GATE: "tab:red"}
-PERIODS = ("all hours", "window", "other hours")
+K_GATE = "busy gate"
+APPROACHES = (mc.K_POINT, mc.K_REF, K_ISOO, K_ISOU, K_GATE)
+SHORT = {mc.K_POINT: "point", mc.K_REF: "all cells", K_ISOO: "iso-overprov", K_ISOU: "iso-unmet", K_GATE: "gate"}
+COLORS = {mc.K_POINT: "tab:blue", mc.K_REF: "tab:green", K_ISOO: "tab:gray", K_ISOU: "tab:orange", K_GATE: "tab:red"}
 MIN_GROUP = 200        # minimum calibration pairs per (period, decile) group
 MIN_QUIET = 50         # minimum calibration pairs to calibrate a quiet margin
 
@@ -76,7 +70,8 @@ def parse_all(argv=None):
     ap.add_argument("--max_unmet_increase", type=float, default=0.25,
                     help="auto mode: tolerated increase of the GLOBAL unmet %% on val, in percentage points")
     ap.add_argument("--quiet_eps", type=float, default=None,
-                    help="violation rate for the protected quiet pairs (one margin per period). Default: no margin")
+                    help="violation rate for the protected quiet pairs (coverage 1 - eps, must exceed the point "
+                         "coverage ~0.52 to add margin). Default: no margin")
     ap.add_argument("--spread_q", type=float, default=None,
                     help="quantile (0-1) of the val ensemble-spread signal that defines tau_spread")
     ap.add_argument("--spread_mode", choices=("busy", "quiet_only"), default="busy",
@@ -85,19 +80,19 @@ def parse_all(argv=None):
     ap.add_argument("--spread_rel", action="store_true",
                     help="use spread / max(pred, 1) (relative uncertainty) instead of the raw spread")
     ap.add_argument("--n_tau", type=int, default=24, help="number of candidate thresholds of the auto search")
-    ap.add_argument("--tiers", type=float, nargs="*", default=[0.5, 0.75, 0.9, 0.97],
-                    help="train-mean quantiles that split the cells into static tiers")
     ap.add_argument("--sweep", action="store_true",
                     help="grid over spread_mode x spread_q x quiet_eps instead of a single run")
     ap.add_argument("--sweep_spread_q", type=float, nargs="*", default=[0.9, 0.95, 0.98])
-    ap.add_argument("--sweep_quiet_eps", type=float, nargs="*", default=[0.5, 0.7, 0.85])
+    ap.add_argument("--sweep_quiet_eps", type=float, nargs="*", default=[0.4, 0.3, 0.2])
     ap.add_argument("--sweep_n_tau", type=int, default=10, help="candidate thresholds per config in the sweep")
+    mc.add_args(ap)
     extra, rest = ap.parse_known_args(argv)
     args = sc.parse_args(["--day_start", "9", "--day_end", "18"] + rest)
     for k, v in vars(extra).items():
         setattr(args, k, v)
     if args.busy_thr != "auto":
         args.busy_thr = float(args.busy_thr)
+    mc.set_lambdas(args)
     return args
 
 
@@ -132,7 +127,7 @@ class Gate:
 
 
 class GatedCalib:
-    """Mondrian conformal margins calibrated ONLY on the busy calibration pairs.
+    """Mondrian conformal margins calibrated ONLY on the busy calibration pairs:
     margin[period][decile of the busy predicted level]; optional margin for protected quiet pairs."""
 
     def __init__(self, cal, ev, gate, args):
@@ -175,36 +170,22 @@ class GatedCalib:
         q_day, q_night = self.table(a.day_eps, True), self.table(a.night_eps, False)
         busy_margin = np.where(self.day_e, q_day[self.lb_e], q_night[self.lb_e])
         if a.quiet_eps is None:
-            qq = (0.0, 0.0)
             quiet_margin = 0.0
         else:
             qq = (self.quiet_margin(a.quiet_eps, True), self.quiet_margin(a.quiet_eps, False))
             quiet_margin = np.where(self.day_e, qq[0], qq[1]) * self.prot_e
-        margin = np.where(self.busy_e, busy_margin, quiet_margin)
-        return ev["pred"] + margin, {"window": q_day, "outside": q_night, "quiet": qq}
-
-
-def global_metrics(est, truth, mask=None):
-    """cover (0-1), unmet %, overprov % of the total true activity inside the mask (all pairs if None)."""
-    t, e = (truth, est) if mask is None else (truth[mask], est[mask])
-    if t.size == 0 or t.sum() <= 0:
-        return {"cover": float("nan"), "unmet_%": float("nan"), "overprov_%": float("nan"), "n": int(t.size)}
-    d = e - t
-    return {"cover": float((t <= e).mean()),
-            "unmet_%": float(100 * np.maximum(-d, 0).sum() / t.sum()),
-            "overprov_%": float(100 * np.maximum(d, 0).sum() / t.sum()),
-            "n": int(t.size)}
+        return ev["pred"] + np.where(self.busy_e, busy_margin, quiet_margin)
 
 
 # ----------------------------------------------------------------------
-# Iso baselines (alpha chosen on VAL)
+# Iso baselines (alpha chosen on VAL) and threshold search (on VAL)
 # ----------------------------------------------------------------------
 def match_alpha(pred, margin, truth, target, key):
     """Constant alpha such that the metric `key` of pred + alpha * margin equals target (bisection, on val)."""
     lo, hi = 0.0, 5.0
     for _ in range(30):
         mid = 0.5 * (lo + hi)
-        m = global_metrics(pred + mid * margin, truth)[key]
+        m = mc.compute(pred + mid * margin, truth)[key]
         below = m < target if key == "overprov_%" else m > target     # overprov grows, unmet falls with alpha
         lo, hi = (mid, hi) if below else (lo, mid)
     return 0.5 * (lo + hi)
@@ -214,15 +195,12 @@ def iso_baselines(cal, up_gate_val, up_all_val, ev, up_all_test):
     """Scale the margin of the ungated schedule by a constant alpha, matched on VAL to the gate."""
     mv = np.maximum(up_all_val - cal["pred"], 0.0)
     mt = np.maximum(up_all_test - ev["pred"], 0.0)
-    gv = global_metrics(up_gate_val, cal["truth"])
+    gv = mc.compute(up_gate_val, cal["truth"])
     a_ov = match_alpha(cal["pred"], mv, cal["truth"], gv["overprov_%"], "overprov_%")
     a_un = match_alpha(cal["pred"], mv, cal["truth"], gv["unmet_%"], "unmet_%")
     return ev["pred"] + a_ov * mt, ev["pred"] + a_un * mt, a_ov, a_un
 
 
-# ----------------------------------------------------------------------
-# Threshold selection (on val only)
-# ----------------------------------------------------------------------
 def tau_candidates(cal, n):
     qs = np.quantile(cal["pred"], np.linspace(0, 0.97, n))
     return np.concatenate([[-np.inf], np.unique(qs[1:])])      # -inf = every pair busy = ungated
@@ -236,8 +214,7 @@ def search_tau(cal, args):
             c = GatedCalib(cal, cal, Gate(tau, cal, args), args)
         except SystemExit:
             continue
-        up, _ = c.bound(cal)
-        m = global_metrics(up, cal["truth"])
+        m = mc.compute(c.bound(cal), cal["truth"])
         busy = c.busy_e
         curve.append({"tau": float(tau), **m,
                       "busy_pairs_%": float(100 * busy.mean()),
@@ -247,61 +224,42 @@ def search_tau(cal, args):
     return curve, max(ok, key=lambda r: r["tau"])
 
 
+def all_cells_bounds(cal, ev, args):
+    """Ungated schedule (the current proposal): bounds on ev, calibrated on cal."""
+    bounds, _, _ = sc.build_bounds(sc.Calib(cal, ev, args), ev, args)
+    return bounds[sc.K_SCHED]
+
+
 # ----------------------------------------------------------------------
-# Evaluation
+# Evaluation and report
 # ----------------------------------------------------------------------
-def static_tiers(args, cols):
-    """Tier index (0 = quietest) of every evaluated cell, from the TRAIN mean activity (no test leakage)."""
-    train = load_series(Path(args.data) / "train_data.npy")[:, cols]
-    mean = train.mean(0)
-    edges = np.quantile(mean, args.tiers)
-    tier = np.searchsorted(edges, mean, side="right")
-    cuts = [0.0] + list(args.tiers) + [1.0]
-    names = [f"cells {cuts[i]:.0%}-{cuts[i + 1]:.0%}" for i in range(len(cuts) - 1)]
-    return tier, mean, names
+def per_cell_stats(est, truth):
+    """Distribution over cells of unmet % (of each cell's own activity) and coverage."""
+    u = 100 * np.maximum(truth - est, 0).sum(0) / np.maximum(truth.sum(0), 1e-12)
+    cov = (truth <= est).mean(0)
+    return {"unmet_med": float(np.median(u)), "unmet_p90": float(np.percentile(u, 90)),
+            "unmet_p99": float(np.percentile(u, 99)), "unmet_max": float(u.max()),
+            "cover_med": float(np.median(cov)), "cover_p10": float(np.percentile(cov, 10)),
+            "cover_min": float(cov.min())}
 
 
 def evaluate(ev, c, est, args, tier, tier_mean, tier_names):
     truth = ev["truth"]
-    day = np.broadcast_to(c.day_e, truth.shape)
-    periods = {"all hours": np.ones_like(day), "window": day, "other hours": ~day}
-    out = {"global": {}, "tiers": {}, "dynamic": {}, "per_cell": {}}
+    day = mc.day_mask(ev, args)
+    prot = (c.prot_e & ~c.busy_e) if args.quiet_eps is not None else np.zeros_like(c.busy_e)
+    dynamic = {"busy (pred >= tau)": c.busy_e, "quiet, protected": prot, "quiet, calm (no margin)": ~c.busy_e & ~prot}
+    dynamic = {k: m for k, m in dynamic.items() if m.any()}
+    scopes = {"global": {"all cells": None}, "tier": mc.tier_groups(tier, tier_names, truth.shape),
+              "dynamic": dynamic}
+    res = mc.evaluate_scopes(est, truth, day, args, scopes)
 
-    for n, e in est.items():
-        out["global"][n] = {p: global_metrics(e, truth, m) for p, m in periods.items()}
-
-    tier_pairs = tier[None, :] * np.ones(truth.shape, dtype=int)
+    info = {"tier": mc.tier_info(tier, tier_mean, tier_names, truth),
+            "dynamic": {k: {"share_pairs_%": float(100 * m.mean()),
+                            "share_activity_%": float(100 * truth[m].sum() / truth.sum())}
+                        for k, m in dynamic.items()}}
     for i, name in enumerate(tier_names):
-        m_t = tier_pairs == i
-        out["tiers"][name] = {
-            "n_cells": int((tier == i).sum()),
-            "train_mean_activity_au": float(tier_mean[tier == i].mean()),
-            "share_activity_%": float(100 * truth[m_t].sum() / truth.sum()),
-            "busy_pairs_%": float(100 * c.busy_e[m_t].mean()),
-            "approaches": {n: {p: global_metrics(e, truth, m_t & pm) for p, pm in periods.items()}
-                           for n, e in est.items()}}
-
-    calm = ~c.busy_e & ~c.prot_e
-    groups = (("busy (pred >= tau)", c.busy_e), ("quiet, protected", c.prot_e & ~c.busy_e),
-              ("quiet, calm (no margin)", calm))
-    for label, m_b in groups:
-        if not m_b.any():
-            continue
-        out["dynamic"][label] = {
-            "share_pairs_%": float(100 * m_b.mean()),
-            "share_activity_%": float(100 * truth[m_b].sum() / truth.sum()),
-            "approaches": {n: {p: global_metrics(e, truth, m_b & pm) for p, pm in periods.items()}
-                           for n, e in est.items()}}
-
-    for n, e in est.items():       # per-cell unmet % (own activity) and coverage
-        d = e - truth
-        u = 100 * np.maximum(-d, 0).sum(0) / np.maximum(truth.sum(0), 1e-12)
-        cov = (truth <= e).mean(0)
-        out["per_cell"][n] = {"unmet_%_median": float(np.median(u)), "unmet_%_p90": float(np.percentile(u, 90)),
-                              "unmet_%_p99": float(np.percentile(u, 99)), "unmet_%_max": float(u.max()),
-                              "cover_median": float(np.median(cov)), "cover_p10": float(np.percentile(cov, 10)),
-                              "cover_min": float(cov.min())}
-    return out
+        info["tier"][name]["busy_pairs_%"] = float(100 * c.busy_e[:, tier == i].mean())
+    return res, info, {n: per_cell_stats(e, truth) for n, e in est.items()}
 
 
 def describe_gate(args, c):
@@ -314,53 +272,55 @@ def describe_gate(args, c):
     return sp, q
 
 
-def print_report(res, tau, args, c, alphas):
+def fmt(m):
+    return f"{m['cover']:6.3f} {m['unmet_%']:8.2f} {m['overprov_%']:10.2f} {m['cost_J']:8.2f}"
+
+
+def print_report(res, info, per_cell, tau, args, c, alphas):
     w = f"{args.day_start:g}-{args.day_end:g} h"
     sp, q = describe_gate(args, c)
+    glob = res["global"]["all cells"]
     print(f"\nbusy threshold tau = {tau:.1f} a.u. | busy pairs {100 * c.busy_e.mean():.1f}% | "
-          f"protected quiet pairs {100 * (c.prot_e & ~c.busy_e).mean():.1f}% | deciles used: {c.n_bins}\n"
-          f"{sp} | protected quiet pairs get: {q} | iso alpha: overprov {alphas[0]:.3f}, unmet {alphas[1]:.3f}")
+          f"deciles used: {c.n_bins}\n{sp} | protected quiet pairs get: {q} | "
+          f"iso alpha: overprov {alphas[0]:.3f}, unmet {alphas[1]:.3f}")
 
-    print(f"\n== 1) GLOBAL, ALL {sum(t['n_cells'] for t in res['tiers'].values())} CELLS "
-          f"(unmet % and over-prov. % of total true activity; cover = fraction 0-1) ==")
-    print(f"{'approach':34s} | " + " | ".join(f"{(w if p == 'window' else p):^27s}" for p in PERIODS))
-    print(f"{'':34s} | " + " | ".join(f"{'cover':>6s} {'unmet%':>8s} {'overprov%':>10s}" for _ in PERIODS))
+    print(f"\n== 1) GLOBAL, ALL {sum(t['n_cells'] for t in info['tier'].values())} CELLS "
+          f"(unmet / over-prov. in % of total true activity; cover = fraction; J = weighted cost) ==")
+    print(f"{'approach':40s} | " + " | ".join(f"{(w if p == 'window' else p):^35s}" for p in mc.PERIODS))
+    print(f"{'':40s} | " + " | ".join(f"{'cover':>6s} {'unmet%':>8s} {'overprov%':>10s} {'J':>8s}" for _ in mc.PERIODS))
     for n in APPROACHES:
         tag = "  <- new" if n == K_GATE else ("  <- fair ref" if n in (K_ISOO, K_ISOU) else "")
-        print(f"{n:34s} | " + " | ".join(
-            f"{res['global'][n][p]['cover']:6.3f} {res['global'][n][p]['unmet_%']:8.2f} "
-            f"{res['global'][n][p]['overprov_%']:10.2f}" for p in PERIODS) + tag)
+        print(f"{n:40s} | " + " | ".join(fmt(glob[n][p]) for p in mc.PERIODS) + tag)
 
     print("\n== 2) BY STATIC TIER of cells (train-mean activity), period = all hours ==")
     print(f"{'tier':16s} {'cells':>6s} {'mean[a.u.]':>10s} {'share act%':>10s} {'busy%':>6s} | "
           + " | ".join(f"{SHORT[k]:^21s}" for k in APPROACHES))
     print(f"{'':16s} {'':>6s} {'':>10s} {'':>10s} {'':>6s} | "
           + " | ".join(f"{'cover':>5s} {'unmet%':>6s} {'over%':>6s}" for _ in APPROACHES))
-    for name, t in res["tiers"].items():
-        print(f"{name:16s} {t['n_cells']:6d} {t['train_mean_activity_au']:10.1f} {t['share_activity_%']:10.2f} "
+    for name, t in info["tier"].items():
+        print(f"{name:16s} {t['n_cells']:6d} {t['train_mean_au']:10.1f} {t['share_activity_%']:10.2f} "
               f"{t['busy_pairs_%']:6.1f} | " + " | ".join(
-                  f"{t['approaches'][n]['all hours']['cover']:5.3f} {t['approaches'][n]['all hours']['unmet_%']:6.2f} "
-                  f"{t['approaches'][n]['all hours']['overprov_%']:6.2f}" for n in APPROACHES))
+                  f"{res['tier'][name][n]['all hours']['cover']:5.3f} {res['tier'][name][n]['all hours']['unmet_%']:6.2f} "
+                  f"{res['tier'][name][n]['all hours']['overprov_%']:6.2f}" for n in APPROACHES))
 
     print("\n== 3) BY DYNAMIC STATE at prediction time, period = all hours ==")
-    for name, t in res["dynamic"].items():
+    for name, t in info["dynamic"].items():
         print(f"{name}: {t['share_pairs_%']:.1f}% of pairs, {t['share_activity_%']:.1f}% of total activity")
         for n in APPROACHES:
-            m = t["approaches"][n]["all hours"]
-            print(f"   {n:34s} cover {m['cover']:.3f} | unmet {m['unmet_%']:6.2f}% | overprov {m['overprov_%']:6.2f}%")
+            m = res["dynamic"][name][n]["all hours"]
+            print(f"   {n:40s} cover {m['cover']:.3f} | unmet {m['unmet_%']:6.2f}% | overprov {m['overprov_%']:6.2f}%")
 
     print("\n== 4) PER-CELL distribution (unmet % of each cell's own activity; cover = per-cell fraction) ==")
-    print(f"{'approach':34s} {'unmet med':>9s} {'p90':>7s} {'p99':>7s} {'max':>7s} | "
+    print(f"{'approach':40s} {'unmet med':>9s} {'p90':>7s} {'p99':>7s} {'max':>7s} | "
           f"{'cov med':>7s} {'p10':>6s} {'min':>6s}")
     for n in APPROACHES:
-        p = res["per_cell"][n]
-        print(f"{n:34s} {p['unmet_%_median']:9.2f} {p['unmet_%_p90']:7.2f} {p['unmet_%_p99']:7.2f} "
-              f"{p['unmet_%_max']:7.2f} | {p['cover_median']:7.3f} {p['cover_p10']:6.3f} {p['cover_min']:6.3f}")
+        p = per_cell[n]
+        print(f"{n:40s} {p['unmet_med']:9.2f} {p['unmet_p90']:7.2f} {p['unmet_p99']:7.2f} {p['unmet_max']:7.2f} | "
+              f"{p['cover_med']:7.3f} {p['cover_p10']:6.3f} {p['cover_min']:6.3f}")
 
-    g = res["global"][K_GATE]["all hours"]
-    a = res["global"][K_ALL]["all hours"]
-    io, iu = res["global"][K_ISOO]["all hours"], res["global"][K_ISOU]["all hours"]
-    print(f"\nGATE vs ALL-CELLS   (all hours): over-provisioning {g['overprov_%'] - a['overprov_%']:+.2f} pp, "
+    g, a = glob[K_GATE]["all hours"], glob[mc.K_REF]["all hours"]
+    io, iu = glob[K_ISOO]["all hours"], glob[K_ISOU]["all hours"]
+    print(f"\nGATE vs ALL-CELLS    (all hours): over-provisioning {g['overprov_%'] - a['overprov_%']:+.2f} pp, "
           f"unmet {g['unmet_%'] - a['unmet_%']:+.2f} pp")
     print(f"GATE vs ISO-OVERPROV (all hours): unmet {g['unmet_%'] - io['unmet_%']:+.2f} pp "
           f"(over {g['overprov_%']:.2f} vs {io['overprov_%']:.2f})   [negative = gate better]")
@@ -371,19 +331,18 @@ def print_report(res, tau, args, c, alphas):
 # ----------------------------------------------------------------------
 # Figures
 # ----------------------------------------------------------------------
-def figure_tiers(res, args, path):
+def figure_tiers(res, info, args, path):
     """Unmet % and over-provisioning % per static tier of cells, for all approaches."""
-    names = list(res["tiers"].keys())
+    names = list(info["tier"].keys())
     x = np.arange(len(names) + 1)
-    labels = [f"{n.replace('cells ', '')}\n({res['tiers'][n]['train_mean_activity_au']:.0f} a.u.,\n"
-              f"{res['tiers'][n]['share_activity_%']:.1f}% of act.)" for n in names] + ["ALL CELLS"]
+    labels = [f"{n.replace('cells ', '')}\n({info['tier'][n]['train_mean_au']:.0f} a.u.,\n"
+              f"{info['tier'][n]['share_activity_%']:.1f}% of act.)" for n in names] + ["ALL CELLS"]
     w = 0.85 / len(APPROACHES)
     fig, axes = plt.subplots(1, 2, figsize=(18, 5.6))
     for ax, key, title in zip(axes, ("unmet_%", "overprov_%"),
                               ("unmet activity (lower = safer)", "over-provisioning (lower = less waste)")):
         for i, n in enumerate(APPROACHES):
-            vals = [res["tiers"][t]["approaches"][n]["all hours"][key] for t in names] + \
-                   [res["global"][n]["all hours"][key]]
+            vals = [res["tier"][t][n]["all hours"][key] for t in names] + [res["global"]["all cells"][n]["all hours"][key]]
             ax.bar(x + (i - (len(APPROACHES) - 1) / 2) * w, vals, w, color=COLORS[n], label=n,
                    edgecolor="k" if n == K_GATE else "none", linewidth=1.1)
         ax.set_xticks(x)
@@ -434,15 +393,8 @@ def figure_threshold(curve, tau, args, path):
 
 
 # ----------------------------------------------------------------------
-# Single run
+# Single run and sweep (both return CSV rows)
 # ----------------------------------------------------------------------
-def all_cells_bounds(cal, ev, args):
-    """Ungated schedule (the current proposal): bounds on ev, calibrated on cal."""
-    c_all = sc.Calib(cal, ev, args)
-    bounds, _, _ = sc.build_bounds(c_all, ev, args)
-    return bounds[sc.K_SCHED]
-
-
 def run_one(cal, ev, args, cols):
     if args.busy_thr == "auto":
         curve, best = search_tau(cal, args)
@@ -455,69 +407,81 @@ def run_one(cal, ev, args, cols):
 
     gate = Gate(tau, cal, args)
     c = GatedCalib(cal, ev, gate, args)
-    up_gate, tables = c.bound(ev)
-    up_gate_val, _ = GatedCalib(cal, cal, gate, args).bound(cal)
-
-    up_all = all_cells_bounds(cal, ev, args)
-    up_all_val = all_cells_bounds(cal, cal, args)
+    up_gate = c.bound(ev)
+    up_gate_val = GatedCalib(cal, cal, gate, args).bound(cal)
+    up_all, up_all_val = all_cells_bounds(cal, ev, args), all_cells_bounds(cal, cal, args)
     up_io, up_iu, a_ov, a_un = iso_baselines(cal, up_gate_val, up_all_val, ev, up_all)
 
-    est = {K_POINT: ev["pred"], K_ALL: up_all, K_ISOO: up_io, K_ISOU: up_iu, K_GATE: up_gate}
-    tier, tier_mean, tier_names = static_tiers(args, cols)
-    res = evaluate(ev, c, est, args, tier, tier_mean, tier_names)
-    print_report(res, tau, args, c, (a_ov, a_un))
-    return res, curve, tau, c, tables, gate
+    est = {mc.K_POINT: ev["pred"], mc.K_REF: up_all, K_ISOO: up_io, K_ISOU: up_iu, K_GATE: up_gate}
+    tier, tier_mean, tier_names, _ = mc.static_tiers(args, cols)
+    res, info, per_cell = evaluate(ev, c, est, args, tier, tier_mean, tier_names)
+    print_report(res, info, per_cell, tau, args, c, (a_ov, a_un))
+
+    h, window = args.horizon * 10, f"{args.day_start:g}-{args.day_end:g}"
+    base = os.path.join(args.out_dir, f"busy_gate_h{h}_w{window}")
+    figure_tiers(res, info, args, base + "_tiers.png")
+    if curve is not None:
+        figure_threshold(curve, tau, args, base + "_threshold.png")
+    params = {K_GATE: f"tau={tau:.1f};quiet_eps={args.quiet_eps};spread_mode={args.spread_mode};"
+                      f"spread_q={args.spread_q};spread_rel={int(args.spread_rel)}",
+              K_ISOO: f"alpha={a_ov:.3f}", K_ISOU: f"alpha={a_un:.3f}"}
+    return mc.to_rows(METHOD, h, window, res, params)
 
 
-# ----------------------------------------------------------------------
-# Sweep
-# ----------------------------------------------------------------------
 def sweep(cal, ev, args):
-    """Grid of gate configurations. Ranked by the VAL delta vs iso-overprov, reported on TEST."""
-    up_all_val = all_cells_bounds(cal, cal, args)
-    up_all = all_cells_bounds(cal, ev, args)
+    """Grid of gate configurations, ranked by the VAL delta vs iso-overprov (TEST columns not used to select)."""
+    h, window, truth = args.horizon * 10, f"{args.day_start:g}-{args.day_end:g}", ev["truth"]
+    day = mc.day_mask(ev, args)
+    up_all_val, up_all = all_cells_bounds(cal, cal, args), all_cells_bounds(cal, ev, args)
+    ref = mc.evaluate({mc.K_POINT: ev["pred"], mc.K_REF: up_all}, truth, day, args)
+    rows = mc.to_rows(METHOD, h, window, {"global": {"all cells": ref}})
+
     qe_grid = [None] + list(args.sweep_quiet_eps)
-    configs = [("busy", None, False, q) for q in qe_grid]                       # v1 behaviour (+ quiet margin)
+    configs = [("busy", None, False, q) for q in qe_grid]                       # plain gate (+ quiet margin)
     for rel in (False, True):
         for sq in args.sweep_spread_q:
-            configs += [("busy", sq, rel, None)]                                 # spread makes pairs busy
+            configs.append(("busy", sq, rel, None))                              # spread makes pairs busy
             configs += [("quiet_only", sq, rel, q) for q in args.sweep_quiet_eps]  # spread flags quiet pairs
     keep = (args.spread_mode, args.spread_q, args.spread_rel, args.quiet_eps, args.n_tau)
     args.n_tau = args.sweep_n_tau
-    rows = []
+    table = []
     for i, (mode, sq, rel, qe) in enumerate(configs, 1):
         args.spread_mode, args.spread_q, args.spread_rel, args.quiet_eps = mode, sq, rel, qe
+        label = f"{mode} q={sq} rel={int(rel)} qeps={qe}"
         try:
             _, best = search_tau(cal, args)
             gate = Gate(best["tau"], cal, args)
-            up_v, _ = GatedCalib(cal, cal, gate, args).bound(cal)
-            up_t, _ = GatedCalib(cal, ev, gate, args).bound(ev)
+            up_v = GatedCalib(cal, cal, gate, args).bound(cal)
+            up_t = GatedCalib(cal, ev, gate, args).bound(ev)
         except SystemExit as e:
-            print(f"[{i}/{len(configs)}] skipped {mode} q={sq} rel={rel} quiet_eps={qe}: {e}")
+            print(f"[{i}/{len(configs)}] skipped {label}: {e}")
             continue
         up_io, up_iu, a_ov, a_un = iso_baselines(cal, up_v, up_all_val, ev, up_all)
-        iso_v_up = cal["pred"] + a_ov * np.maximum(up_all_val - cal["pred"], 0.0)
-        gv, iv = global_metrics(up_v, cal["truth"]), global_metrics(iso_v_up, cal["truth"])
-        g, io, iu = (global_metrics(x, ev["truth"]) for x in (up_t, up_io, up_iu))
-        rows.append({"spread_mode": mode, "spread_q": sq, "spread_rel": rel, "quiet_eps": qe,
-                     "tau_au": best["tau"], "busy_pairs_%": best["busy_pairs_%"],
-                     "val_d_unmet_vs_isoover": gv["unmet_%"] - iv["unmet_%"],
-                     "test_unmet_%": g["unmet_%"], "test_overprov_%": g["overprov_%"], "test_cover": g["cover"],
-                     "test_d_unmet_vs_isoover": g["unmet_%"] - io["unmet_%"],
-                     "test_d_over_vs_isounmet": g["overprov_%"] - iu["overprov_%"]})
-        print(f"[{i}/{len(configs)}] {mode:10s} q={sq} rel={int(rel)} quiet_eps={qe} -> tau {best['tau']:.0f}, "
-              f"test unmet {g['unmet_%']:.2f} over {g['overprov_%']:.2f} | d_unmet@iso-over "
-              f"{g['unmet_%'] - io['unmet_%']:+.3f} | d_over@iso-unmet {g['overprov_%'] - iu['overprov_%']:+.3f}")
+        iso_v = cal["pred"] + a_ov * np.maximum(up_all_val - cal["pred"], 0.0)
+        val_d = mc.compute(up_v, cal["truth"])["unmet_%"] - mc.compute(iso_v, cal["truth"])["unmet_%"]
+
+        n_g, n_io, n_iu = (f"{k} [{label}]" for k in (K_GATE, K_ISOO, K_ISOU))
+        res = mc.evaluate({n_g: up_t, n_io: up_io, n_iu: up_iu}, truth, day, args)
+        g, io, iu = res[n_g]["all hours"], res[n_io]["all hours"], res[n_iu]["all hours"]
+        params = {n_g: f"tau={best['tau']:.1f};busy_pairs={best['busy_pairs_%']:.1f}%;val_d_unmet_vs_isoover={val_d:+.3f}",
+                  n_io: f"alpha={a_ov:.3f}", n_iu: f"alpha={a_un:.3f}"}
+        rows += mc.to_rows(METHOD, h, window, {"global": {"all cells": res}}, params)
+        table.append({"mode": mode, "q": sq, "rel": rel, "qe": qe, "tau": best["tau"], "busy": best["busy_pairs_%"],
+                      "val_d": val_d, "unmet": g["unmet_%"], "over": g["overprov_%"],
+                      "d_unmet": g["unmet_%"] - io["unmet_%"], "d_over": g["overprov_%"] - iu["overprov_%"]})
+        r = table[-1]
+        print(f"[{i}/{len(configs)}] {label} -> tau {r['tau']:.0f}, test unmet {r['unmet']:.2f} over {r['over']:.2f} | "
+              f"d_unmet@iso-over {r['d_unmet']:+.3f} | d_over@iso-unmet {r['d_over']:+.3f}")
     args.spread_mode, args.spread_q, args.spread_rel, args.quiet_eps, args.n_tau = keep
-    rows.sort(key=lambda r: r["val_d_unmet_vs_isoover"])
+
+    table.sort(key=lambda r: r["val_d"])
     print("\n== SWEEP (ranked by VAL delta; TEST columns are untouched by the selection; negative = gate better) ==")
     print(f"{'mode':10s} {'q':>5s} {'rel':>3s} {'q_eps':>5s} {'tau':>6s} {'busy%':>6s} | {'valD_unmet':>10s} | "
           f"{'unmet%':>6s} {'over%':>6s} {'D_unmet@isoOv':>13s} {'D_over@isoUn':>12s}")
-    for r in rows:
-        print(f"{r['spread_mode']:10s} {str(r['spread_q']):>5s} {int(r['spread_rel']):>3d} {str(r['quiet_eps']):>5s} "
-              f"{r['tau_au']:6.0f} {r['busy_pairs_%']:6.1f} | {r['val_d_unmet_vs_isoover']:+10.3f} | "
-              f"{r['test_unmet_%']:6.2f} {r['test_overprov_%']:6.2f} {r['test_d_unmet_vs_isoover']:+13.3f} "
-              f"{r['test_d_over_vs_isounmet']:+12.3f}")
+    for r in table:
+        print(f"{r['mode']:10s} {str(r['q']):>5s} {int(r['rel']):>3d} {str(r['qe']):>5s} {r['tau']:6.0f} "
+              f"{r['busy']:6.1f} | {r['val_d']:+10.3f} | {r['unmet']:6.2f} {r['over']:6.2f} "
+              f"{r['d_unmet']:+13.3f} {r['d_over']:+12.3f}")
     return rows
 
 
@@ -530,7 +494,7 @@ def main():
         print("[warning] --spread_mode quiet_only without --quiet_eps: flagged quiet pairs get no margin, "
               "so the run equals the plain gate")
     os.makedirs(args.out_dir, exist_ok=True)
-    runs = []
+    rows = []
     for h in args.horizons:
         args.horizon = h
         cal, ev = sc.load_cal_ev(args)
@@ -538,67 +502,9 @@ def main():
         print(f"\n##### horizon {h * 10} min | {ev['members']} members | cells {ev['truth'].shape[1]} | "
               f"window {args.day_start:g}-{args.day_end:g} h | calibration windows {cal['pred'].shape[0]}, "
               f"evaluation windows {ev['pred'].shape[0]}")
-        if args.sweep:
-            rows = sweep(cal, ev, args)
-            path = os.path.join(args.out_dir, f"busy_gate_sweep_h{h * 10}_w{args.day_start:g}-{args.day_end:g}.csv")
-            with open(path, "w", newline="") as f:
-                w = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
-                w.writeheader()
-                w.writerows(rows)
-            print(f"Saved {path}")
-            continue
-
-        res, curve, tau, c, tables, gate = run_one(cal, ev, args, cols)
-        base = os.path.join(args.out_dir, f"busy_gate_h{h * 10}_w{args.day_start:g}-{args.day_end:g}")
-        figure_tiers(res, args, base + "_tiers.png")
-        if curve is not None:
-            figure_threshold(curve, tau, args, base + "_threshold.png")
-        mpath = Path("results/tables") / f"busy_gate_margins_h{h * 10}.json"
-        mpath.parent.mkdir(parents=True, exist_ok=True)
-        with open(mpath, "w") as f:
-            json.dump({"horizon_min": h * 10, "window_hours": [args.day_start, args.day_end],
-                       "eps_window": args.day_eps, "eps_outside": args.night_eps,
-                       "busy_threshold_au": tau,
-                       "spread_mode": args.spread_mode, "spread_relative": bool(args.spread_rel),
-                       "spread_quantile": args.spread_q, "spread_threshold": gate.ts,
-                       "quiet_eps": args.quiet_eps,
-                       "decile_edges": [float(e) for e in c.edges],
-                       "margin_window": [float(q) for q in tables["window"]],
-                       "margin_outside": [float(q) for q in tables["outside"]],
-                       "quiet_margin_window": tables["quiet"][0], "quiet_margin_outside": tables["quiet"][1],
-                       "usage": "signal = spread (or spread/max(pred,1) if spread_relative). "
-                                "busy = pred >= busy_threshold_au (| signal >= spread_threshold if mode 'busy'); "
-                                "busy: bound = pred + margin_<period>[searchsorted(decile_edges, pred, side='right')]. "
-                                "protected quiet = quiet & signal >= spread_threshold (mode 'quiet_only') or every "
-                                "quiet pair (mode 'busy'): bound = pred + quiet_margin_<period> (if quiet_eps). "
-                                "other quiet pairs: bound = pred"},
-                      f, indent=2)
-        print(f"Saved {mpath}")
-        runs.append({"horizon_min": h * 10, "window": f"{args.day_start:g}-{args.day_end:g}",
-                     "busy_threshold_au": tau, "busy_pairs_%": float(100 * c.busy_e.mean()),
-                     "threshold_curve_val": curve, "results": res})
-
-    if args.sweep:
-        return
-    with open(os.path.join(args.out_dir, "busy_gate_all.json"), "w") as f:
-        json.dump({"eps_window": args.day_eps, "eps_outside": args.night_eps, "quiet_eps": args.quiet_eps,
-                   "spread_mode": args.spread_mode, "spread_q": args.spread_q, "spread_rel": bool(args.spread_rel),
-                   "max_unmet_increase_pp": args.max_unmet_increase, "runs": runs}, f, indent=2)
-    with open(os.path.join(args.out_dir, "busy_gate_all.csv"), "w", newline="") as f:
-        w = csv.writer(f)
-        w.writerow(["horizon_min", "window", "scope", "group", "approach", "period", "cover", "unmet_%", "overprov_%"])
-        for r in runs:
-            for n, per in r["results"]["global"].items():
-                for p, m in per.items():
-                    w.writerow([r["horizon_min"], r["window"], "global", "all cells", n, p,
-                                m["cover"], m["unmet_%"], m["overprov_%"]])
-            for scope in ("tiers", "dynamic"):
-                for g, t in r["results"][scope].items():
-                    for n, per in t["approaches"].items():
-                        for p, m in per.items():
-                            w.writerow([r["horizon_min"], r["window"], scope, g, n, p,
-                                        m["cover"], m["unmet_%"], m["overprov_%"]])
-    print(f"\nSaved {args.out_dir}/busy_gate_all.json / .csv")
+        rows += sweep(cal, ev, args) if args.sweep else run_one(cal, ev, args, cols)
+    name = "busy_gate_sweep_metrics.csv" if args.sweep else "busy_gate_metrics.csv"
+    mc.write_csv(os.path.join(args.out_dir, name), rows)
 
 
 if __name__ == "__main__":
