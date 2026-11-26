@@ -1,0 +1,271 @@
+method,horizon_min,window,scope,group,approach,period,cover,unmet_%,overprov_%,cost_J,switch_%,params
+adaptive_bins,10,9-18,global,all cells,STID point prediction (no confidence),all hours,0.5177015514809591,5.000430868690135,3.750104089336055,4.788670622019916,nan,
+adaptive_bins,10,9-18,global,all cells,STID point prediction (no confidence),window,0.5151585185185186,4.8528299870886835,3.5086969305355957,4.718416681433375,nan,
+adaptive_bins,10,9-18,global,all cells,STID point prediction (no confidence),other hours,0.5192656036446469,5.148065338559993,3.991566183095948,4.8589405496939815,nan,
+adaptive_bins,10,9-18,global,all cells,"scheduled, calibrated per period",all hours,0.8271858956276446,1.8423018083648004,12.837863669886003,3.426041310107671,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,global,all cells,"scheduled, calibrated per period",window,0.9190533333333334,1.0648157425486928,16.598394703698247,2.618173638663648,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,global,all cells,"scheduled, calibrated per period",other hours,0.7706842824601366,2.619964800025621,9.076476884235866,4.234092821078182,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,global,all cells,5 bins,all hours,0.8266070521861777,1.966983578746148,12.693887043542391,3.4937659440017317,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.704
+adaptive_bins,10,9-18,global,all cells,5 bins,window,0.9177674074074074,1.1750142121064018,16.572509152645882,2.7147637061603493,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.704
+adaptive_bins,10,9-18,global,all cells,5 bins,other hours,0.7705403189066059,2.759133167071326,8.814382309626474,4.272945452710113,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.704
+adaptive_bins,10,9-18,global,all cells,10 bins,all hours,0.8271858956276446,1.8423018083648004,12.837863669886003,3.426041310107671,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,global,all cells,10 bins,window,0.9190533333333334,1.0648157425486928,16.598394703698247,2.618173638663648,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,global,all cells,10 bins,other hours,0.7706842824601366,2.619964800025621,9.076476884235866,4.234092821078182,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,global,all cells,20 bins,all hours,0.8271875881523272,1.7951706581430524,12.857929187643247,3.3959759521048998,nan,d_unmet_at_iso_over=-0.044;d_over_at_iso_unmet=-0.326
+adaptive_bins,10,9-18,global,all cells,20 bins,window,0.9195244444444445,1.0199570512611347,16.549981413819772,2.572959487516998,nan,d_unmet_at_iso_over=-0.044;d_over_at_iso_unmet=-0.326
+adaptive_bins,10,9-18,global,all cells,20 bins,other hours,0.7703972665148063,2.570560673745671,9.165036792764559,4.219179703500393,nan,d_unmet_at_iso_over=-0.044;d_over_at_iso_unmet=-0.326
+adaptive_bins,10,9-18,tier,cells 0%-50%,STID point prediction (no confidence),all hours,0.511475317348378,6.313076444366089,4.48765057441752,5.991000335528334,nan,
+adaptive_bins,10,9-18,tier,cells 0%-50%,STID point prediction (no confidence),window,0.5130103703703703,6.260898901248133,4.362963990082827,6.071105410131603,nan,
+adaptive_bins,10,9-18,tier,cells 0%-50%,STID point prediction (no confidence),other hours,0.5105312072892938,6.35965861898988,4.598966130835968,5.919485496951403,nan,
+adaptive_bins,10,9-18,tier,cells 0%-50%,"scheduled, calibrated per period",all hours,0.8186166431593794,2.5470697064426964,14.556897705329675,4.247775661343129,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 0%-50%,"scheduled, calibrated per period",window,0.9153392592592593,1.5290829266620118,19.928190424306017,3.368993676426412,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 0%-50%,"scheduled, calibrated per period",other hours,0.7591289293849658,3.4558905344616786,9.761606849544584,5.032319613232405,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 0%-50%,5 bins,all hours,0.8209647390691114,2.5466926029071026,15.037006211792994,4.301546572983401,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.704
+adaptive_bins,10,9-18,tier,cells 0%-50%,5 bins,window,0.9166933333333334,1.5117100273477362,20.843293400609028,3.444868364673865,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.704
+adaptive_bins,10,9-18,tier,cells 0%-50%,5 bins,other hours,0.7620883826879271,3.4706866468255644,9.853368432339051,5.066357093203936,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.704
+adaptive_bins,10,9-18,tier,cells 0%-50%,10 bins,all hours,0.8186166431593794,2.5470697064426964,14.556897705329675,4.247775661343129,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 0%-50%,10 bins,window,0.9153392592592593,1.5290829266620118,19.928190424306017,3.368993676426412,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 0%-50%,10 bins,other hours,0.7591289293849658,3.4558905344616786,9.761606849544584,5.032319613232405,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 0%-50%,20 bins,all hours,0.817659802538787,2.5401821778715186,14.460495684169066,4.231426619315164,nan,d_unmet_at_iso_over=-0.044;d_over_at_iso_unmet=-0.326
+adaptive_bins,10,9-18,tier,cells 0%-50%,20 bins,window,0.915514074074074,1.5278434584838556,19.74437895766383,3.349497008401853,nan,d_unmet_at_iso_over=-0.044;d_over_at_iso_unmet=-0.326
+adaptive_bins,10,9-18,tier,cells 0%-50%,20 bins,other hours,0.7574760820045559,3.4439606271238605,9.743240738276993,5.018780654912144,nan,d_unmet_at_iso_over=-0.044;d_over_at_iso_unmet=-0.326
+adaptive_bins,10,9-18,tier,cells 50%-75%,STID point prediction (no confidence),all hours,0.5205935119887165,5.428953300170804,4.055159756719226,5.186555506925588,nan,
+adaptive_bins,10,9-18,tier,cells 50%-75%,STID point prediction (no confidence),window,0.5179022222222223,5.352058195285146,3.936470868875144,5.210499462644146,nan,
+adaptive_bins,10,9-18,tier,cells 50%-75%,STID point prediction (no confidence),other hours,0.5222487471526196,5.498775117312502,4.162930905950693,5.164814064472051,nan,
+adaptive_bins,10,9-18,tier,cells 50%-75%,"scheduled, calibrated per period",all hours,0.8280733427362482,2.0619398034041514,13.679007463329711,3.6926687193327368,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 50%-75%,"scheduled, calibrated per period",window,0.9256177777777778,1.0839889366049813,18.92459931265203,2.868049974209686,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 50%-75%,"scheduled, calibrated per period",other hours,0.7680801822323462,2.9499326957574192,8.915937623604282,4.441433927719135,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 50%-75%,5 bins,all hours,0.8285856135401974,2.0375939378134427,14.762586201576223,3.790002831768186,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.704
+adaptive_bins,10,9-18,tier,cells 50%-75%,5 bins,window,0.9265303703703703,1.0319885442064416,21.048166291862426,3.0336063189720397,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.704
+adaptive_bins,10,9-18,tier,cells 50%-75%,5 bins,other hours,0.7683462414578588,2.950697522411529,9.05519267703265,4.476821311066809,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.704
+adaptive_bins,10,9-18,tier,cells 50%-75%,10 bins,all hours,0.8280733427362482,2.0619398034041514,13.679007463329711,3.6926687193327368,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 50%-75%,10 bins,window,0.9256177777777778,1.0839889366049813,18.92459931265203,2.868049974209686,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 50%-75%,10 bins,other hours,0.7680801822323462,2.9499326957574192,8.915937623604282,4.441433927719135,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 50%-75%,20 bins,all hours,0.8277709449929478,2.0712405808869856,13.460488311070307,3.676478935904021,nan,d_unmet_at_iso_over=-0.044;d_over_at_iso_unmet=-0.326
+adaptive_bins,10,9-18,tier,cells 50%-75%,20 bins,window,0.924717037037037,1.1003620057781436,18.500196774395288,2.8403454826398575,nan,d_unmet_at_iso_over=-0.044;d_over_at_iso_unmet=-0.326
+adaptive_bins,10,9-18,tier,cells 50%-75%,20 bins,other hours,0.7681457858769931,2.9528117347185447,8.884363429037537,4.435699658298293,nan,d_unmet_at_iso_over=-0.044;d_over_at_iso_unmet=-0.326
+adaptive_bins,10,9-18,tier,cells 75%-90%,STID point prediction (no confidence),all hours,0.5275900329102021,4.924917105811058,3.715305454224355,4.717647173144243,nan,
+adaptive_bins,10,9-18,tier,cells 75%-90%,STID point prediction (no confidence),window,0.5215308641975309,4.9544921604485275,3.624277287108767,4.821470673114551,nan,
+adaptive_bins,10,9-18,tier,cells 75%-90%,STID point prediction (no confidence),other hours,0.5313166287015946,4.897967074394723,3.798254141677624,4.623038841215448,nan,
+adaptive_bins,10,9-18,tier,cells 75%-90%,"scheduled, calibrated per period",all hours,0.8475486600846263,1.6693708827750189,14.14148897472887,3.4472522653422155,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 75%-90%,"scheduled, calibrated per period",window,0.9327111111111112,0.904941027011441,19.64381564819602,2.7788284891298987,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 75%-90%,"scheduled, calibrated per period",other hours,0.7951708428246014,2.365951459918399,9.127537909190465,4.056348072236416,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 75%-90%,5 bins,all hours,0.8553718852844382,1.6014628733844332,15.174388648641107,3.5138204242256865,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.704
+adaptive_bins,10,9-18,tier,cells 75%-90%,5 bins,window,0.9437432098765433,0.8204947813147024,21.527093830492944,2.891154686232526,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.704
+adaptive_bins,10,9-18,tier,cells 75%-90%,5 bins,other hours,0.8010205011389522,2.3131137857642186,9.385536985363446,4.081219585664026,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.704
+adaptive_bins,10,9-18,tier,cells 75%-90%,10 bins,all hours,0.8475486600846263,1.6693708827750189,14.14148897472887,3.4472522653422155,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 75%-90%,10 bins,window,0.9327111111111112,0.904941027011441,19.64381564819602,2.7788284891298987,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 75%-90%,10 bins,other hours,0.7951708428246014,2.365951459918399,9.127537909190465,4.056348072236416,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 75%-90%,20 bins,all hours,0.8442463563704748,1.7229062548478893,13.246674198856066,3.3865682093500658,nan,d_unmet_at_iso_over=-0.044;d_over_at_iso_unmet=-0.326
+adaptive_bins,10,9-18,tier,cells 75%-90%,20 bins,window,0.926953086419753,0.9879337342217611,18.008781804030907,2.6900185412026754,nan,d_unmet_at_iso_over=-0.044;d_over_at_iso_unmet=-0.326
+adaptive_bins,10,9-18,tier,cells 75%-90%,20 bins,other hours,0.7933788914198937,2.39264407152549,8.907241824491154,4.021293509766906,nan,d_unmet_at_iso_over=-0.044;d_over_at_iso_unmet=-0.326
+adaptive_bins,10,9-18,tier,cells 90%-97%,STID point prediction (no confidence),all hours,0.5270118879709853,4.568262258692828,3.479508721812856,4.38892817321544,nan,
+adaptive_bins,10,9-18,tier,cells 90%-97%,STID point prediction (no confidence),window,0.5119153439153439,4.359045356463355,3.1753991860745954,4.240680739424478,nan,
+adaptive_bins,10,9-18,tier,cells 90%-97%,STID point prediction (no confidence),other hours,0.5362967783924504,4.797641007139137,3.8129247314893604,4.5514619382266925,nan,
+adaptive_bins,10,9-18,tier,cells 90%-97%,"scheduled, calibrated per period",all hours,0.849099335079589,1.5069082919345334,12.442308151526051,3.1067119198320183,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 90%-97%,"scheduled, calibrated per period",window,0.9211428571428572,0.8400055513991417,15.29609021318583,2.28561401757781,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 90%-97%,"scheduled, calibrated per period",other hours,0.8047901073869184,2.2380792170810917,9.313512386621419,4.006937509466173,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 90%-97%,5 bins,all hours,0.8212693935119887,1.855751708716766,10.431528104954943,3.1209948984507365,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.704
+adaptive_bins,10,9-18,tier,cells 90%-97%,5 bins,window,0.8867513227513227,1.1569961777462954,12.358103507450581,2.2771069107167237,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.704
+adaptive_bins,10,9-18,tier,cells 90%-97%,5 bins,other hours,0.780995769606248,2.621845018845906,8.319292191399589,4.046206811984327,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.704
+adaptive_bins,10,9-18,tier,cells 90%-97%,10 bins,all hours,0.849099335079589,1.5069082919345334,12.442308151526051,3.1067119198320183,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 90%-97%,10 bins,window,0.9211428571428572,0.8400055513991417,15.29609021318583,2.28561401757781,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 90%-97%,10 bins,other hours,0.8047901073869184,2.2380792170810917,9.313512386621419,4.006937509466173,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 90%-97%,20 bins,all hours,0.8541607898448519,1.4205654346296268,12.970935608169023,3.105679283294342,nan,d_unmet_at_iso_over=-0.044;d_over_at_iso_unmet=-0.326
+adaptive_bins,10,9-18,tier,cells 90%-97%,20 bins,window,0.9278095238095239,0.7456523885799531,16.07406821050147,2.2784939707721046,nan,d_unmet_at_iso_over=-0.044;d_over_at_iso_unmet=-0.326
+adaptive_bins,10,9-18,tier,cells 90%-97%,20 bins,other hours,0.8088643019850309,2.1605186036291366,9.568759851808567,4.012578915673994,nan,d_unmet_at_iso_over=-0.044;d_over_at_iso_unmet=-0.326
+adaptive_bins,10,9-18,tier,cells 97%-100%,STID point prediction (no confidence),all hours,0.5262059238363893,4.394904591639912,3.354248788649281,4.235981096825796,nan,
+adaptive_bins,10,9-18,tier,cells 97%-100%,STID point prediction (no confidence),window,0.5038024691358025,4.0868743599172355,2.8723467411562607,3.9654215980411376,nan,
+adaptive_bins,10,9-18,tier,cells 97%-100%,STID point prediction (no confidence),other hours,0.5399848139711465,4.780197735163733,3.957025839819749,4.574404761327737,nan,
+adaptive_bins,10,9-18,tier,cells 97%-100%,"scheduled, calibrated per period",all hours,0.8096661965209215,1.909937885415909,9.009052052747673,3.001389204075312,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 97%-100%,"scheduled, calibrated per period",window,0.8530864197530864,1.344578498284032,9.542089834466658,2.1643296319022944,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 97%-100%,"scheduled, calibrated per period",other hours,0.7829612756264237,2.6171057964047746,8.34231294280091,4.048407583003809,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 97%-100%,5 bins,all hours,0.7727879642689234,2.3116496865675646,7.572892494748796,3.1192593878189294,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.704
+adaptive_bins,10,9-18,tier,cells 97%-100%,5 bins,window,0.8051358024691359,1.7070023205880003,7.797619770410658,2.316064065570266,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.704
+adaptive_bins,10,9-18,tier,cells 97%-100%,5 bins,other hours,0.7528929384965831,3.0679601404434256,7.2917971035884355,4.123919381229678,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.704
+adaptive_bins,10,9-18,tier,cells 97%-100%,10 bins,all hours,0.8096661965209215,1.909937885415909,9.009052052747673,3.001389204075312,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 97%-100%,10 bins,window,0.8530864197530864,1.344578498284032,9.542089834466658,2.1643296319022944,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 97%-100%,10 bins,other hours,0.7829612756264237,2.6171057964047746,8.34231294280091,4.048407583003809,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,10,9-18,tier,cells 97%-100%,20 bins,all hours,0.8328913963328632,1.647947466023627,10.253367332654273,2.9558046634836828,nan,d_unmet_at_iso_over=-0.044;d_over_at_iso_unmet=-0.326
+adaptive_bins,10,9-18,tier,cells 97%-100%,20 bins,window,0.8866172839506172,1.0870783896220682,11.206070126741993,2.0989775633340604,nan,d_unmet_at_iso_over=-0.044;d_over_at_iso_unmet=-0.326
+adaptive_bins,10,9-18,tier,cells 97%-100%,20 bins,other hours,0.7998481397114654,2.3494987661785256,9.061699059299658,4.027548839458809,nan,d_unmet_at_iso_over=-0.044;d_over_at_iso_unmet=-0.326
+adaptive_bins,20,9-18,global,all cells,STID point prediction (no confidence),all hours,0.5167125528913963,5.347600789790796,4.019842684951181,5.121080891663405,nan,
+adaptive_bins,20,9-18,global,all cells,STID point prediction (no confidence),window,0.5176844444444444,5.186732312419044,3.780992127025438,5.0461582938796825,nan,
+adaptive_bins,20,9-18,global,all cells,STID point prediction (no confidence),other hours,0.5161148063781321,5.50843605088098,4.2586439247786,5.195988019355385,nan,
+adaptive_bins,20,9-18,global,all cells,"scheduled, calibrated per period",all hours,0.8280496473906911,1.9825724179981727,13.925387452528994,3.697031609958604,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,global,all cells,"scheduled, calibrated per period",window,0.9199037037037037,1.1379203777548856,18.08959821364834,2.8330881613442305,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,global,all cells,"scheduled, calibrated per period",other hours,0.771556264236902,2.8270500536567216,9.76203652174683,4.560796670679249,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,global,all cells,5 bins,all hours,0.8276445698166431,2.107817570097539,13.770622254080022,3.7643396154735895,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.717
+adaptive_bins,20,9-18,global,all cells,5 bins,window,0.9183762962962962,1.2525514054324298,18.04334008196544,2.93163027308573,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.717
+adaptive_bins,20,9-18,global,all cells,5 bins,other hours,0.7718414578587699,2.962907138563051,9.498786661177729,4.596877019216721,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.717
+adaptive_bins,20,9-18,global,all cells,10 bins,all hours,0.8280496473906911,1.9825724179981727,13.925387452528994,3.697031609958604,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,global,all cells,10 bins,window,0.9199037037037037,1.1379203777548856,18.08959821364834,2.8330881613442305,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,global,all cells,10 bins,other hours,0.771556264236902,2.8270500536567216,9.76203652174683,4.560796670679249,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,global,all cells,20 bins,all hours,0.8280124118476728,1.9326182113991326,13.983302710400215,3.66805665799056,nan,d_unmet_at_iso_over=-0.042;d_over_at_iso_unmet=-0.317
+adaptive_bins,20,9-18,global,all cells,20 bins,window,0.9200059259259259,1.0858843660700854,18.117411933027803,2.7890371227658566,nan,d_unmet_at_iso_over=-0.042;d_over_at_iso_unmet=-0.317
+adaptive_bins,20,9-18,global,all cells,20 bins,other hours,0.771433257403189,2.7791772222902784,9.850047102714484,4.54689469239633,nan,d_unmet_at_iso_over=-0.042;d_over_at_iso_unmet=-0.317
+adaptive_bins,20,9-18,tier,cells 0%-50%,STID point prediction (no confidence),all hours,0.5095921015514809,6.769301853317034,4.676392048036256,6.397590448166259,nan,
+adaptive_bins,20,9-18,tier,cells 0%-50%,STID point prediction (no confidence),window,0.5150874074074074,6.729264957202872,4.587174948107706,6.515055956293355,nan,
+adaptive_bins,20,9-18,tier,cells 0%-50%,STID point prediction (no confidence),other hours,0.5062123006833713,6.805028137866779,4.756003501672965,6.292771978818326,nan,
+adaptive_bins,20,9-18,tier,cells 0%-50%,"scheduled, calibrated per period",all hours,0.8199435825105783,2.7504796194000876,15.673564949552592,4.567655757824276,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 0%-50%,"scheduled, calibrated per period",window,0.9156385185185185,1.6620677501244527,21.6470674829619,3.6605677234081972,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 0%-50%,"scheduled, calibrated per period",other hours,0.7610879271070615,3.7217065606240314,10.343205406728316,5.377081272150102,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 0%-50%,5 bins,all hours,0.8220152327221438,2.7519470216563144,16.144938015162666,4.621757042824798,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.717
+adaptive_bins,20,9-18,tier,cells 0%-50%,5 bins,window,0.9156977777777778,1.6476075857442007,22.54933228479498,3.737780055649278,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.717
+adaptive_bins,20,9-18,tier,cells 0%-50%,5 bins,other hours,0.7643972665148063,3.737386672482352,10.430079116181005,5.410559783407015,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.717
+adaptive_bins,20,9-18,tier,cells 0%-50%,10 bins,all hours,0.8199435825105783,2.7504796194000876,15.673564949552592,4.567655757824276,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 0%-50%,10 bins,window,0.9156385185185185,1.6620677501244527,21.6470674829619,3.6605677234081972,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 0%-50%,10 bins,other hours,0.7610879271070615,3.7217065606240314,10.343205406728316,5.377081272150102,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 0%-50%,20 bins,all hours,0.8191830747531735,2.744014644502451,15.558269882647929,4.549156935233101,nan,d_unmet_at_iso_over=-0.042;d_over_at_iso_unmet=-0.317
+adaptive_bins,20,9-18,tier,cells 0%-50%,20 bins,window,0.91512,1.6622277203939662,21.432706423276297,3.6392755906821987,nan,d_unmet_at_iso_over=-0.042;d_over_at_iso_unmet=-0.317
+adaptive_bins,20,9-18,tier,cells 0%-50%,20 bins,other hours,0.7601785876993167,3.709329921757908,10.316310295634482,5.361075015227051,nan,d_unmet_at_iso_over=-0.042;d_over_at_iso_unmet=-0.317
+adaptive_bins,20,9-18,tier,cells 50%-75%,STID point prediction (no confidence),all hours,0.5190566995768688,5.807509547347111,4.296101036384904,5.538756759423919,nan,
+adaptive_bins,20,9-18,tier,cells 50%-75%,STID point prediction (no confidence),window,0.5203851851851852,5.72627587570212,4.19768471798992,5.5734167599309,nan,
+adaptive_bins,20,9-18,tier,cells 50%-75%,STID point prediction (no confidence),other hours,0.5182396355353075,5.881247704172621,4.385436379390372,5.507294872977058,nan,
+adaptive_bins,20,9-18,tier,cells 50%-75%,"scheduled, calibrated per period",all hours,0.8291881523272214,2.2079973832196735,14.856403652799651,3.9760310163433723,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 50%-75%,"scheduled, calibrated per period",window,0.9273007407407408,1.1517826393662796,20.684072396065126,3.1050116150361635,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 50%-75%,"scheduled, calibrated per period",other hours,0.7688455580865604,3.166754101296462,9.566459926065011,4.766680557488599,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 50%-75%,5 bins,all hours,0.8302826516220029,2.178845263249366,16.06013431846328,4.082100609807899,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.717
+adaptive_bins,20,9-18,tier,cells 50%-75%,5 bins,window,0.9293096296296296,1.090262018477893,23.04644101327318,3.2858799179574216,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.717
+adaptive_bins,20,9-18,tier,cells 50%-75%,5 bins,other hours,0.7693776765375854,3.1669838072189305,9.718461361165893,4.804853195705672,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.717
+adaptive_bins,20,9-18,tier,cells 50%-75%,10 bins,all hours,0.8291881523272214,2.2079973832196735,14.856403652799651,3.9760310163433723,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 50%-75%,10 bins,window,0.9273007407407408,1.1517826393662796,20.684072396065126,3.1050116150361635,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 50%-75%,10 bins,other hours,0.7688455580865604,3.166754101296462,9.566459926065011,4.766680557488599,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 50%-75%,20 bins,all hours,0.8283148095909733,2.2212168265988756,14.617680976947762,3.958810269460702,nan,d_unmet_at_iso_over=-0.042;d_over_at_iso_unmet=-0.317
+adaptive_bins,20,9-18,tier,cells 50%-75%,20 bins,window,0.926317037037037,1.1685407457733734,20.244837658355237,3.0761704370315597,nan,d_unmet_at_iso_over=-0.042;d_over_at_iso_unmet=-0.317
+adaptive_bins,20,9-18,tier,cells 50%-75%,20 bins,other hours,0.7680400911161731,3.17676139774177,9.50974785693921,4.76000801254113,nan,d_unmet_at_iso_over=-0.042;d_over_at_iso_unmet=-0.317
+adaptive_bins,20,9-18,tier,cells 75%-90%,STID point prediction (no confidence),all hours,0.5288425011753644,5.252642362663125,3.971363480033036,5.032649125388971,nan,
+adaptive_bins,20,9-18,tier,cells 75%-90%,STID point prediction (no confidence),window,0.5244345679012345,5.277564969269623,3.874587097422137,5.137267182084875,nan,
+adaptive_bins,20,9-18,tier,cells 75%-90%,STID point prediction (no confidence),other hours,0.5315535307517084,5.229936287512931,4.05953290191663,4.937335441113856,nan,
+adaptive_bins,20,9-18,tier,cells 75%-90%,"scheduled, calibrated per period",all hours,0.848327221438646,1.7860124088771405,15.36632640612815,3.719793643680845,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 75%-90%,"scheduled, calibrated per period",window,0.9337679012345679,0.9600354133924807,21.394995925895966,3.003531464642829,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 75%-90%,"scheduled, calibrated per period",other hours,0.7957782839787395,2.538529833235073,9.873826149920825,4.372353912406512,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 75%-90%,5 bins,all hours,0.8565077574047955,1.708007126438112,16.4543616736491,3.7846677243498026,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.717
+adaptive_bins,20,9-18,tier,cells 75%-90%,5 bins,window,0.9449777777777778,0.86311139725035,23.376542922603893,3.114454549785704,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.717
+adaptive_bins,20,9-18,tier,cells 75%-90%,5 bins,other hours,0.8020956719817768,2.477760716980089,10.147815567790897,4.395274429682791,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.717
+adaptive_bins,20,9-18,tier,cells 75%-90%,10 bins,all hours,0.848327221438646,1.7860124088771405,15.36632640612815,3.719793643680845,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 75%-90%,10 bins,window,0.9337679012345679,0.9600354133924807,21.394995925895966,3.003531464642829,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 75%-90%,10 bins,other hours,0.7957782839787395,2.538529833235073,9.873826149920825,4.372353912406512,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 75%-90%,20 bins,all hours,0.8449346497414199,1.842287819053326,14.408288080533914,3.6524722437255273,nan,d_unmet_at_iso_over=-0.042;d_over_at_iso_unmet=-0.317
+adaptive_bins,20,9-18,tier,cells 75%-90%,20 bins,window,0.9277925925925926,1.0435203099833223,19.660801822845784,2.905248461269568,nan,d_unmet_at_iso_over=-0.042;d_over_at_iso_unmet=-0.317
+adaptive_bins,20,9-18,tier,cells 75%-90%,20 bins,other hours,0.7939741837509491,2.570015675727421,9.622914959518724,4.333240496675247,nan,d_unmet_at_iso_over=-0.042;d_over_at_iso_unmet=-0.317
+adaptive_bins,20,9-18,tier,cells 90%-97%,STID point prediction (no confidence),all hours,0.5291960507757405,4.883824178152932,3.7801434795175735,4.69942785683544,nan,
+adaptive_bins,20,9-18,tier,cells 90%-97%,STID point prediction (no confidence),window,0.5167195767195767,4.645195866981874,3.478157263811301,4.528492006664817,nan,
+adaptive_bins,20,9-18,tier,cells 90%-97%,STID point prediction (no confidence),other hours,0.5368695086234949,5.145283247629738,4.111022219621399,4.886717990627654,nan,
+adaptive_bins,20,9-18,tier,cells 90%-97%,"scheduled, calibrated per period",all hours,0.8479871045738465,1.6313566283208152,13.488875576701579,3.359423552547097,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 90%-97%,"scheduled, calibrated per period",window,0.9226666666666666,0.8951742951606113,16.659641431736127,2.4716210088181625,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 90%-97%,"scheduled, calibrated per period",other hours,0.8020566221932964,2.4379731896531,10.014746769781112,4.332166584685103,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 90%-97%,5 bins,all hours,0.8201168647995164,1.990659125379526,11.328778683835367,3.366695207991262,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.717
+adaptive_bins,20,9-18,tier,cells 90%-97%,5 bins,window,0.8886772486772487,1.2322208526438656,13.454163360894738,2.4544151034689525,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.717
+adaptive_bins,20,9-18,tier,cells 90%-97%,5 bins,other hours,0.7779498861047836,2.821660962805725,9.00004787558751,4.366257691001172,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.717
+adaptive_bins,20,9-18,tier,cells 90%-97%,10 bins,all hours,0.8479871045738465,1.6313566283208152,13.488875576701579,3.359423552547097,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 90%-97%,10 bins,window,0.9226666666666666,0.8951742951606113,16.659641431736127,2.4716210088181625,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 90%-97%,10 bins,other hours,0.8020566221932964,2.4379731896531,10.014746769781112,4.332166584685103,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 90%-97%,20 bins,all hours,0.8528712472294983,1.5431105714633289,14.15795987985194,3.372533346808679,nan,d_unmet_at_iso_over=-0.042;d_over_at_iso_unmet=-0.317
+adaptive_bins,20,9-18,tier,cells 90%-97%,20 bins,window,0.928994708994709,0.7954139395425754,17.681689727186026,2.48404151830692,nan,d_unmet_at_iso_over=-0.042;d_over_at_iso_unmet=-0.317
+adaptive_bins,20,9-18,tier,cells 90%-97%,20 bins,other hours,0.8060527172144484,2.3623430618311794,10.297097258605062,4.3460316110246495,nan,d_unmet_at_iso_over=-0.042;d_over_at_iso_unmet=-0.317
+adaptive_bins,20,9-18,tier,cells 97%-100%,STID point prediction (no confidence),all hours,0.5260742830277386,4.713865627385449,3.690052247347132,4.559069558272287,nan,
+adaptive_bins,20,9-18,tier,cells 97%-100%,STID point prediction (no confidence),window,0.506962962962963,4.387063703983517,3.1731249807669797,4.265669831661864,nan,
+adaptive_bins,20,9-18,tier,cells 97%-100%,STID point prediction (no confidence),other hours,0.537828397873956,5.12232910689433,4.336149760367756,4.925784270262687,nan,
+adaptive_bins,20,9-18,tier,cells 97%-100%,"scheduled, calibrated per period",all hours,0.8057545839210155,2.067563485685129,9.785489148672953,3.2501611612717554,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 97%-100%,"scheduled, calibrated per period",window,0.8535802469135803,1.4433528158971474,10.406337296122109,2.3396512639196434,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 97%-100%,"scheduled, calibrated per period",other hours,0.7763401670463174,2.847752474397371,9.009502912380722,4.388190083893209,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 97%-100%,5 bins,all hours,0.7727315467795016,2.479927958241585,8.256535675707314,3.3671646500247037,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.717
+adaptive_bins,20,9-18,tier,cells 97%-100%,5 bins,window,0.8081975308641975,1.830147836142554,8.51341373531518,2.4984744260598166,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.717
+adaptive_bins,20,9-18,tier,cells 97%-100%,5 bins,other hours,0.750918754745634,3.292075716814746,7.935468697445156,4.452923961972348,nan,d_unmet_at_iso_over=+0.104;d_over_at_iso_unmet=+0.717
+adaptive_bins,20,9-18,tier,cells 97%-100%,10 bins,all hours,0.8057545839210155,2.067563485685129,9.785489148672953,3.2501611612717554,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 97%-100%,10 bins,window,0.8535802469135803,1.4433528158971474,10.406337296122109,2.3396512639196434,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 97%-100%,10 bins,other hours,0.7763401670463174,2.847752474397371,9.009502912380722,4.388190083893209,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,20,9-18,tier,cells 97%-100%,20 bins,all hours,0.8300329102021626,1.7811534153239228,11.202974452383764,3.204811619136403,nan,d_unmet_at_iso_over=-0.042;d_over_at_iso_unmet=-0.317
+adaptive_bins,20,9-18,tier,cells 97%-100%,20 bins,window,0.8889382716049383,1.1520228594409976,12.334061104037263,2.2702266839006238,nan,d_unmet_at_iso_over=-0.042;d_over_at_iso_unmet=-0.317
+adaptive_bins,20,9-18,tier,cells 97%-100%,20 bins,other hours,0.7938041002277905,2.567491675656751,9.789250859355151,4.372931471581351,nan,d_unmet_at_iso_over=-0.042;d_over_at_iso_unmet=-0.317
+adaptive_bins,30,9-18,global,all cells,STID point prediction (no confidence),all hours,0.5204614950634697,5.483164813507215,4.212869503752038,5.267483466834914,nan,
+adaptive_bins,30,9-18,global,all cells,STID point prediction (no confidence),window,0.5212785185185185,5.327388469075733,3.9683757203798993,5.191487194206149,nan,
+adaptive_bins,30,9-18,global,all cells,STID point prediction (no confidence),other hours,0.5199589977220956,5.638838868760872,4.457202742413922,5.343429837174135,nan,
+adaptive_bins,30,9-18,global,all cells,"scheduled, calibrated per period",all hours,0.8290222849083215,2.03816457729122,14.468614019002185,3.8265687661322154,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,global,all cells,"scheduled, calibrated per period",window,0.9199244444444444,1.1743609691434806,18.76958202847377,2.9338830750765093,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,global,all cells,"scheduled, calibrated per period",other hours,0.7731143507972665,2.901400976334194,10.170470202658793,4.718668282915344,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,global,all cells,5 bins,all hours,0.8282826516220029,2.1666532216779215,14.311358786751333,3.8958624891378637,nan,d_unmet_at_iso_over=+0.107;d_over_at_iso_unmet=+0.744
+adaptive_bins,30,9-18,global,all cells,5 bins,window,0.9181585185185185,1.2920782215378408,18.72403168876512,3.0352735682605685,nan,d_unmet_at_iso_over=+0.107;d_over_at_iso_unmet=+0.744
+adaptive_bins,30,9-18,global,all cells,5 bins,other hours,0.7730059225512529,3.04065393977264,9.901583427909099,4.755886311806755,nan,d_unmet_at_iso_over=+0.107;d_over_at_iso_unmet=+0.744
+adaptive_bins,30,9-18,global,all cells,10 bins,all hours,0.8290222849083215,2.03816457729122,14.468614019002185,3.8265687661322154,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,global,all cells,10 bins,window,0.9199244444444444,1.1743609691434806,18.76958202847377,2.9338830750765093,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,global,all cells,10 bins,other hours,0.7731143507972665,2.901400976334194,10.170470202658793,4.718668282915344,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,global,all cells,20 bins,all hours,0.8285303244005642,1.9867952325313494,14.531815124464751,3.7973637742027426,nan,d_unmet_at_iso_over=-0.043;d_over_at_iso_unmet=-0.324
+adaptive_bins,30,9-18,global,all cells,20 bins,window,0.9197674074074074,1.120494796128144,18.80212102971366,2.8886574194866954,nan,d_unmet_at_iso_over=-0.043;d_over_at_iso_unmet=-0.324
+adaptive_bins,30,9-18,global,all cells,20 bins,other hours,0.7724164009111617,2.852526820309301,10.264313278340733,4.70547343481716,nan,d_unmet_at_iso_over=-0.043;d_over_at_iso_unmet=-0.324
+adaptive_bins,30,9-18,tier,cells 0%-50%,STID point prediction (no confidence),all hours,0.5120157968970381,6.956434174835387,4.840167338142557,6.579875867568401,nan,
+adaptive_bins,30,9-18,tier,cells 0%-50%,STID point prediction (no confidence),window,0.5187881481481481,6.920687212136285,4.763992418559385,6.705017732778595,nan,
+adaptive_bins,30,9-18,tier,cells 0%-50%,STID point prediction (no confidence),other hours,0.507850569476082,6.988316312338714,4.908106516105673,6.468263863280454,nan,
+adaptive_bins,30,9-18,tier,cells 0%-50%,"scheduled, calibrated per period",all hours,0.820748095909732,2.8361669002121634,16.22055347086862,4.715216056032226,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 0%-50%,"scheduled, calibrated per period",window,0.9157925925925926,1.7143458866109855,22.460571256884386,3.788968423638325,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 0%-50%,"scheduled, calibrated per period",other hours,0.7622924829157175,3.836700906717973,10.655182595823266,5.541321328994297,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 0%-50%,5 bins,all hours,0.8221179125528914,2.8372996347835993,16.707324579552402,4.770736314300544,nan,d_unmet_at_iso_over=+0.107;d_over_at_iso_unmet=+0.744
+adaptive_bins,30,9-18,tier,cells 0%-50%,5 bins,window,0.9150074074074074,1.702002345063666,23.39601909766755,3.8714040203240536,nan,d_unmet_at_iso_over=+0.107;d_over_at_iso_unmet=+0.744
+adaptive_bins,30,9-18,tier,cells 0%-50%,5 bins,other hours,0.7649876993166287,3.8498529138599875,10.741786188521376,5.572836232525335,nan,d_unmet_at_iso_over=+0.107;d_over_at_iso_unmet=+0.744
+adaptive_bins,30,9-18,tier,cells 0%-50%,10 bins,all hours,0.820748095909732,2.8361669002121634,16.22055347086862,4.715216056032226,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 0%-50%,10 bins,window,0.9157925925925926,1.7143458866109855,22.460571256884386,3.788968423638325,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 0%-50%,10 bins,other hours,0.7622924829157175,3.836700906717973,10.655182595823266,5.541321328994297,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 0%-50%,20 bins,all hours,0.8190431593794076,2.833562059301109,16.075061014908655,4.695105824519123,nan,d_unmet_at_iso_over=-0.043;d_over_at_iso_unmet=-0.324
+adaptive_bins,30,9-18,tier,cells 0%-50%,20 bins,window,0.9145155555555555,1.715812014495339,22.20442889501588,3.7646737025473924,nan,d_unmet_at_iso_over=-0.043;d_over_at_iso_unmet=-0.324
+adaptive_bins,30,9-18,tier,cells 0%-50%,20 bins,other hours,0.7603243735763098,3.8304652346227583,10.60837700018764,5.524943176013979,nan,d_unmet_at_iso_over=-0.043;d_over_at_iso_unmet=-0.324
+adaptive_bins,30,9-18,tier,cells 50%-75%,STID point prediction (no confidence),all hours,0.5229720733427362,5.954355798808017,4.487086130106877,5.693318094748575,nan,
+adaptive_bins,30,9-18,tier,cells 50%-75%,STID point prediction (no confidence),window,0.5232177777777778,5.878991160739996,4.3967041764758195,5.730762462313578,nan,
+adaptive_bins,30,9-18,tier,cells 50%-75%,STID point prediction (no confidence),other hours,0.5228209567198178,6.022748229639581,4.5691065798907005,5.659337817202361,nan,
+adaptive_bins,30,9-18,tier,cells 50%-75%,"scheduled, calibrated per period",all hours,0.8300163610719323,2.2733641200096333,15.422413034001599,4.112900769299385,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 50%-75%,"scheduled, calibrated per period",window,0.9269807407407408,1.1884045110074053,21.475326451290762,3.2170967050357406,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 50%-75%,"scheduled, calibrated per period",other hours,0.7703799544419134,3.257950882660263,9.929472673194988,4.925831330293944,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 50%-75%,5 bins,all hours,0.8310905500705219,2.2424948607344977,16.6685852143123,4.223274091708407,nan,d_unmet_at_iso_over=+0.107;d_over_at_iso_unmet=+0.744
+adaptive_bins,30,9-18,tier,cells 50%-75%,5 bins,window,0.9297125925925926,1.123671035309176,23.905149141789966,3.4018188459572545,nan,d_unmet_at_iso_over=+0.107;d_over_at_iso_unmet=+0.744
+adaptive_bins,30,9-18,tier,cells 50%-75%,5 bins,other hours,0.7704346241457859,3.2578129602395727,10.101497379013056,4.968734064932944,nan,d_unmet_at_iso_over=+0.107;d_over_at_iso_unmet=+0.744
+adaptive_bins,30,9-18,tier,cells 50%-75%,10 bins,all hours,0.8300163610719323,2.2733641200096333,15.422413034001599,4.112900769299385,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 50%-75%,10 bins,window,0.9269807407407408,1.1884045110074053,21.475326451290762,3.2170967050357406,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 50%-75%,10 bins,other hours,0.7703799544419134,3.257950882660263,9.929472673194988,4.925831330293944,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 50%-75%,20 bins,all hours,0.8295808180535966,2.285631064575677,15.178970005312479,4.09497094355215,nan,d_unmet_at_iso_over=-0.043;d_over_at_iso_unmet=-0.324
+adaptive_bins,30,9-18,tier,cells 50%-75%,20 bins,window,0.9264888888888889,1.2065796155732824,21.020834253207365,3.18800507933669,nan,d_unmet_at_iso_over=-0.043;d_over_at_iso_unmet=-0.324
+adaptive_bins,30,9-18,tier,cells 50%-75%,20 bins,other hours,0.7699790432801822,3.264856248712977,9.877554026362912,4.918030693125461,nan,d_unmet_at_iso_over=-0.043;d_over_at_iso_unmet=-0.324
+adaptive_bins,30,9-18,tier,cells 75%-90%,STID point prediction (no confidence),all hours,0.5351499764927128,5.368586028849391,4.161879588123271,5.162421838901045,nan,
+adaptive_bins,30,9-18,tier,cells 75%-90%,STID point prediction (no confidence),window,0.528720987654321,5.401609695585224,4.065784121148785,5.26802713814158,nan,
+adaptive_bins,30,9-18,tier,cells 75%-90%,STID point prediction (no confidence),other hours,0.5391040242976461,5.3385066111067365,4.249407593944768,5.066231856816244,nan,
+adaptive_bins,30,9-18,tier,cells 75%-90%,"scheduled, calibrated per period",all hours,0.8499595674659144,1.8249109069759186,15.95512214308823,3.8420383429549956,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 75%-90%,"scheduled, calibrated per period",window,0.9340641975308642,0.9801461011023809,22.174708698579412,3.0996023608500836,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 75%-90%,"scheduled, calibrated per period",other hours,0.7982323462414579,2.5943600930225994,10.290047344285625,4.518281905838355,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 75%-90%,5 bins,all hours,0.8585237423601316,1.7418196330301676,17.095495217992674,3.909699467922212,nan,d_unmet_at_iso_over=+0.107;d_over_at_iso_unmet=+0.744
+adaptive_bins,30,9-18,tier,cells 75%-90%,5 bins,window,0.9456098765432098,0.8776361247556473,24.24160068346322,3.214032580626404,nan,d_unmet_at_iso_over=+0.107;d_over_at_iso_unmet=+0.744
+adaptive_bins,30,9-18,tier,cells 75%-90%,5 bins,other hours,0.804962794229309,2.5289562329613178,10.586505975567762,4.543343668612929,nan,d_unmet_at_iso_over=+0.107;d_over_at_iso_unmet=+0.744
+adaptive_bins,30,9-18,tier,cells 75%-90%,10 bins,all hours,0.8499595674659144,1.8249109069759186,15.95512214308823,3.8420383429549956,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 75%-90%,10 bins,window,0.9340641975308642,0.9801461011023809,22.174708698579412,3.0996023608500836,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 75%-90%,10 bins,other hours,0.7982323462414579,2.5943600930225994,10.290047344285625,4.518281905838355,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 75%-90%,20 bins,all hours,0.8460479548660085,1.886275031582258,14.936886418502931,3.7713244052750303,nan,d_unmet_at_iso_over=-0.043;d_over_at_iso_unmet=-0.324
+adaptive_bins,30,9-18,tier,cells 75%-90%,20 bins,window,0.9279901234567901,1.0690794919912288,20.336081063337325,2.995779649125838,nan,d_unmet_at_iso_over=-0.043;d_over_at_iso_unmet=-0.324
+adaptive_bins,30,9-18,tier,cells 75%-90%,20 bins,other hours,0.7956507213363705,2.6306129093056185,10.019060893705522,4.477724905405594,nan,d_unmet_at_iso_over=-0.043;d_over_at_iso_unmet=-0.324
+adaptive_bins,30,9-18,tier,cells 90%-97%,STID point prediction (no confidence),all hours,0.5358049566794277,5.009970518822185,3.977490601104641,4.837726672834954,nan,
+adaptive_bins,30,9-18,tier,cells 90%-97%,STID point prediction (no confidence),window,0.5212275132275133,4.761750210582454,3.666380200813945,4.652213209605603,nan,
+adaptive_bins,30,9-18,tier,cells 90%-97%,STID point prediction (no confidence),other hours,0.5447705824926782,5.28175901910902,4.318140525030208,5.040854395589317,nan,
+adaptive_bins,30,9-18,tier,cells 90%-97%,"scheduled, calibrated per period",all hours,0.848494861978642,1.6788446565696156,14.032753894315968,3.483585710973305,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 90%-97%,"scheduled, calibrated per period",window,0.9224761904761904,0.9221185325697637,17.29647235886001,2.559553915198788,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 90%-97%,"scheduled, calibrated per period",other hours,0.8029938171168239,2.507420931525951,10.459149650862315,4.495353111360042,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 90%-97%,5 bins,all hours,0.8208905903687286,2.049801708790558,11.797767853785453,3.4904225495633243,nan,d_unmet_at_iso_over=+0.107;d_over_at_iso_unmet=+0.744
+adaptive_bins,30,9-18,tier,cells 90%-97%,5 bins,window,0.888994708994709,1.2696374823526664,13.978576912790501,2.5405314253964497,nan,d_unmet_at_iso_over=+0.107;d_over_at_iso_unmet=+0.744
+adaptive_bins,30,9-18,tier,cells 90%-97%,5 bins,other hours,0.779004230393752,2.904041503208209,9.409893840727348,4.530504587587994,nan,d_unmet_at_iso_over=+0.107;d_over_at_iso_unmet=+0.744
+adaptive_bins,30,9-18,tier,cells 90%-97%,10 bins,all hours,0.848494861978642,1.6788446565696156,14.032753894315968,3.483585710973305,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 90%-97%,10 bins,window,0.9224761904761904,0.9221185325697637,17.29647235886001,2.559553915198788,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 90%-97%,10 bins,other hours,0.8029938171168239,2.507420931525951,10.459149650862315,4.495353111360042,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 90%-97%,20 bins,all hours,0.8535643763852508,1.586728663825437,14.751023777092943,3.500252565510226,nan,d_unmet_at_iso_over=-0.043;d_over_at_iso_unmet=-0.324
+adaptive_bins,30,9-18,tier,cells 90%-97%,20 bins,window,0.9293121693121693,0.8196453846786913,18.39061372408903,2.5767422186197244,nan,d_unmet_at_iso_over=-0.043;d_over_at_iso_unmet=-0.324
+adaptive_bins,30,9-18,tier,cells 90%-97%,20 bins,other hours,0.8069768955418158,2.426645492198109,10.765859547912546,4.5114490061267185,nan,d_unmet_at_iso_over=-0.043;d_over_at_iso_unmet=-0.324
+adaptive_bins,30,9-18,tier,cells 97%-100%,STID point prediction (no confidence),all hours,0.5310578279266572,4.850768598711183,3.901952758173025,4.713438790547436,nan,
+adaptive_bins,30,9-18,tier,cells 97%-100%,STID point prediction (no confidence),window,0.5095308641975309,4.545378312965762,3.346419421310546,4.425482423800241,nan,
+adaptive_bins,30,9-18,tier,cells 97%-100%,STID point prediction (no confidence),other hours,0.5442976461655277,5.2321705892031325,4.595758456500358,5.073067556027439,nan,
+adaptive_bins,30,9-18,tier,cells 97%-100%,"scheduled, calibrated per period",all hours,0.8085190409026798,2.1326189311225185,10.218149636524013,3.3796477494809656,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 97%-100%,"scheduled, calibrated per period",window,0.8533333333333334,1.508509284046037,10.804392403018007,2.438097595943234,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 97%-100%,"scheduled, calibrated per period",other hours,0.7809567198177677,2.9120695973386406,9.485990925232487,4.555549929312102,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 97%-100%,5 bins,all hours,0.7736718382698636,2.5589051293589957,8.628887051139841,3.498139792907102,nan,d_unmet_at_iso_over=+0.107;d_over_at_iso_unmet=+0.744
+adaptive_bins,30,9-18,tier,cells 97%-100%,5 bins,window,0.8051851851851852,1.9086272799530684,8.850472937049013,2.6028118456626625,nan,d_unmet_at_iso_over=+0.107;d_over_at_iso_unmet=+0.744
+adaptive_bins,30,9-18,tier,cells 97%-100%,5 bins,other hours,0.754290053151101,3.3710372688305137,8.352148392788633,4.616315049820043,nan,d_unmet_at_iso_over=+0.107;d_over_at_iso_unmet=+0.744
+adaptive_bins,30,9-18,tier,cells 97%-100%,10 bins,all hours,0.8085190409026798,2.1326189311225185,10.218149636524013,3.3796477494809656,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 97%-100%,10 bins,window,0.8533333333333334,1.508509284046037,10.804392403018007,2.438097595943234,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 97%-100%,10 bins,other hours,0.7809567198177677,2.9120695973386406,9.485990925232487,4.555549929312102,nan,d_unmet_at_iso_over=-0.000;d_over_at_iso_unmet=+0.000
+adaptive_bins,30,9-18,tier,cells 97%-100%,20 bins,all hours,0.8318946873530795,1.8333046154066193,11.724843798338588,3.3355017036349706,nan,d_unmet_at_iso_over=-0.043;d_over_at_iso_unmet=-0.324
+adaptive_bins,30,9-18,tier,cells 97%-100%,20 bins,window,0.8879012345679013,1.2005183278998233,12.853329740741092,2.36579946918395,nan,d_unmet_at_iso_over=-0.043;d_over_at_iso_unmet=-0.324
+adaptive_bins,30,9-18,tier,cells 97%-100%,20 bins,other hours,0.7974487471526196,2.6235915396354246,10.315477473460469,4.546563023091686,nan,d_unmet_at_iso_over=-0.043;d_over_at_iso_unmet=-0.324
