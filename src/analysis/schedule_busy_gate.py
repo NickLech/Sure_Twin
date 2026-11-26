@@ -1,29 +1,10 @@
 """
-Busy-gated conformal schedule (extension of schedule_conformal.py)..
+Busy-gated conformal schedule (risultato negativo documentato, versione compatta).
 
-Idea: spend margin only where the predicted traffic is high. Pairs (window, cell) are split at PREDICTION time:
-    busy   pred >= tau : full Mondrian margin (period x decile of the predicted level), calibrated ONLY on busy pairs
-    quiet  pred <  tau : bound = pred (no margin at all)
-tau: --busy_thr auto = largest candidate whose GLOBAL unmet on val grows by at most --max_unmet_increase pp w.r.t.
-the ungated schedule (chosen on val, never on test), or a fixed number in [a.u.].
-
-Fair verdict: on test the gate is compared with the ungated schedule whose margin is scaled by ONE constant alpha
-(metrics_common.iso_baselines): iso-overprov = same over-provisioning as the gate, iso-unmet = same unmet.
-The gate is useful only if it beats both (negative deltas).
-
-Observed (h = 10 / 30 / 60 min): the gate loses on both. +0.15 / +0.14 / +0.15 pp unmet at equal over, and
-+0.70 / +0.64 / +0.73 pp over at equal unmet. The quietest tier of cells (0-50%) is left near the point forecast
-(unmet ~2.2% -> ~4.8%, worst cell > 100% of its activity). A 20-configuration sweep (ensemble-spread flags, reduced
-quiet margin) never beat the frontier either, so that code was removed.
-
-Output (--out_dir, default final_metrics/busy_gate): busy_gate_metrics.csv (schema of metrics_common.py), plus per
-horizon a frontier figure and the tau-selection figure. Units: unmet / over-provisioning are % of the total TRUE
-activity of the group (activity index [a.u.], NOT energy); cover is a fraction (0-1); tau and margins in [a.u.].
-
-Usage (from the repository root; --horizons are 1-based, 1 = 10 min):
-    python src/analysis/schedule_busy_gate.py --horizons 1 3 6 --day_start 9 --day_end 18 \
-        --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
-The per-run options of schedule_conformal.py are accepted (--day_eps, --night_eps, --cal_data, ...).
+Cosa fa questo file:
+- Applica il margine Mondrian solo dove pred >= tau (--busy_thr oppure 'auto' su calibrazione/val).
+- Confronta il busy gate con la schedule base (10 decili), con le baseline iso-alpha e con STID point.
+- Salva busy_gate_metrics.csv, il grafico di frontiera, la scelta di tau e il grafico vs base/STID.
 """
 import argparse
 import os
@@ -41,21 +22,21 @@ METHOD = "busy_gate"
 K_ISOO, K_ISOU, K_GATE = "iso-overprov baseline", "iso-unmet baseline", "busy gate"
 APPROACHES = (mc.K_POINT, mc.K_REF, K_ISOO, K_ISOU, K_GATE)
 SHORT = {mc.K_POINT: "point", mc.K_REF: "all cells", K_ISOO: "iso-over", K_ISOU: "iso-unmet", K_GATE: "gate"}
-MIN_GROUP = 200        # minimum busy calibration pairs per (period, decile) group
+MIN_GROUP = 200
 
 
 # ----------------------------------------------------------------------
-# Arguments
+# Argomenti
 # ----------------------------------------------------------------------
 def parse_all(argv=None):
     ap = argparse.ArgumentParser(add_help=False, allow_abbrev=False)
     ap.add_argument("--out_dir", default="final_metrics/busy_gate")
-    ap.add_argument("--horizons", type=int, nargs="*", default=[1])
+    ap.add_argument("--horizons", type=int, nargs="*", default=[1, 2, 3])
     ap.add_argument("--busy_thr", default="auto",
-                    help="'auto' = chosen on val (see --max_unmet_increase) or a number in [a.u.]")
+                    help="'auto' per scegliere tau su val entro --max_unmet_increase, oppure soglia numerica [a.u.]")
     ap.add_argument("--max_unmet_increase", type=float, default=0.25,
-                    help="auto mode: tolerated increase of the GLOBAL unmet %% on val, in percentage points")
-    ap.add_argument("--n_tau", type=int, default=24, help="number of candidate thresholds of the auto search")
+                    help="aumento massimo tollerato di unmet % globale su val in modalità auto")
+    ap.add_argument("--n_tau", type=int, default=24, help="numero di soglie candidate nella ricerca auto")
     mc.add_args(ap)
     extra, rest = ap.parse_known_args(argv)
     args = sc.parse_args(["--day_start", "9", "--day_end", "18"] + rest)
@@ -68,35 +49,34 @@ def parse_all(argv=None):
 
 
 # ----------------------------------------------------------------------
-# Gated conformal margins
+# Margini gated e ricerca soglia tau
 # ----------------------------------------------------------------------
 class GatedCalib:
-    """Mondrian margins [period x decile of the busy predicted level], calibrated ONLY on busy calibration pairs."""
+    """Calibra i margini Mondrian solo sulle coppie busy (pred >= tau); quiet ha margine nullo."""
 
     def __init__(self, cal, tau, args):
         self.tau, self.args = tau, args
         busy = cal["pred"] >= tau
         if not busy.any():
-            raise ValueError("no busy calibration pair: lower --busy_thr")
+            raise ValueError("nessuna coppia busy in calibrazione: abbassa --busy_thr")
         day = sc.in_window(cal["slot"], args.day_start, args.day_end)[:, None]
         res = cal["truth"] - cal["pred"]
         n = N_BINS
-        while True:                         # fewer bins when the busy set is too small for deciles
+        while True:
             self.edges = np.quantile(cal["pred"][busy], np.linspace(0, 1, n + 1)[1:-1])
             lb = np.searchsorted(self.edges, cal["pred"], side="right")
-            sel = [[busy & (lb == b) & (day == p) for p in (True, False)] for b in range(n)]   # [bin][window/other]
+            sel = [[busy & (lb == b) & (day == p) for p in (True, False)] for b in range(n)]
             small = min(s.sum() for pair in sel for s in pair)
             if small >= MIN_GROUP or n == 1:
                 break
             n -= 1
         if small < MIN_GROUP:
-            raise ValueError(f"busy set too small ({small} pairs in the smallest group): lower --busy_thr")
+            raise ValueError(f"insieme busy troppo piccolo ({small} coppie minime): abbassa --busy_thr")
         self.n_bins = n
-        self.q_day = np.array([conf_q(res[pair[0]], args.day_eps) for pair in sel])
-        self.q_night = np.array([conf_q(res[pair[1]], args.night_eps) for pair in sel])
+        self.q_day = np.array([max(0.0, conf_q(res[pair[0]], args.day_eps)) for pair in sel])
+        self.q_night = np.array([max(0.0, conf_q(res[pair[1]], args.night_eps)) for pair in sel])
 
     def bound(self, d):
-        """(bound, busy mask) on data d: pred + margin on busy pairs, pred alone on quiet ones."""
         a = self.args
         day = sc.in_window(d["slot"], a.day_start, a.day_end)[:, None]
         lb = np.searchsorted(self.edges, d["pred"], side="right")
@@ -106,11 +86,10 @@ class GatedCalib:
 
 
 def search_tau(cal, args):
-    """Global metrics on VAL (all cells) for every candidate tau, and the largest tau within the unmet budget.
-    Calibration and evaluation are both on val here (in-sample): it only selects tau, never reports performance."""
+    """Seleziona il massimo tau su `cal` (val) che rispetta il budget di aumento di unmet."""
     qs = np.quantile(cal["pred"], np.linspace(0, 0.97, args.n_tau))
     curve = []
-    for tau in np.concatenate([[-np.inf], np.unique(qs[1:])]):      # -inf = every pair busy = ungated
+    for tau in np.concatenate([[-np.inf], np.unique(qs[1:])]):
         try:
             bound, busy = GatedCalib(cal, tau, args).bound(cal)
         except ValueError:
@@ -119,19 +98,18 @@ def search_tau(cal, args):
                       "busy_pairs_%": float(100 * busy.mean()),
                       "busy_activity_%": float(100 * cal["truth"][busy].sum() / cal["truth"].sum())})
     if not curve:
-        raise ValueError("no valid tau candidate")
+        raise ValueError("nessun candidato tau valido")
     base = curve[0]["unmet_%"]
     ok = [r for r in curve if r["unmet_%"] <= base + args.max_unmet_increase]
     return curve, max(ok, key=lambda r: r["tau"])
 
 
 # ----------------------------------------------------------------------
-# Evaluation and report
+# Valutazione, report e grafici
 # ----------------------------------------------------------------------
 def evaluate(ev, busy, est, args, tier, tier_mean, tier_names):
     truth = ev["truth"]
-    dynamic = {"busy (pred >= tau)": busy, "quiet (no margin)": ~busy}
-    dynamic = {k: m for k, m in dynamic.items() if m.any()}
+    dynamic = {k: m for k, m in {"busy (pred >= tau)": busy, "quiet (no margin)": ~busy}.items() if m.any()}
     scopes = {"global": {"all cells": None}, "tier": mc.tier_groups(tier, tier_names, truth.shape),
               "dynamic": dynamic}
     res = mc.evaluate_scopes(est, truth, mc.day_mask(ev, args), args, scopes)
@@ -154,13 +132,13 @@ def print_report(res, info, per_cell, tau, args, busy, alphas):
     print(f"\ntau = {tau:.1f} a.u. | busy pairs {100 * busy.mean():.1f}% | "
           f"iso alpha: overprov {alphas[0]:.3f}, unmet {alphas[1]:.3f}")
 
-    print("\n== 1) GLOBAL, ALL CELLS (cover 0-1; unmet / over-prov. in % of total true activity) ==")
+    print("\n== 1) GLOBALE, TUTTE LE CELLE ==")
     print(f"{'approach':38s} | " + " | ".join(f"{(w if p == 'window' else p):^24s}" for p in mc.PERIODS))
     print(f"{'':38s} | " + " | ".join(f"{'cover':>6s} {'unmet%':>8s} {'over%':>8s}" for _ in mc.PERIODS))
     for n in APPROACHES:
         print(f"{n:38s} | " + " | ".join(mc.fmt(glob[n][p]) for p in mc.PERIODS))
 
-    print("\n== 2) BY STATIC TIER of cells (train-mean activity), all hours: unmet% / over% ==")
+    print("\n== 2) PER TIER STATICO, all hours: unmet% / over% ==")
     print(f"{'tier':14s} {'cells':>5s} {'mean':>6s} {'act%':>5s} {'busy%':>5s} | "
           + " | ".join(f"{SHORT[n]:^11s}" for n in APPROACHES))
     for name, t in info["tier"].items():
@@ -168,13 +146,7 @@ def print_report(res, info, per_cell, tau, args, busy, alphas):
               f"{t['busy_pairs_%']:5.1f} | "
               + " | ".join(uo(res["tier"][name][n]["all hours"]) for n in APPROACHES))
 
-    print("\n== 3) BY DYNAMIC STATE at prediction time, all hours: unmet% / over% ==")
-    for name, t in info["dynamic"].items():
-        print(f"{name}: {t['share_pairs_%']:.1f}% of pairs, {t['share_activity_%']:.1f}% of total activity")
-        for n in APPROACHES:
-            print(f"   {n:38s} {uo(res['dynamic'][name][n]['all hours'])}")
-
-    print("\n== 4) PER-CELL distribution (unmet % of each cell's own activity; cover = per-cell fraction) ==")
+    print("\n== 3) DISTRIBUZIONE PER CELLA ==")
     print(f"{'approach':38s} {'unmet med':>9s} {'p90':>7s} {'p99':>7s} {'max':>7s} | "
           f"{'cov med':>7s} {'p10':>6s} {'min':>6s}")
     for n in APPROACHES:
@@ -182,18 +154,9 @@ def print_report(res, info, per_cell, tau, args, busy, alphas):
         print(f"{n:38s} {p['unmet_med']:9.2f} {p['unmet_p90']:7.2f} {p['unmet_p99']:7.2f} {p['unmet_max']:7.2f} | "
               f"{p['cover_med']:7.3f} {p['cover_p10']:6.3f} {p['cover_min']:6.3f}")
 
-    g, a = glob[K_GATE]["all hours"], glob[mc.K_REF]["all hours"]
-    io, iu = glob[K_ISOO]["all hours"], glob[K_ISOU]["all hours"]
-    print(f"\nGATE vs ALL-CELLS    (all hours): over {g['overprov_%'] - a['overprov_%']:+.2f} pp, "
-          f"unmet {g['unmet_%'] - a['unmet_%']:+.2f} pp")
-    print(f"GATE vs ISO-OVERPROV (all hours): unmet {g['unmet_%'] - io['unmet_%']:+.2f} pp at equal over   "
-          f"[negative = gate better]")
-    print(f"GATE vs ISO-UNMET    (all hours): over  {g['overprov_%'] - iu['overprov_%']:+.2f} pp at equal unmet  "
-          f"[negative = gate better]")
-
 
 def figure_threshold(curve, tau, args, path):
-    """Global metrics on VAL vs tau: what the gate saves (over) and what it costs (unmet)."""
+    """Mostra su val l'andamento di overprov, unmet e quota busy al variare di tau."""
     t = np.array([r["tau"] for r in curve[1:]])
     fig, axes = plt.subplots(1, 3, figsize=(18, 5))
     for ax, key, lab in zip(axes[:2], ("overprov_%", "unmet_%"), ("over-provisioning [%]", "unmet [%]")):
@@ -216,15 +179,10 @@ def figure_threshold(curve, tau, args, path):
     print(f"Saved {path}")
 
 
-# ----------------------------------------------------------------------
-# Pipeline
-# ----------------------------------------------------------------------
 def run_one(cal, ev, args, cols):
     if args.busy_thr == "auto":
         curve, best = search_tau(cal, args)
         tau = best["tau"]
-        print(f"[auto] tau = {tau:.1f} a.u. chosen on val (global unmet <= ungated + {args.max_unmet_increase} pp): "
-              f"busy pairs {best['busy_pairs_%']:.1f}%, activity {best['busy_activity_%']:.1f}%")
     else:
         curve, tau = None, args.busy_thr
 
@@ -241,6 +199,10 @@ def run_one(cal, ev, args, cols):
     base = os.path.join(args.out_dir, f"busy_gate_h{h}_w{window}")
     mc.figure_frontier(base + "_frontier.png", ev["pred"], up_ref, ev["truth"], est,
                        f"Busy gate vs scaled reference - horizon {h} min - tau = {tau:.0f} a.u.")
+    mc.figure_gain_vs_baselines(
+        base + "_gain.png", ev["pred"], up_ref, ev["truth"], mc.day_mask(ev, args),
+        K_GATE, up_gate, args, f"Busy gate vs schedule base & STID point - horizon {h} min ({window} h)"
+    )
     if curve is not None:
         figure_threshold(curve, tau, args, base + "_threshold.png")
     params = {K_GATE: f"tau={tau:.1f}", K_ISOO: f"alpha={a_o:.3f}", K_ISOU: f"alpha={a_u:.3f}"}
@@ -250,15 +212,13 @@ def run_one(cal, ev, args, cols):
 def main():
     args = parse_all()
     if not (0 < args.day_eps < 1 and 0 < args.night_eps < 1):
-        raise SystemExit("--day_eps and --night_eps must be in (0, 1)")
+        raise SystemExit("--day_eps e --night_eps devono essere in (0, 1)")
     os.makedirs(args.out_dir, exist_ok=True)
     rows = []
     for h in args.horizons:
         args.horizon = h
         cal, ev, cols = mc.load_horizon(args)
-        print(f"\n##### horizon {h * 10} min | {ev['members']} members | cells {ev['truth'].shape[1]} | "
-              f"window {args.day_start:g}-{args.day_end:g} h | calibration windows {cal['pred'].shape[0]}, "
-              f"evaluation windows {ev['pred'].shape[0]}")
+        print(f"\n##### horizon {h * 10} min | cells {ev['truth'].shape[1]} | window {args.day_start:g}-{args.day_end:g} h")
         try:
             rows += run_one(cal, ev, args, cols)
         except ValueError as e:
