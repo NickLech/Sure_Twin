@@ -1,33 +1,38 @@
 """
-Shared metrics and output schema of the extension approaches (schedule_busy_gate.py,
-schedule_adaptive_ramp.py), so that a separate aggregation script can compare them with each other and
-with the reference (schedule_conformal.py / schedule_final_metrics.py).
+Shared metrics and utilities of the extension scripts (schedule_busy_gate.py, schedule_adaptive_bins.py), so that
+their results can be compared with each other and with the reference (schedule_conformal.py / schedule_final_metrics.py).
 
-Definitions (identical to schedule_final_metrics.py; ORIGINAL scale [a.u.]):
+Definitions (ORIGINAL scale [a.u.], identical to schedule_final_metrics.py):
     unmet_%     100 * sum(max(truth - est, 0)) / sum(truth)
     overprov_%  100 * sum(max(est - truth, 0)) / sum(truth)
     cover       fraction of (window, cell) pairs with truth <= est
-    cost_J      lam * unmet_% + (1 - lam) * overprov_%, lam = --lam inside the window and --lam_night outside
+    cost_J      lam * unmet_% + (1 - lam) * overprov_%, lam = --lam inside the window, --lam_night outside
                 (defaults 1 - day_eps and 1 - night_eps); "all hours" = s * J_window + (1 - s) * J_other,
-                s = share of the true activity of the group that falls inside the window (exact)
-Every metric is computed per period (all hours / window / other hours) inside a group of pairs:
+                s = share of the true activity that falls inside the window (exact)
+Every metric is computed per period (all hours / window / other hours) inside a group of (window, cell) pairs:
     scope "global"   group "all cells"
-    scope "tier"     one group per static tier of cells (ranked by their TRAIN mean activity)
+    scope "tier"     one group per static tier of cells (ranked by their TRAIN mean activity, no test leakage)
     scope "dynamic"  groups decided at prediction time (method specific)
 
+Fair reference ("frontier"): the reference schedule with its margin scaled by ONE constant alpha,
+    bound = pred + alpha * max(reference_bound - pred, 0).
+iso_baselines() finds the alpha that gives the same over-provisioning (iso-overprov) or the same unmet (iso-unmet)
+as an evaluated method, on the evaluated data itself. It is a diagnostic read-off of the frontier, not a deployable
+method: a method is useful only if it lies below that curve (less unmet at equal over, or less over at equal unmet).
+
 CSV schema (one file per method, NaN where a metric does not apply):
-    method, horizon_min, window, scope, group, approach, period, cover, unmet_%, overprov_%, cost_J,
-    switch_%, params
-"STID point prediction" and "scheduled, calibrated per period" carry the same labels as in
-schedule_final_metrics_all.csv, so the reference rows can be matched on (horizon_min, window, approach, period).
+    method, horizon_min, window, scope, group, approach, period, cover, unmet_%, overprov_%, cost_J, switch_%, params
 """
 import csv
 from pathlib import Path
 
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 import numpy as np
 
 import schedule_conformal as sc
-from analyse_result import load_series
+from analyse_result import kept_columns, load_series
 
 PERIODS = ("all hours", "window", "other hours")
 K_POINT = "STID point prediction (no confidence)"   # same label as schedule_final_metrics.py
@@ -38,7 +43,7 @@ NAN = float("nan")
 
 
 # ----------------------------------------------------------------------
-# Arguments shared by the extension scripts
+# Arguments and data loading
 # ----------------------------------------------------------------------
 def add_args(ap):
     ap.add_argument("--lam", type=float, default=None,
@@ -57,6 +62,19 @@ def set_lambdas(args):
         args.lam_night = 1 - args.night_eps
     if not (0 <= args.lam <= 1 and 0 <= args.lam_night <= 1):
         raise SystemExit("--lam and --lam_night must be in [0, 1]")
+
+
+def load_horizon(args):
+    """Calibration data, evaluation data and kept cell columns for args.horizon."""
+    cal, ev = sc.load_cal_ev(args)
+    cols = kept_columns(args, load_series(Path(args.data) / "test_data.npy").shape[1])
+    return cal, ev, cols
+
+
+def ref_bounds(cal, ev, args):
+    """Reference (ungated 10-decile) schedule: bound on `ev`, calibrated on `cal`."""
+    bounds, _, _ = sc.build_bounds(sc.Calib(cal, ev, args), ev, args)
+    return bounds[sc.K_SCHED]
 
 
 # ----------------------------------------------------------------------
@@ -104,6 +122,68 @@ def evaluate_scopes(estimates, truth, day, args, scopes, extra=None):
     """scopes = {scope: {group: mask or None}} -> {scope: {group: {approach: {period: metrics}}}}."""
     return {s: {g: evaluate(estimates, truth, day, args, m, extra) for g, m in groups.items()}
             for s, groups in scopes.items()}
+
+
+def per_cell_stats(est, truth):
+    """Distribution over cells of unmet % (of each cell's own activity) and coverage."""
+    u = 100 * np.maximum(truth - est, 0).sum(0) / np.maximum(truth.sum(0), 1e-12)
+    cov = (truth <= est).mean(0)
+    return {"unmet_med": float(np.median(u)), "unmet_p90": float(np.percentile(u, 90)),
+            "unmet_p99": float(np.percentile(u, 99)), "unmet_max": float(u.max()),
+            "cover_med": float(np.median(cov)), "cover_p10": float(np.percentile(cov, 10)),
+            "cover_min": float(cov.min())}
+
+
+def fmt(m):
+    """'cover unmet% over%' of one metrics dict (24 chars)."""
+    return f"{m['cover']:6.3f} {m['unmet_%']:8.2f} {m['overprov_%']:8.2f}"
+
+
+# ----------------------------------------------------------------------
+# Frontier: reference schedule with a scaled margin
+# ----------------------------------------------------------------------
+def match_alpha(pred, margin, truth, key, target):
+    """alpha such that `key` of pred + alpha * margin equals target (bisection).
+    overprov grows with alpha, unmet falls with alpha."""
+    lo, hi = 0.0, 5.0
+    for _ in range(30):
+        mid = 0.5 * (lo + hi)
+        m = compute(pred + mid * margin, truth)[key]
+        below = m < target if key == "overprov_%" else m > target
+        lo, hi = (mid, hi) if below else (lo, mid)
+    return 0.5 * (lo + hi)
+
+
+def iso_baselines(pred, ref_bound, truth, est):
+    """Scaled reference with the same over-provisioning / the same unmet as `est`.
+    Returns (iso_overprov_bound, iso_unmet_bound, alpha_overprov, alpha_unmet)."""
+    margin = np.maximum(ref_bound - pred, 0.0)
+    m = compute(est, truth)
+    a_o = match_alpha(pred, margin, truth, "overprov_%", m["overprov_%"])
+    a_u = match_alpha(pred, margin, truth, "unmet_%", m["unmet_%"])
+    return pred + a_o * margin, pred + a_u * margin, a_o, a_u
+
+
+def figure_frontier(path, pred, ref_bound, truth, est, title):
+    """Unmet vs over-provisioning (all cells, all hours): scaled reference (dashed) vs the evaluated approaches.
+    Points below / left of the dashed curve beat the reference."""
+    margin = np.maximum(ref_bound - pred, 0.0)
+    pts = [compute(pred + a * margin, truth) for a in np.linspace(0.0, 1.6, 33)]
+    fig, ax = plt.subplots(figsize=(7.5, 5.5))
+    ax.plot([p["overprov_%"] for p in pts], [p["unmet_%"] for p in pts], "--", color="gray",
+            label="reference schedule x alpha")
+    for n, e in est.items():
+        m = compute(e, truth)
+        ax.scatter(m["overprov_%"], m["unmet_%"], s=70, zorder=3, edgecolors="k", label=n)
+    ax.set_xlabel("over-provisioning [% of total true activity]")
+    ax.set_ylabel("unmet [% of total true activity]")
+    ax.set_title(title, fontsize=10)
+    ax.grid(alpha=0.3)
+    ax.legend(fontsize=7)
+    plt.tight_layout()
+    plt.savefig(path, dpi=150)
+    plt.close(fig)
+    print(f"Saved {path}")
 
 
 # ----------------------------------------------------------------------
