@@ -9,7 +9,8 @@ Goal: forecast mobile-network activity per cell and build a **calibrated upper b
 - **Evaluation:** in the ORIGINAL activity-index scale [a.u.] (de-normalized), on the test split (709 windows, about 4.9 days, Tue-Sat).
 
 Detailed interpretation of the results: [`results/RESULTS_ANALYSIS.md`](results/RESULTS_ANALYSIS.md).
-Final configuration and its motivation: [`final_metrics/README.md`](final_metrics/README.md).
+Final configuration and its motivation: [`final_metrics/schedule_fm_horizon_windows/README.md`](final_metrics/schedule_fm_horizon_windows/README.md).
+Finer bins on the busiest decile (3 horizons x 3 windows): [`final_metrics/adaptive_bins_all/README.md`](final_metrics/adaptive_bins_all/README.md).
 
 ### Metrics and units
 
@@ -24,6 +25,7 @@ Final configuration and its motivation: [`final_metrics/README.md`](final_metric
 | coverage (`cover`) | fraction of (window, cell) pairs with true value <= upper bound | dimensionless, 0-1 |
 | unmet % | sum(max(true - bound, 0)) / sum(true) | % of total true activity |
 | over-provisioning % | sum(max(bound - true, 0)) / sum(true) | % of total true activity |
+| weighted cost J | `lam * unmet + (1 - lam) * over-provisioning`; `lam = 1` only QoS, `lam = 0` only energy. Default `lam = 1 - eps` per band (0.90 in the window, 0.75 outside) | % of total true activity |
 | normalized MAE (BasicTS logs) | MAE on z-scored data | dimensionless |
 | horizon | steps ahead x 10 min. `--horizon` is 1-based in every script (1 = 10 min, 3 = 30 min) | min |
 
@@ -55,7 +57,12 @@ Sure_Twin/
 ├── requirements.txt          direct dependencies
 ├── requirements.lock         pinned environment (used by scripts/setup.sh)
 ├── datasets/                 MILAN, MILAN_val (+ ETTh1 as format reference)
-├── final_metrics/            chosen configuration: tables, figures, README
+├── final_metrics/            results of the schedule analyses (tables, figures, README)
+│   ├── schedule_fm_horizon_windows/   3 horizons x 3 windows: chosen configuration, README
+│   ├── adaptive_bins_all/    finer bins on the busiest decile, 3 horizons x 3 windows, README
+│   ├── busy_gate/            busy gate results
+│   └── schedule_final_metrics_lamsweep*   lambda sweep (10 min, window 9-18); adaptive_bins/ and
+│                             adaptive_bins_topsplit/ hold earlier single runs
 ├── docs/
 │   ├── SETUP.md              installation
 │   ├── CLUSTER_GUIDE.md      UniTrento GPU cluster (SLURM)
@@ -63,9 +70,10 @@ Sure_Twin/
 ├── src/
 │   ├── data/                 convert_milan_to_basicts.py, make_split_view.py
 │   ├── training/             train_STID.py, eval_split.py
-│   ├── analysis/             analyse_result.py, conformal_eval.py,
+│   ├── analysis/             analyse_result.py, conformal_eval.py, metrics_common.py,
 │   │                         schedule_conformal.py, schedule_final_metrics.py,
-│   │                         schedule_busy_gate.py
+│   │                         schedule_busy_gate.py, schedule_adaptive_bins.py,
+│   │                         make_bins_table.py
 │   └── plotting/             plot_timeseries.py, plot_signed_error.py, plot_concentration.py,
 │                             plot_confident.py, busiest_levels.py
 ├── scripts/
@@ -187,6 +195,8 @@ python src/analysis/schedule_final_metrics.py \
 ```
 - `schedule_conformal.py`: coverage 90% inside a daytime window and 75% outside it, with margins calibrated separately per period and per predicted-level decile. Defaults: window 8-21 h, `--day_eps 0.10`, `--night_eps 0.25`; the command above uses the chosen window (section 5).
 - `schedule_final_metrics.py`: repeats the comparison for 3 horizons x 3 windows (`--horizons`, `--windows` to restrict, for example `--horizons 1 --windows 9-18`) and writes the results to `final_metrics/` (unmet activity % and over-provisioning %, both dimensionless percentages of total activity). The per-run options of `schedule_conformal.py` (`--horizon`, `--day_start`, `--day_end`) are overridden there.
+- Weighted cost: `schedule_final_metrics.py` adds a third bar chart with `J = lam * unmet + (1 - lam) * over-provisioning` (`lam = 1` only QoS, `lam = 0` only energy) and a `cost_J` column in the CSV. `--lam` is the weight inside the window and `--lam_night` outside it, both in [0, 1]; defaults `1 - day_eps` (0.90) and `1 - night_eps` (0.75), the weights the schedule is calibrated for (a conformal bound at coverage `1 - eps` is the minimiser of J with `lam = 1 - eps`). For the same `lam` everywhere pass it twice, for example `--lam 0.8 --lam_night 0.8`. The cost of 'all hours' combines the two bands with their share of the true activity.
+- Lambda sweep: `--lam_sweep` also computes J for `lam` from 0 to 1 (`--lam_points`, default 101) with one `lam` common to every band, and writes `<base>_lamsweep.png`, `schedule_final_metrics_lamsweep.csv` (J on the grid), `..._lamsweep_best.csv` (lam intervals where each approach is the cheapest) and `..._lamsweep_cross.csv` (exact lam where each approach crosses the proposal). It does not return a 'best lam': lam is the relative cost of unmet versus waste, a design choice. It shows for which lam each approach is the cheapest, for example `python src/analysis/schedule_final_metrics.py --horizons 1 --windows 9-18 --lam_sweep --cal_data ... --cal_ckpts ...`.
 
 ### Step 7 - Busy gate and global evaluation on all cells
 
@@ -198,6 +208,27 @@ python src/analysis/schedule_busy_gate.py --horizons 1 --day_start 9 --day_end 1
 - `tau`: `--busy_thr auto` (default) picks on **val** the largest tau such that the global unmet % grows by at most `--max_unmet_increase` pp (default 0.25) w.r.t. the ungated schedule; `--busy_thr 1000` fixes it by hand. `--spread_q 0.98` also marks as busy the pairs with a very high ensemble spread.
 - Evaluation is always on **all cells** (test): global table, breakdown by static tier of cells (train-mean activity quantiles, `--tiers`), by dynamic state (busy / quiet), and per-cell distribution of unmet %. Compared: STID point, scheduled on all cells (current), scheduled + busy gate (new).
 - Output: `final_metrics/busy_gate/` (figures `*_tiers.png`, `*_threshold.png`, `busy_gate_all.json/.csv`) and `results/tables/busy_gate_margins_h<min>.json`. Unmet % and over-provisioning % are % of the total true activity of the group they refer to (dimensionless, not energy); tau and margins in [a.u.].
+- Result: not adopted. At 10 min and window 9-18 the gate saves over-provisioning but loses coverage on the quiet pairs, and for the same unmet scaling all the margins by a constant gives less over-provisioning than the gate (14.4% against 15.7% in the window). The tables in `final_metrics/busy_gate/` show the busy / quiet breakdown.
+
+### Step 8 - Finer bins on the busiest decile
+
+```bash
+for W in "9 18" "9 19" "8 21"; do
+  set -- $W
+  nohup python src/analysis/schedule_adaptive_bins.py --horizons 1 2 3 \
+      --day_start $1 --day_end $2 \
+      --n_bins_list 40 --top_splits 2 4 8 \
+      --bootstrap_iters 200 \
+      --out_dir final_metrics/adaptive_bins_all/w$1-$2 \
+      --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*" \
+      > results/logs/adaptive_bins_w$1-$2_<date>.txt 2>&1 &
+done
+python src/analysis/make_bins_table.py "final_metrics/adaptive_bins_all/w*/adaptive_bins_metrics.csv" --variant deciles+top8
+```
+- What: the margin is calibrated per period and per bin of the forecast level (the proposal uses 10 bins of the same size). `--top_splits K` keeps the first 9 deciles and splits the busiest one into K sub-bins (9 + K bins); `--n_bins_list N` uses N bins of the same size, as a reference. The script takes one window per run, so there is one run per window, each on the horizons given.
+- Compared: STID point, the base schedule and each variant. Each variant is also compared with the base whose margins are scaled by a constant `alpha`, chosen to match the variant on over-provisioning or on unmet; the 95% intervals come from a block bootstrap on days (`--bootstrap_iters`, 0 disables it and makes the run much faster).
+- Output: per window, `final_metrics/adaptive_bins_all/w<window>/` with `adaptive_bins_metrics.csv` (global, per cell tier and per busy / quiet state; includes `cost_J`) and the frontier and gain figures. `make_bins_table.py` prints the comparison tables (J per band, gain against the scaled-margin frontier) used in `final_metrics/adaptive_bins_all/README.md`.
+- Result: about -2% of J in the window and less than -0.5% outside it in all 9 combinations (95% interval excludes 0 every time); `deciles+top8` (17 bins) matches 40 equal bins. The gain is small, so the base schedule stays the proposal.
 
 ### Optional plots
 
@@ -219,8 +250,10 @@ python src/plotting/plot_concentration.py
 | `plot_confident.py` | `results/figures/conformal/confident_pred.png`, `busiest_confident.png` |
 | `busiest_levels.py` | `results/figures/conformal/busiest_levels.png` |
 | `schedule_conformal.py` | `results/figures/schedule/schedule_summary.png`, `schedule_busiest.png`; margin tables in `results/tables/schedule_margins.json` |
-| `schedule_final_metrics.py` | `final_metrics/` |
+| `schedule_final_metrics.py` | `final_metrics/` (with `--lam_sweep`: also `schedule_final_metrics_lamsweep*.csv` and `*_lamsweep.png`) |
 | `schedule_busy_gate.py` | `final_metrics/busy_gate/`, `results/tables/busy_gate_margins_h<min>.json` |
+| `schedule_adaptive_bins.py` | `final_metrics/adaptive_bins_all/w<window>/` (`adaptive_bins_metrics.csv`, frontier and gain figures) |
+| `make_bins_table.py` | tables printed to the console (copied into `final_metrics/adaptive_bins_all/README.md`) |
 | `plot_concentration.py` | `results/figures/data/concentration.png` |
 
 Save the console output of an analysis run under `results/logs/` (for example `python ... | tee results/logs/analysis_<date>.txt`).
@@ -229,7 +262,7 @@ Save the console output of an analysis run under `results/logs/` (for example `p
 
 ## 5. Chosen configuration
 
-**Horizon 10 min, window 9-18 h** (90% coverage inside the window, 75% outside), approach *scheduled, calibrated per period*. Motivation, full table and limitations: [`final_metrics/README.md`](final_metrics/README.md).
+**Horizon 10 min, window 9-18 h** (90% coverage inside the window, 75% outside), approach *scheduled, calibrated per period*. Motivation, full table (unmet, over-provisioning and weighted cost J) and limitations: [`final_metrics/schedule_fm_horizon_windows/README.md`](final_metrics/schedule_fm_horizon_windows/README.md). Adding the weighted cost J does not change the choice.
 
 ---
 
@@ -270,6 +303,18 @@ Full discussion in [`results/RESULTS_ANALYSIS.md`](results/RESULTS_ANALYSIS.md).
 
 ---
 
+## 6b. Further results (27 Nov 2026)
+
+**Weighted cost J and lambda sweep** (10 min, window 9-18; details in `final_metrics/schedule_final_metrics_lamsweep*.csv`)
+- With one `lam` for every band no value makes the scheduled approach the cheapest everywhere: it wins from `lam` about 0.92 inside the window and for `lam` between about 0.67 and 0.77 outside it. This supports a different `lam` per band (0.90 and 0.75 by default).
+- At the default weights the scheduled approach ties with the best fixed level in each band (fixed 90% in the window, fixed 75% outside); its advantage is that it is the single policy that reaches both over the 24 hours.
+- Below `lam` about 0.66 the point forecast without margins is the cheapest: margins are worth it only if unmet costs more than about twice the waste.
+- Caveat: `lam = 1 - eps` is the loss the schedule is designed to minimise, so this is a consistency check, not an independent validation.
+
+**Finer bins on the busiest decile** (3 horizons x 3 windows; `final_metrics/adaptive_bins_all/README.md`): small, consistent gain (about -2% of J in the window), not adopted as the proposal.
+
+---
+
 ## 7. Documentation index
 
 | Document | Content |
@@ -278,4 +323,5 @@ Full discussion in [`results/RESULTS_ANALYSIS.md`](results/RESULTS_ANALYSIS.md).
 | [`docs/CLUSTER_GUIDE.md`](docs/CLUSTER_GUIDE.md) | UniTrento GPU cluster: SLURM, CUDA, job scripts |
 | [`docs/DATA_NOTES.md`](docs/DATA_NOTES.md) | Meaning of the variable, data format, checks and decisions |
 | [`results/RESULTS_ANALYSIS.md`](results/RESULTS_ANALYSIS.md) | Interpretation of accuracy and conformal results |
-| [`final_metrics/README.md`](final_metrics/README.md) | Choice of horizon and window for the schedule |
+| [`final_metrics/schedule_fm_horizon_windows/README.md`](final_metrics/schedule_fm_horizon_windows/README.md) | Choice of horizon and window for the schedule (with weighted cost J) |
+| [`final_metrics/adaptive_bins_all/README.md`](final_metrics/adaptive_bins_all/README.md) | Finer bins on the busiest decile: all horizons and windows, how they were produced |
