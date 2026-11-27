@@ -1,0 +1,13 @@
+horizon_min,window,period,approach,lam_cross_vs_proposal,verdict
+10,9-18,all hours,STID point prediction (no confidence),0.7421069917471005,proposal cheaper for lam > lam*
+10,9-18,all hours,constant margin per period (no deciles),0.5807877838237393,proposal cheaper for lam > lam*
+10,9-18,all hours,fixed 90% (always),0.8684054525412213,proposal cheaper for lam < lam*
+10,9-18,all hours,fixed 75% (always),0.861862879674638,proposal cheaper for lam > lam*
+10,9-18,window,STID point prediction (no confidence),0.7755611518571457,proposal cheaper for lam > lam*
+10,9-18,window,constant margin per period (no deciles),0.40785897135744753,proposal cheaper for lam > lam*
+10,9-18,window,fixed 90% (always),0.9161671315440653,proposal cheaper for lam > lam*
+10,9-18,window,fixed 75% (always),0.8604025430244147,proposal cheaper for lam > lam*
+10,9-18,other hours,STID point prediction (no confidence),0.6679237086424515,proposal cheaper for lam > lam*
+10,9-18,other hours,constant margin per period (no deciles),0.6575316139461064,proposal cheaper for lam > lam*
+10,9-18,other hours,fixed 90% (always),0.8695436136731707,proposal cheaper for lam < lam*
+10,9-18,other hours,fixed 75% (always),0.7773860958160946,proposal cheaper for lam < lam*

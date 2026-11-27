@@ -1,0 +1,1516 @@
+horizon_min,window,approach,period,lam,cost_J
+10,9-18,STID point prediction (no confidence),all hours,0.0,3.750104089336051
+10,9-18,STID point prediction (no confidence),all hours,0.01,3.7626073571295917
+10,9-18,STID point prediction (no confidence),all hours,0.02,3.7751106249231325
+10,9-18,STID point prediction (no confidence),all hours,0.03,3.7876138927166734
+10,9-18,STID point prediction (no confidence),all hours,0.04,3.8001171605102138
+10,9-18,STID point prediction (no confidence),all hours,0.05,3.812620428303755
+10,9-18,STID point prediction (no confidence),all hours,0.06,3.825123696097296
+10,9-18,STID point prediction (no confidence),all hours,0.07,3.8376269638908367
+10,9-18,STID point prediction (no confidence),all hours,0.08,3.850130231684378
+10,9-18,STID point prediction (no confidence),all hours,0.09,3.862633499477919
+10,9-18,STID point prediction (no confidence),all hours,0.1,3.8751367672714596
+10,9-18,STID point prediction (no confidence),all hours,0.11,3.887640035065
+10,9-18,STID point prediction (no confidence),all hours,0.12,3.900143302858541
+10,9-18,STID point prediction (no confidence),all hours,0.13,3.9126465706520817
+10,9-18,STID point prediction (no confidence),all hours,0.14,3.9251498384456225
+10,9-18,STID point prediction (no confidence),all hours,0.15,3.9376531062391633
+10,9-18,STID point prediction (no confidence),all hours,0.16,3.9501563740327046
+10,9-18,STID point prediction (no confidence),all hours,0.17,3.9626596418262454
+10,9-18,STID point prediction (no confidence),all hours,0.18,3.9751629096197862
+10,9-18,STID point prediction (no confidence),all hours,0.19,3.987666177413327
+10,9-18,STID point prediction (no confidence),all hours,0.2,4.000169445206868
+10,9-18,STID point prediction (no confidence),all hours,0.21,4.012672713000409
+10,9-18,STID point prediction (no confidence),all hours,0.22,4.02517598079395
+10,9-18,STID point prediction (no confidence),all hours,0.23,4.037679248587491
+10,9-18,STID point prediction (no confidence),all hours,0.24,4.050182516381032
+10,9-18,STID point prediction (no confidence),all hours,0.25,4.062685784174572
+10,9-18,STID point prediction (no confidence),all hours,0.26,4.075189051968112
+10,9-18,STID point prediction (no confidence),all hours,0.27,4.087692319761654
+10,9-18,STID point prediction (no confidence),all hours,0.28,4.100195587555195
+10,9-18,STID point prediction (no confidence),all hours,0.29,4.112698855348735
+10,9-18,STID point prediction (no confidence),all hours,0.3,4.125202123142277
+10,9-18,STID point prediction (no confidence),all hours,0.31,4.1377053909358175
+10,9-18,STID point prediction (no confidence),all hours,0.32,4.150208658729358
+10,9-18,STID point prediction (no confidence),all hours,0.33,4.162711926522898
+10,9-18,STID point prediction (no confidence),all hours,0.34,4.175215194316439
+10,9-18,STID point prediction (no confidence),all hours,0.35000000000000003,4.187718462109981
+10,9-18,STID point prediction (no confidence),all hours,0.36,4.200221729903522
+10,9-18,STID point prediction (no confidence),all hours,0.37,4.212724997697062
+10,9-18,STID point prediction (no confidence),all hours,0.38,4.225228265490603
+10,9-18,STID point prediction (no confidence),all hours,0.39,4.237731533284144
+10,9-18,STID point prediction (no confidence),all hours,0.4,4.250234801077685
+10,9-18,STID point prediction (no confidence),all hours,0.41000000000000003,4.262738068871226
+10,9-18,STID point prediction (no confidence),all hours,0.42,4.275241336664767
+10,9-18,STID point prediction (no confidence),all hours,0.43,4.287744604458307
+10,9-18,STID point prediction (no confidence),all hours,0.44,4.300247872251848
+10,9-18,STID point prediction (no confidence),all hours,0.45,4.312751140045389
+10,9-18,STID point prediction (no confidence),all hours,0.46,4.32525440783893
+10,9-18,STID point prediction (no confidence),all hours,0.47000000000000003,4.337757675632471
+10,9-18,STID point prediction (no confidence),all hours,0.48,4.3502609434260116
+10,9-18,STID point prediction (no confidence),all hours,0.49,4.362764211219552
+10,9-18,STID point prediction (no confidence),all hours,0.5,4.375267479013093
+10,9-18,STID point prediction (no confidence),all hours,0.51,4.387770746806634
+10,9-18,STID point prediction (no confidence),all hours,0.52,4.400274014600175
+10,9-18,STID point prediction (no confidence),all hours,0.53,4.412777282393716
+10,9-18,STID point prediction (no confidence),all hours,0.54,4.4252805501872565
+10,9-18,STID point prediction (no confidence),all hours,0.55,4.437783817980797
+10,9-18,STID point prediction (no confidence),all hours,0.56,4.450287085774338
+10,9-18,STID point prediction (no confidence),all hours,0.5700000000000001,4.462790353567879
+10,9-18,STID point prediction (no confidence),all hours,0.58,4.47529362136142
+10,9-18,STID point prediction (no confidence),all hours,0.59,4.487796889154961
+10,9-18,STID point prediction (no confidence),all hours,0.6,4.5003001569485015
+10,9-18,STID point prediction (no confidence),all hours,0.61,4.512803424742042
+10,9-18,STID point prediction (no confidence),all hours,0.62,4.525306692535583
+10,9-18,STID point prediction (no confidence),all hours,0.63,4.537809960329124
+10,9-18,STID point prediction (no confidence),all hours,0.64,4.550313228122665
+10,9-18,STID point prediction (no confidence),all hours,0.65,4.562816495916206
+10,9-18,STID point prediction (no confidence),all hours,0.66,4.5753197637097465
+10,9-18,STID point prediction (no confidence),all hours,0.67,4.587823031503287
+10,9-18,STID point prediction (no confidence),all hours,0.68,4.600326299296828
+10,9-18,STID point prediction (no confidence),all hours,0.6900000000000001,4.61282956709037
+10,9-18,STID point prediction (no confidence),all hours,0.7000000000000001,4.62533283488391
+10,9-18,STID point prediction (no confidence),all hours,0.71,4.637836102677451
+10,9-18,STID point prediction (no confidence),all hours,0.72,4.650339370470991
+10,9-18,STID point prediction (no confidence),all hours,0.73,4.662842638264532
+10,9-18,STID point prediction (no confidence),all hours,0.74,4.675345906058073
+10,9-18,STID point prediction (no confidence),all hours,0.75,4.687849173851615
+10,9-18,STID point prediction (no confidence),all hours,0.76,4.700352441645156
+10,9-18,STID point prediction (no confidence),all hours,0.77,4.7128557094386965
+10,9-18,STID point prediction (no confidence),all hours,0.78,4.725358977232236
+10,9-18,STID point prediction (no confidence),all hours,0.79,4.737862245025777
+10,9-18,STID point prediction (no confidence),all hours,0.8,4.750365512819318
+10,9-18,STID point prediction (no confidence),all hours,0.81,4.762868780612859
+10,9-18,STID point prediction (no confidence),all hours,0.8200000000000001,4.7753720484064
+10,9-18,STID point prediction (no confidence),all hours,0.8300000000000001,4.7878753161999414
+10,9-18,STID point prediction (no confidence),all hours,0.84,4.800378583993482
+10,9-18,STID point prediction (no confidence),all hours,0.85,4.812881851787022
+10,9-18,STID point prediction (no confidence),all hours,0.86,4.825385119580563
+10,9-18,STID point prediction (no confidence),all hours,0.87,4.837888387374104
+10,9-18,STID point prediction (no confidence),all hours,0.88,4.850391655167645
+10,9-18,STID point prediction (no confidence),all hours,0.89,4.862894922961186
+10,9-18,STID point prediction (no confidence),all hours,0.9,4.875398190754727
+10,9-18,STID point prediction (no confidence),all hours,0.91,4.887901458548268
+10,9-18,STID point prediction (no confidence),all hours,0.92,4.900404726341809
+10,9-18,STID point prediction (no confidence),all hours,0.93,4.91290799413535
+10,9-18,STID point prediction (no confidence),all hours,0.9400000000000001,4.925411261928891
+10,9-18,STID point prediction (no confidence),all hours,0.9500000000000001,4.937914529722431
+10,9-18,STID point prediction (no confidence),all hours,0.96,4.950417797515972
+10,9-18,STID point prediction (no confidence),all hours,0.97,4.962921065309513
+10,9-18,STID point prediction (no confidence),all hours,0.98,4.975424333103054
+10,9-18,STID point prediction (no confidence),all hours,0.99,4.987927600896595
+10,9-18,STID point prediction (no confidence),all hours,1.0,5.0004308686901355
+10,9-18,STID point prediction (no confidence),window,0.0,3.508696930535595
+10,9-18,STID point prediction (no confidence),window,0.01,3.5221382611011256
+10,9-18,STID point prediction (no confidence),window,0.02,3.535579591666657
+10,9-18,STID point prediction (no confidence),window,0.03,3.549020922232187
+10,9-18,STID point prediction (no confidence),window,0.04,3.5624622527977183
+10,9-18,STID point prediction (no confidence),window,0.05,3.575903583363249
+10,9-18,STID point prediction (no confidence),window,0.06,3.58934491392878
+10,9-18,STID point prediction (no confidence),window,0.07,3.602786244494311
+10,9-18,STID point prediction (no confidence),window,0.08,3.616227575059842
+10,9-18,STID point prediction (no confidence),window,0.09,3.6296689056253726
+10,9-18,STID point prediction (no confidence),window,0.1,3.643110236190904
+10,9-18,STID point prediction (no confidence),window,0.11,3.6565515667564346
+10,9-18,STID point prediction (no confidence),window,0.12,3.6699928973219658
+10,9-18,STID point prediction (no confidence),window,0.13,3.6834342278874965
+10,9-18,STID point prediction (no confidence),window,0.14,3.696875558453027
+10,9-18,STID point prediction (no confidence),window,0.15,3.710316889018558
+10,9-18,STID point prediction (no confidence),window,0.16,3.723758219584089
+10,9-18,STID point prediction (no confidence),window,0.17,3.73719955014962
+10,9-18,STID point prediction (no confidence),window,0.18,3.750640880715151
+10,9-18,STID point prediction (no confidence),window,0.19,3.7640822112806815
+10,9-18,STID point prediction (no confidence),window,0.2,3.7775235418462128
+10,9-18,STID point prediction (no confidence),window,0.21,3.7909648724117435
+10,9-18,STID point prediction (no confidence),window,0.22,3.8044062029772743
+10,9-18,STID point prediction (no confidence),window,0.23,3.817847533542805
+10,9-18,STID point prediction (no confidence),window,0.24,3.831288864108336
+10,9-18,STID point prediction (no confidence),window,0.25,3.8447301946738666
+10,9-18,STID point prediction (no confidence),window,0.26,3.8581715252393978
+10,9-18,STID point prediction (no confidence),window,0.27,3.8716128558049285
+10,9-18,STID point prediction (no confidence),window,0.28,3.8850541863704597
+10,9-18,STID point prediction (no confidence),window,0.29,3.89849551693599
+10,9-18,STID point prediction (no confidence),window,0.3,3.911936847501521
+10,9-18,STID point prediction (no confidence),window,0.31,3.925378178067052
+10,9-18,STID point prediction (no confidence),window,0.32,3.938819508632583
+10,9-18,STID point prediction (no confidence),window,0.33,3.9522608391981136
+10,9-18,STID point prediction (no confidence),window,0.34,3.9657021697636443
+10,9-18,STID point prediction (no confidence),window,0.35000000000000003,3.979143500329175
+10,9-18,STID point prediction (no confidence),window,0.36,3.9925848308947067
+10,9-18,STID point prediction (no confidence),window,0.37,4.0060261614602375
+10,9-18,STID point prediction (no confidence),window,0.38,4.019467492025768
+10,9-18,STID point prediction (no confidence),window,0.39,4.032908822591299
+10,9-18,STID point prediction (no confidence),window,0.4,4.04635015315683
+10,9-18,STID point prediction (no confidence),window,0.41000000000000003,4.0597914837223605
+10,9-18,STID point prediction (no confidence),window,0.42,4.073232814287891
+10,9-18,STID point prediction (no confidence),window,0.43,4.086674144853423
+10,9-18,STID point prediction (no confidence),window,0.44,4.100115475418954
+10,9-18,STID point prediction (no confidence),window,0.45,4.1135568059844845
+10,9-18,STID point prediction (no confidence),window,0.46,4.126998136550015
+10,9-18,STID point prediction (no confidence),window,0.47000000000000003,4.140439467115547
+10,9-18,STID point prediction (no confidence),window,0.48,4.153880797681077
+10,9-18,STID point prediction (no confidence),window,0.49,4.1673221282466075
+10,9-18,STID point prediction (no confidence),window,0.5,4.180763458812139
+10,9-18,STID point prediction (no confidence),window,0.51,4.19420478937767
+10,9-18,STID point prediction (no confidence),window,0.52,4.207646119943201
+10,9-18,STID point prediction (no confidence),window,0.53,4.2210874505087315
+10,9-18,STID point prediction (no confidence),window,0.54,4.234528781074262
+10,9-18,STID point prediction (no confidence),window,0.55,4.247970111639793
+10,9-18,STID point prediction (no confidence),window,0.56,4.261411442205324
+10,9-18,STID point prediction (no confidence),window,0.5700000000000001,4.2748527727708545
+10,9-18,STID point prediction (no confidence),window,0.58,4.288294103336385
+10,9-18,STID point prediction (no confidence),window,0.59,4.301735433901917
+10,9-18,STID point prediction (no confidence),window,0.6,4.315176764467448
+10,9-18,STID point prediction (no confidence),window,0.61,4.3286180950329785
+10,9-18,STID point prediction (no confidence),window,0.62,4.342059425598509
+10,9-18,STID point prediction (no confidence),window,0.63,4.35550075616404
+10,9-18,STID point prediction (no confidence),window,0.64,4.368942086729571
+10,9-18,STID point prediction (no confidence),window,0.65,4.3823834172951015
+10,9-18,STID point prediction (no confidence),window,0.66,4.395824747860633
+10,9-18,STID point prediction (no confidence),window,0.67,4.409266078426164
+10,9-18,STID point prediction (no confidence),window,0.68,4.422707408991695
+10,9-18,STID point prediction (no confidence),window,0.6900000000000001,4.436148739557225
+10,9-18,STID point prediction (no confidence),window,0.7000000000000001,4.449590070122756
+10,9-18,STID point prediction (no confidence),window,0.71,4.463031400688287
+10,9-18,STID point prediction (no confidence),window,0.72,4.476472731253818
+10,9-18,STID point prediction (no confidence),window,0.73,4.4899140618193485
+10,9-18,STID point prediction (no confidence),window,0.74,4.503355392384879
+10,9-18,STID point prediction (no confidence),window,0.75,4.516796722950411
+10,9-18,STID point prediction (no confidence),window,0.76,4.530238053515942
+10,9-18,STID point prediction (no confidence),window,0.77,4.543679384081472
+10,9-18,STID point prediction (no confidence),window,0.78,4.557120714647003
+10,9-18,STID point prediction (no confidence),window,0.79,4.570562045212535
+10,9-18,STID point prediction (no confidence),window,0.8,4.584003375778065
+10,9-18,STID point prediction (no confidence),window,0.81,4.5974447063435955
+10,9-18,STID point prediction (no confidence),window,0.8200000000000001,4.610886036909127
+10,9-18,STID point prediction (no confidence),window,0.8300000000000001,4.624327367474658
+10,9-18,STID point prediction (no confidence),window,0.84,4.637768698040189
+10,9-18,STID point prediction (no confidence),window,0.85,4.651210028605719
+10,9-18,STID point prediction (no confidence),window,0.86,4.66465135917125
+10,9-18,STID point prediction (no confidence),window,0.87,4.678092689736781
+10,9-18,STID point prediction (no confidence),window,0.88,4.691534020302312
+10,9-18,STID point prediction (no confidence),window,0.89,4.704975350867843
+10,9-18,STID point prediction (no confidence),window,0.9,4.718416681433374
+10,9-18,STID point prediction (no confidence),window,0.91,4.731858011998905
+10,9-18,STID point prediction (no confidence),window,0.92,4.745299342564436
+10,9-18,STID point prediction (no confidence),window,0.93,4.758740673129966
+10,9-18,STID point prediction (no confidence),window,0.9400000000000001,4.772182003695497
+10,9-18,STID point prediction (no confidence),window,0.9500000000000001,4.785623334261028
+10,9-18,STID point prediction (no confidence),window,0.96,4.799064664826559
+10,9-18,STID point prediction (no confidence),window,0.97,4.81250599539209
+10,9-18,STID point prediction (no confidence),window,0.98,4.825947325957621
+10,9-18,STID point prediction (no confidence),window,0.99,4.839388656523152
+10,9-18,STID point prediction (no confidence),window,1.0,4.852829987088683
+10,9-18,STID point prediction (no confidence),other hours,0.0,3.991566183095946
+10,9-18,STID point prediction (no confidence),other hours,0.01,4.003131174650586
+10,9-18,STID point prediction (no confidence),other hours,0.02,4.014696166205227
+10,9-18,STID point prediction (no confidence),other hours,0.03,4.026261157759867
+10,9-18,STID point prediction (no confidence),other hours,0.04,4.037826149314507
+10,9-18,STID point prediction (no confidence),other hours,0.05,4.049391140869148
+10,9-18,STID point prediction (no confidence),other hours,0.06,4.060956132423788
+10,9-18,STID point prediction (no confidence),other hours,0.07,4.072521123978429
+10,9-18,STID point prediction (no confidence),other hours,0.08,4.084086115533069
+10,9-18,STID point prediction (no confidence),other hours,0.09,4.09565110708771
+10,9-18,STID point prediction (no confidence),other hours,0.1,4.1072160986423505
+10,9-18,STID point prediction (no confidence),other hours,0.11,4.1187810901969915
+10,9-18,STID point prediction (no confidence),other hours,0.12,4.1303460817516315
+10,9-18,STID point prediction (no confidence),other hours,0.13,4.1419110733062725
+10,9-18,STID point prediction (no confidence),other hours,0.14,4.153476064860913
+10,9-18,STID point prediction (no confidence),other hours,0.15,4.165041056415553
+10,9-18,STID point prediction (no confidence),other hours,0.16,4.176606047970194
+10,9-18,STID point prediction (no confidence),other hours,0.17,4.188171039524834
+10,9-18,STID point prediction (no confidence),other hours,0.18,4.199736031079475
+10,9-18,STID point prediction (no confidence),other hours,0.19,4.211301022634115
+10,9-18,STID point prediction (no confidence),other hours,0.2,4.222866014188756
+10,9-18,STID point prediction (no confidence),other hours,0.21,4.234431005743396
+10,9-18,STID point prediction (no confidence),other hours,0.22,4.245995997298037
+10,9-18,STID point prediction (no confidence),other hours,0.23,4.257560988852677
+10,9-18,STID point prediction (no confidence),other hours,0.24,4.269125980407317
+10,9-18,STID point prediction (no confidence),other hours,0.25,4.280690971961958
+10,9-18,STID point prediction (no confidence),other hours,0.26,4.292255963516598
+10,9-18,STID point prediction (no confidence),other hours,0.27,4.303820955071238
+10,9-18,STID point prediction (no confidence),other hours,0.28,4.315385946625879
+10,9-18,STID point prediction (no confidence),other hours,0.29,4.326950938180519
+10,9-18,STID point prediction (no confidence),other hours,0.3,4.338515929735159
+10,9-18,STID point prediction (no confidence),other hours,0.31,4.3500809212898
+10,9-18,STID point prediction (no confidence),other hours,0.32,4.36164591284444
+10,9-18,STID point prediction (no confidence),other hours,0.33,4.37321090439908
+10,9-18,STID point prediction (no confidence),other hours,0.34,4.384775895953721
+10,9-18,STID point prediction (no confidence),other hours,0.35000000000000003,4.396340887508361
+10,9-18,STID point prediction (no confidence),other hours,0.36,4.407905879063002
+10,9-18,STID point prediction (no confidence),other hours,0.37,4.419470870617642
+10,9-18,STID point prediction (no confidence),other hours,0.38,4.431035862172283
+10,9-18,STID point prediction (no confidence),other hours,0.39,4.442600853726924
+10,9-18,STID point prediction (no confidence),other hours,0.4,4.4541658452815645
+10,9-18,STID point prediction (no confidence),other hours,0.41000000000000003,4.4657308368362045
+10,9-18,STID point prediction (no confidence),other hours,0.42,4.4772958283908455
+10,9-18,STID point prediction (no confidence),other hours,0.43,4.4888608199454865
+10,9-18,STID point prediction (no confidence),other hours,0.44,4.5004258115001265
+10,9-18,STID point prediction (no confidence),other hours,0.45,4.511990803054767
+10,9-18,STID point prediction (no confidence),other hours,0.46,4.523555794609408
+10,9-18,STID point prediction (no confidence),other hours,0.47000000000000003,4.535120786164048
+10,9-18,STID point prediction (no confidence),other hours,0.48,4.546685777718688
+10,9-18,STID point prediction (no confidence),other hours,0.49,4.558250769273329
+10,9-18,STID point prediction (no confidence),other hours,0.5,4.569815760827969
+10,9-18,STID point prediction (no confidence),other hours,0.51,4.581380752382609
+10,9-18,STID point prediction (no confidence),other hours,0.52,4.59294574393725
+10,9-18,STID point prediction (no confidence),other hours,0.53,4.60451073549189
+10,9-18,STID point prediction (no confidence),other hours,0.54,4.61607572704653
+10,9-18,STID point prediction (no confidence),other hours,0.55,4.627640718601171
+10,9-18,STID point prediction (no confidence),other hours,0.56,4.639205710155812
+10,9-18,STID point prediction (no confidence),other hours,0.5700000000000001,4.650770701710452
+10,9-18,STID point prediction (no confidence),other hours,0.58,4.662335693265092
+10,9-18,STID point prediction (no confidence),other hours,0.59,4.673900684819733
+10,9-18,STID point prediction (no confidence),other hours,0.6,4.685465676374373
+10,9-18,STID point prediction (no confidence),other hours,0.61,4.697030667929014
+10,9-18,STID point prediction (no confidence),other hours,0.62,4.708595659483654
+10,9-18,STID point prediction (no confidence),other hours,0.63,4.720160651038294
+10,9-18,STID point prediction (no confidence),other hours,0.64,4.731725642592935
+10,9-18,STID point prediction (no confidence),other hours,0.65,4.743290634147575
+10,9-18,STID point prediction (no confidence),other hours,0.66,4.754855625702216
+10,9-18,STID point prediction (no confidence),other hours,0.67,4.766420617256856
+10,9-18,STID point prediction (no confidence),other hours,0.68,4.777985608811497
+10,9-18,STID point prediction (no confidence),other hours,0.6900000000000001,4.7895506003661374
+10,9-18,STID point prediction (no confidence),other hours,0.7000000000000001,4.801115591920778
+10,9-18,STID point prediction (no confidence),other hours,0.71,4.8126805834754185
+10,9-18,STID point prediction (no confidence),other hours,0.72,4.824245575030059
+10,9-18,STID point prediction (no confidence),other hours,0.73,4.8358105665846995
+10,9-18,STID point prediction (no confidence),other hours,0.74,4.84737555813934
+10,9-18,STID point prediction (no confidence),other hours,0.75,4.85894054969398
+10,9-18,STID point prediction (no confidence),other hours,0.76,4.870505541248621
+10,9-18,STID point prediction (no confidence),other hours,0.77,4.882070532803262
+10,9-18,STID point prediction (no confidence),other hours,0.78,4.893635524357901
+10,9-18,STID point prediction (no confidence),other hours,0.79,4.905200515912543
+10,9-18,STID point prediction (no confidence),other hours,0.8,4.916765507467183
+10,9-18,STID point prediction (no confidence),other hours,0.81,4.928330499021823
+10,9-18,STID point prediction (no confidence),other hours,0.8200000000000001,4.939895490576464
+10,9-18,STID point prediction (no confidence),other hours,0.8300000000000001,4.951460482131104
+10,9-18,STID point prediction (no confidence),other hours,0.84,4.963025473685744
+10,9-18,STID point prediction (no confidence),other hours,0.85,4.974590465240384
+10,9-18,STID point prediction (no confidence),other hours,0.86,4.986155456795025
+10,9-18,STID point prediction (no confidence),other hours,0.87,4.997720448349665
+10,9-18,STID point prediction (no confidence),other hours,0.88,5.009285439904306
+10,9-18,STID point prediction (no confidence),other hours,0.89,5.020850431458946
+10,9-18,STID point prediction (no confidence),other hours,0.9,5.032415423013587
+10,9-18,STID point prediction (no confidence),other hours,0.91,5.043980414568227
+10,9-18,STID point prediction (no confidence),other hours,0.92,5.055545406122867
+10,9-18,STID point prediction (no confidence),other hours,0.93,5.067110397677508
+10,9-18,STID point prediction (no confidence),other hours,0.9400000000000001,5.078675389232148
+10,9-18,STID point prediction (no confidence),other hours,0.9500000000000001,5.090240380786789
+10,9-18,STID point prediction (no confidence),other hours,0.96,5.101805372341429
+10,9-18,STID point prediction (no confidence),other hours,0.97,5.11337036389607
+10,9-18,STID point prediction (no confidence),other hours,0.98,5.12493535545071
+10,9-18,STID point prediction (no confidence),other hours,0.99,5.136500347005351
+10,9-18,STID point prediction (no confidence),other hours,1.0,5.1480653385599915
+10,9-18,constant margin per period (no deciles),all hours,0.0,11.03840391913396
+10,9-18,constant margin per period (no deciles),all hours,0.01,10.95943138592225
+10,9-18,constant margin per period (no deciles),all hours,0.02,10.880458852710536
+10,9-18,constant margin per period (no deciles),all hours,0.03,10.801486319498824
+10,9-18,constant margin per period (no deciles),all hours,0.04,10.722513786287111
+10,9-18,constant margin per period (no deciles),all hours,0.05,10.6435412530754
+10,9-18,constant margin per period (no deciles),all hours,0.06,10.564568719863686
+10,9-18,constant margin per period (no deciles),all hours,0.07,10.485596186651975
+10,9-18,constant margin per period (no deciles),all hours,0.08,10.406623653440265
+10,9-18,constant margin per period (no deciles),all hours,0.09,10.327651120228552
+10,9-18,constant margin per period (no deciles),all hours,0.1,10.24867858701684
+10,9-18,constant margin per period (no deciles),all hours,0.11,10.169706053805127
+10,9-18,constant margin per period (no deciles),all hours,0.12,10.090733520593416
+10,9-18,constant margin per period (no deciles),all hours,0.13,10.011760987381702
+10,9-18,constant margin per period (no deciles),all hours,0.14,9.932788454169991
+10,9-18,constant margin per period (no deciles),all hours,0.15,9.85381592095828
+10,9-18,constant margin per period (no deciles),all hours,0.16,9.774843387746566
+10,9-18,constant margin per period (no deciles),all hours,0.17,9.695870854534855
+10,9-18,constant margin per period (no deciles),all hours,0.18,9.616898321323143
+10,9-18,constant margin per period (no deciles),all hours,0.19,9.537925788111432
+10,9-18,constant margin per period (no deciles),all hours,0.2,9.458953254899718
+10,9-18,constant margin per period (no deciles),all hours,0.21,9.379980721688007
+10,9-18,constant margin per period (no deciles),all hours,0.22,9.301008188476295
+10,9-18,constant margin per period (no deciles),all hours,0.23,9.222035655264582
+10,9-18,constant margin per period (no deciles),all hours,0.24,9.14306312205287
+10,9-18,constant margin per period (no deciles),all hours,0.25,9.064090588841157
+10,9-18,constant margin per period (no deciles),all hours,0.26,8.985118055629446
+10,9-18,constant margin per period (no deciles),all hours,0.27,8.906145522417733
+10,9-18,constant margin per period (no deciles),all hours,0.28,8.827172989206021
+10,9-18,constant margin per period (no deciles),all hours,0.29,8.74820045599431
+10,9-18,constant margin per period (no deciles),all hours,0.3,8.669227922782596
+10,9-18,constant margin per period (no deciles),all hours,0.31,8.590255389570885
+10,9-18,constant margin per period (no deciles),all hours,0.32,8.511282856359173
+10,9-18,constant margin per period (no deciles),all hours,0.33,8.43231032314746
+10,9-18,constant margin per period (no deciles),all hours,0.34,8.353337789935749
+10,9-18,constant margin per period (no deciles),all hours,0.35000000000000003,8.274365256724035
+10,9-18,constant margin per period (no deciles),all hours,0.36,8.195392723512326
+10,9-18,constant margin per period (no deciles),all hours,0.37,8.116420190300612
+10,9-18,constant margin per period (no deciles),all hours,0.38,8.0374476570889
+10,9-18,constant margin per period (no deciles),all hours,0.39,7.9584751238771885
+10,9-18,constant margin per period (no deciles),all hours,0.4,7.879502590665476
+10,9-18,constant margin per period (no deciles),all hours,0.41000000000000003,7.800530057453765
+10,9-18,constant margin per period (no deciles),all hours,0.42,7.721557524242053
+10,9-18,constant margin per period (no deciles),all hours,0.43,7.642584991030342
+10,9-18,constant margin per period (no deciles),all hours,0.44,7.563612457818629
+10,9-18,constant margin per period (no deciles),all hours,0.45,7.484639924606917
+10,9-18,constant margin per period (no deciles),all hours,0.46,7.4056673913952045
+10,9-18,constant margin per period (no deciles),all hours,0.47000000000000003,7.326694858183492
+10,9-18,constant margin per period (no deciles),all hours,0.48,7.247722324971781
+10,9-18,constant margin per period (no deciles),all hours,0.49,7.168749791760067
+10,9-18,constant margin per period (no deciles),all hours,0.5,7.089777258548356
+10,9-18,constant margin per period (no deciles),all hours,0.51,7.0108047253366435
+10,9-18,constant margin per period (no deciles),all hours,0.52,6.931832192124931
+10,9-18,constant margin per period (no deciles),all hours,0.53,6.852859658913219
+10,9-18,constant margin per period (no deciles),all hours,0.54,6.773887125701506
+10,9-18,constant margin per period (no deciles),all hours,0.55,6.694914592489795
+10,9-18,constant margin per period (no deciles),all hours,0.56,6.615942059278082
+10,9-18,constant margin per period (no deciles),all hours,0.5700000000000001,6.53696952606637
+10,9-18,constant margin per period (no deciles),all hours,0.58,6.4579969928546594
+10,9-18,constant margin per period (no deciles),all hours,0.59,6.379024459642947
+10,9-18,constant margin per period (no deciles),all hours,0.6,6.300051926431235
+10,9-18,constant margin per period (no deciles),all hours,0.61,6.221079393219522
+10,9-18,constant margin per period (no deciles),all hours,0.62,6.14210686000781
+10,9-18,constant margin per period (no deciles),all hours,0.63,6.0631343267960975
+10,9-18,constant margin per period (no deciles),all hours,0.64,5.984161793584386
+10,9-18,constant margin per period (no deciles),all hours,0.65,5.9051892603726746
+10,9-18,constant margin per period (no deciles),all hours,0.66,5.826216727160961
+10,9-18,constant margin per period (no deciles),all hours,0.67,5.74724419394925
+10,9-18,constant margin per period (no deciles),all hours,0.68,5.668271660737537
+10,9-18,constant margin per period (no deciles),all hours,0.6900000000000001,5.589299127525825
+10,9-18,constant margin per period (no deciles),all hours,0.7000000000000001,5.5103265943141135
+10,9-18,constant margin per period (no deciles),all hours,0.71,5.431354061102402
+10,9-18,constant margin per period (no deciles),all hours,0.72,5.35238152789069
+10,9-18,constant margin per period (no deciles),all hours,0.73,5.273408994678977
+10,9-18,constant margin per period (no deciles),all hours,0.74,5.194436461467266
+10,9-18,constant margin per period (no deciles),all hours,0.75,5.1154639282555525
+10,9-18,constant margin per period (no deciles),all hours,0.76,5.036491395043841
+10,9-18,constant margin per period (no deciles),all hours,0.77,4.957518861832129
+10,9-18,constant margin per period (no deciles),all hours,0.78,4.878546328620416
+10,9-18,constant margin per period (no deciles),all hours,0.79,4.799573795408705
+10,9-18,constant margin per period (no deciles),all hours,0.8,4.720601262196992
+10,9-18,constant margin per period (no deciles),all hours,0.81,4.64162872898528
+10,9-18,constant margin per period (no deciles),all hours,0.8200000000000001,4.5626561957735685
+10,9-18,constant margin per period (no deciles),all hours,0.8300000000000001,4.483683662561855
+10,9-18,constant margin per period (no deciles),all hours,0.84,4.404711129350144
+10,9-18,constant margin per period (no deciles),all hours,0.85,4.325738596138432
+10,9-18,constant margin per period (no deciles),all hours,0.86,4.24676606292672
+10,9-18,constant margin per period (no deciles),all hours,0.87,4.1677935297150075
+10,9-18,constant margin per period (no deciles),all hours,0.88,4.088820996503296
+10,9-18,constant margin per period (no deciles),all hours,0.89,4.009848463291584
+10,9-18,constant margin per period (no deciles),all hours,0.9,3.9308759300798712
+10,9-18,constant margin per period (no deciles),all hours,0.91,3.8519033968681593
+10,9-18,constant margin per period (no deciles),all hours,0.92,3.772930863656447
+10,9-18,constant margin per period (no deciles),all hours,0.93,3.6939583304447345
+10,9-18,constant margin per period (no deciles),all hours,0.9400000000000001,3.6149857972330226
+10,9-18,constant margin per period (no deciles),all hours,0.9500000000000001,3.53601326402131
+10,9-18,constant margin per period (no deciles),all hours,0.96,3.4570407308095996
+10,9-18,constant margin per period (no deciles),all hours,0.97,3.3780681975978872
+10,9-18,constant margin per period (no deciles),all hours,0.98,3.299095664386175
+10,9-18,constant margin per period (no deciles),all hours,0.99,3.220123131174463
+10,9-18,constant margin per period (no deciles),all hours,1.0,3.1411505979627505
+10,9-18,constant margin per period (no deciles),window,0.0,15.821633035723826
+10,9-18,constant margin per period (no deciles),window,0.01,15.685342105304448
+10,9-18,constant margin per period (no deciles),window,0.02,15.549051174885067
+10,9-18,constant margin per period (no deciles),window,0.03,15.412760244465689
+10,9-18,constant margin per period (no deciles),window,0.04,15.276469314046311
+10,9-18,constant margin per period (no deciles),window,0.05,15.140178383626933
+10,9-18,constant margin per period (no deciles),window,0.06,15.003887453207552
+10,9-18,constant margin per period (no deciles),window,0.07,14.867596522788174
+10,9-18,constant margin per period (no deciles),window,0.08,14.731305592368798
+10,9-18,constant margin per period (no deciles),window,0.09,14.595014661949419
+10,9-18,constant margin per period (no deciles),window,0.1,14.45872373153004
+10,9-18,constant margin per period (no deciles),window,0.11,14.322432801110661
+10,9-18,constant margin per period (no deciles),window,0.12,14.186141870691284
+10,9-18,constant margin per period (no deciles),window,0.13,14.049850940271902
+10,9-18,constant margin per period (no deciles),window,0.14,13.913560009852525
+10,9-18,constant margin per period (no deciles),window,0.15,13.777269079433147
+10,9-18,constant margin per period (no deciles),window,0.16,13.640978149013767
+10,9-18,constant margin per period (no deciles),window,0.17,13.504687218594388
+10,9-18,constant margin per period (no deciles),window,0.18,13.368396288175012
+10,9-18,constant margin per period (no deciles),window,0.19,13.232105357755634
+10,9-18,constant margin per period (no deciles),window,0.2,13.095814427336254
+10,9-18,constant margin per period (no deciles),window,0.21,12.959523496916875
+10,9-18,constant margin per period (no deciles),window,0.22,12.823232566497497
+10,9-18,constant margin per period (no deciles),window,0.23,12.686941636078117
+10,9-18,constant margin per period (no deciles),window,0.24,12.55065070565874
+10,9-18,constant margin per period (no deciles),window,0.25,12.41435977523936
+10,9-18,constant margin per period (no deciles),window,0.26,12.278068844819982
+10,9-18,constant margin per period (no deciles),window,0.27,12.141777914400603
+10,9-18,constant margin per period (no deciles),window,0.28,12.005486983981223
+10,9-18,constant margin per period (no deciles),window,0.29,11.869196053561845
+10,9-18,constant margin per period (no deciles),window,0.3,11.732905123142466
+10,9-18,constant margin per period (no deciles),window,0.31,11.596614192723088
+10,9-18,constant margin per period (no deciles),window,0.32,11.460323262303708
+10,9-18,constant margin per period (no deciles),window,0.33,11.32403233188433
+10,9-18,constant margin per period (no deciles),window,0.34,11.187741401464951
+10,9-18,constant margin per period (no deciles),window,0.35000000000000003,11.051450471045573
+10,9-18,constant margin per period (no deciles),window,0.36,10.915159540626195
+10,9-18,constant margin per period (no deciles),window,0.37,10.778868610206816
+10,9-18,constant margin per period (no deciles),window,0.38,10.642577679787438
+10,9-18,constant margin per period (no deciles),window,0.39,10.506286749368059
+10,9-18,constant margin per period (no deciles),window,0.4,10.36999581894868
+10,9-18,constant margin per period (no deciles),window,0.41000000000000003,10.233704888529301
+10,9-18,constant margin per period (no deciles),window,0.42,10.097413958109925
+10,9-18,constant margin per period (no deciles),window,0.43,9.961123027690546
+10,9-18,constant margin per period (no deciles),window,0.44,9.824832097271166
+10,9-18,constant margin per period (no deciles),window,0.45,9.688541166851788
+10,9-18,constant margin per period (no deciles),window,0.46,9.55225023643241
+10,9-18,constant margin per period (no deciles),window,0.47000000000000003,9.41595930601303
+10,9-18,constant margin per period (no deciles),window,0.48,9.279668375593651
+10,9-18,constant margin per period (no deciles),window,0.49,9.143377445174274
+10,9-18,constant margin per period (no deciles),window,0.5,9.007086514754894
+10,9-18,constant margin per period (no deciles),window,0.51,8.870795584335514
+10,9-18,constant margin per period (no deciles),window,0.52,8.734504653916137
+10,9-18,constant margin per period (no deciles),window,0.53,8.598213723496757
+10,9-18,constant margin per period (no deciles),window,0.54,8.46192279307738
+10,9-18,constant margin per period (no deciles),window,0.55,8.325631862658
+10,9-18,constant margin per period (no deciles),window,0.56,8.189340932238622
+10,9-18,constant margin per period (no deciles),window,0.5700000000000001,8.053050001819242
+10,9-18,constant margin per period (no deciles),window,0.58,7.916759071399866
+10,9-18,constant margin per period (no deciles),window,0.59,7.780468140980487
+10,9-18,constant margin per period (no deciles),window,0.6,7.644177210561109
+10,9-18,constant margin per period (no deciles),window,0.61,7.507886280141729
+10,9-18,constant margin per period (no deciles),window,0.62,7.371595349722352
+10,9-18,constant margin per period (no deciles),window,0.63,7.235304419302972
+10,9-18,constant margin per period (no deciles),window,0.64,7.0990134888835925
+10,9-18,constant margin per period (no deciles),window,0.65,6.962722558464215
+10,9-18,constant margin per period (no deciles),window,0.66,6.826431628044835
+10,9-18,constant margin per period (no deciles),window,0.67,6.690140697625457
+10,9-18,constant margin per period (no deciles),window,0.68,6.553849767206078
+10,9-18,constant margin per period (no deciles),window,0.6900000000000001,6.4175588367867
+10,9-18,constant margin per period (no deciles),window,0.7000000000000001,6.2812679063673205
+10,9-18,constant margin per period (no deciles),window,0.71,6.1449769759479445
+10,9-18,constant margin per period (no deciles),window,0.72,6.008686045528565
+10,9-18,constant margin per period (no deciles),window,0.73,5.872395115109186
+10,9-18,constant margin per period (no deciles),window,0.74,5.7361041846898075
+10,9-18,constant margin per period (no deciles),window,0.75,5.599813254270429
+10,9-18,constant margin per period (no deciles),window,0.76,5.46352232385105
+10,9-18,constant margin per period (no deciles),window,0.77,5.3272313934316715
+10,9-18,constant margin per period (no deciles),window,0.78,5.190940463012293
+10,9-18,constant margin per period (no deciles),window,0.79,5.054649532592913
+10,9-18,constant margin per period (no deciles),window,0.8,4.9183586021735355
+10,9-18,constant margin per period (no deciles),window,0.81,4.782067671754156
+10,9-18,constant margin per period (no deciles),window,0.8200000000000001,4.645776741334777
+10,9-18,constant margin per period (no deciles),window,0.8300000000000001,4.509485810915399
+10,9-18,constant margin per period (no deciles),window,0.84,4.373194880496021
+10,9-18,constant margin per period (no deciles),window,0.85,4.236903950076643
+10,9-18,constant margin per period (no deciles),window,0.86,4.100613019657263
+10,9-18,constant margin per period (no deciles),window,0.87,3.964322089237885
+10,9-18,constant margin per period (no deciles),window,0.88,3.828031158818506
+10,9-18,constant margin per period (no deciles),window,0.89,3.6917402283991274
+10,9-18,constant margin per period (no deciles),window,0.9,3.5554492979797487
+10,9-18,constant margin per period (no deciles),window,0.91,3.41915836756037
+10,9-18,constant margin per period (no deciles),window,0.92,3.2828674371409914
+10,9-18,constant margin per period (no deciles),window,0.93,3.1465765067216127
+10,9-18,constant margin per period (no deciles),window,0.9400000000000001,3.010285576302234
+10,9-18,constant margin per period (no deciles),window,0.9500000000000001,2.8739946458828554
+10,9-18,constant margin per period (no deciles),window,0.96,2.7377037154634776
+10,9-18,constant margin per period (no deciles),window,0.97,2.601412785044099
+10,9-18,constant margin per period (no deciles),window,0.98,2.46512185462472
+10,9-18,constant margin per period (no deciles),window,0.99,2.3288309242053415
+10,9-18,constant margin per period (no deciles),window,1.0,2.192539993785963
+10,9-18,constant margin per period (no deciles),other hours,0.0,6.254086324063085
+10,9-18,constant margin per period (no deciles),other hours,0.01,6.232445231515751
+10,9-18,constant margin per period (no deciles),other hours,0.02,6.210804138968418
+10,9-18,constant margin per period (no deciles),other hours,0.03,6.1891630464210845
+10,9-18,constant margin per period (no deciles),other hours,0.04,6.167521953873751
+10,9-18,constant margin per period (no deciles),other hours,0.05,6.145880861326417
+10,9-18,constant margin per period (no deciles),other hours,0.06,6.124239768779083
+10,9-18,constant margin per period (no deciles),other hours,0.07,6.102598676231751
+10,9-18,constant margin per period (no deciles),other hours,0.08,6.080957583684418
+10,9-18,constant margin per period (no deciles),other hours,0.09,6.059316491137084
+10,9-18,constant margin per period (no deciles),other hours,0.1,6.037675398589751
+10,9-18,constant margin per period (no deciles),other hours,0.11,6.0160343060424175
+10,9-18,constant margin per period (no deciles),other hours,0.12,5.9943932134950835
+10,9-18,constant margin per period (no deciles),other hours,0.13,5.97275212094775
+10,9-18,constant margin per period (no deciles),other hours,0.14,5.951111028400416
+10,9-18,constant margin per period (no deciles),other hours,0.15,5.929469935853083
+10,9-18,constant margin per period (no deciles),other hours,0.16,5.90782884330575
+10,9-18,constant margin per period (no deciles),other hours,0.17,5.886187750758416
+10,9-18,constant margin per period (no deciles),other hours,0.18,5.864546658211083
+10,9-18,constant margin per period (no deciles),other hours,0.19,5.8429055656637505
+10,9-18,constant margin per period (no deciles),other hours,0.2,5.8212644731164165
+10,9-18,constant margin per period (no deciles),other hours,0.21,5.799623380569082
+10,9-18,constant margin per period (no deciles),other hours,0.22,5.777982288021749
+10,9-18,constant margin per period (no deciles),other hours,0.23,5.756341195474416
+10,9-18,constant margin per period (no deciles),other hours,0.24,5.734700102927083
+10,9-18,constant margin per period (no deciles),other hours,0.25,5.713059010379749
+10,9-18,constant margin per period (no deciles),other hours,0.26,5.691417917832415
+10,9-18,constant margin per period (no deciles),other hours,0.27,5.669776825285082
+10,9-18,constant margin per period (no deciles),other hours,0.28,5.648135732737749
+10,9-18,constant margin per period (no deciles),other hours,0.29,5.6264946401904155
+10,9-18,constant margin per period (no deciles),other hours,0.3,5.604853547643081
+10,9-18,constant margin per period (no deciles),other hours,0.31,5.583212455095747
+10,9-18,constant margin per period (no deciles),other hours,0.32,5.561571362548415
+10,9-18,constant margin per period (no deciles),other hours,0.33,5.539930270001081
+10,9-18,constant margin per period (no deciles),other hours,0.34,5.518289177453747
+10,9-18,constant margin per period (no deciles),other hours,0.35000000000000003,5.496648084906415
+10,9-18,constant margin per period (no deciles),other hours,0.36,5.475006992359081
+10,9-18,constant margin per period (no deciles),other hours,0.37,5.453365899811748
+10,9-18,constant margin per period (no deciles),other hours,0.38,5.431724807264414
+10,9-18,constant margin per period (no deciles),other hours,0.39,5.41008371471708
+10,9-18,constant margin per period (no deciles),other hours,0.4,5.388442622169747
+10,9-18,constant margin per period (no deciles),other hours,0.41000000000000003,5.366801529622414
+10,9-18,constant margin per period (no deciles),other hours,0.42,5.345160437075081
+10,9-18,constant margin per period (no deciles),other hours,0.43,5.323519344527748
+10,9-18,constant margin per period (no deciles),other hours,0.44,5.301878251980414
+10,9-18,constant margin per period (no deciles),other hours,0.45,5.280237159433081
+10,9-18,constant margin per period (no deciles),other hours,0.46,5.258596066885747
+10,9-18,constant margin per period (no deciles),other hours,0.47000000000000003,5.236954974338413
+10,9-18,constant margin per period (no deciles),other hours,0.48,5.215313881791079
+10,9-18,constant margin per period (no deciles),other hours,0.49,5.193672789243746
+10,9-18,constant margin per period (no deciles),other hours,0.5,5.172031696696413
+10,9-18,constant margin per period (no deciles),other hours,0.51,5.15039060414908
+10,9-18,constant margin per period (no deciles),other hours,0.52,5.128749511601747
+10,9-18,constant margin per period (no deciles),other hours,0.53,5.107108419054413
+10,9-18,constant margin per period (no deciles),other hours,0.54,5.085467326507079
+10,9-18,constant margin per period (no deciles),other hours,0.55,5.063826233959746
+10,9-18,constant margin per period (no deciles),other hours,0.56,5.042185141412412
+10,9-18,constant margin per period (no deciles),other hours,0.5700000000000001,5.020544048865078
+10,9-18,constant margin per period (no deciles),other hours,0.58,4.998902956317746
+10,9-18,constant margin per period (no deciles),other hours,0.59,4.977261863770412
+10,9-18,constant margin per period (no deciles),other hours,0.6,4.955620771223079
+10,9-18,constant margin per period (no deciles),other hours,0.61,4.933979678675746
+10,9-18,constant margin per period (no deciles),other hours,0.62,4.912338586128412
+10,9-18,constant margin per period (no deciles),other hours,0.63,4.890697493581078
+10,9-18,constant margin per period (no deciles),other hours,0.64,4.869056401033745
+10,9-18,constant margin per period (no deciles),other hours,0.65,4.847415308486411
+10,9-18,constant margin per period (no deciles),other hours,0.66,4.825774215939078
+10,9-18,constant margin per period (no deciles),other hours,0.67,4.804133123391745
+10,9-18,constant margin per period (no deciles),other hours,0.68,4.782492030844411
+10,9-18,constant margin per period (no deciles),other hours,0.6900000000000001,4.760850938297078
+10,9-18,constant margin per period (no deciles),other hours,0.7000000000000001,4.739209845749744
+10,9-18,constant margin per period (no deciles),other hours,0.71,4.717568753202411
+10,9-18,constant margin per period (no deciles),other hours,0.72,4.6959276606550775
+10,9-18,constant margin per period (no deciles),other hours,0.73,4.674286568107744
+10,9-18,constant margin per period (no deciles),other hours,0.74,4.65264547556041
+10,9-18,constant margin per period (no deciles),other hours,0.75,4.631004383013077
+10,9-18,constant margin per period (no deciles),other hours,0.76,4.609363290465744
+10,9-18,constant margin per period (no deciles),other hours,0.77,4.58772219791841
+10,9-18,constant margin per period (no deciles),other hours,0.78,4.566081105371077
+10,9-18,constant margin per period (no deciles),other hours,0.79,4.544440012823744
+10,9-18,constant margin per period (no deciles),other hours,0.8,4.52279892027641
+10,9-18,constant margin per period (no deciles),other hours,0.81,4.5011578277290765
+10,9-18,constant margin per period (no deciles),other hours,0.8200000000000001,4.479516735181743
+10,9-18,constant margin per period (no deciles),other hours,0.8300000000000001,4.457875642634409
+10,9-18,constant margin per period (no deciles),other hours,0.84,4.436234550087076
+10,9-18,constant margin per period (no deciles),other hours,0.85,4.414593457539743
+10,9-18,constant margin per period (no deciles),other hours,0.86,4.392952364992409
+10,9-18,constant margin per period (no deciles),other hours,0.87,4.371311272445076
+10,9-18,constant margin per period (no deciles),other hours,0.88,4.349670179897743
+10,9-18,constant margin per period (no deciles),other hours,0.89,4.3280290873504095
+10,9-18,constant margin per period (no deciles),other hours,0.9,4.306387994803075
+10,9-18,constant margin per period (no deciles),other hours,0.91,4.284746902255742
+10,9-18,constant margin per period (no deciles),other hours,0.92,4.263105809708409
+10,9-18,constant margin per period (no deciles),other hours,0.93,4.241464717161075
+10,9-18,constant margin per period (no deciles),other hours,0.9400000000000001,4.219823624613742
+10,9-18,constant margin per period (no deciles),other hours,0.9500000000000001,4.198182532066408
+10,9-18,constant margin per period (no deciles),other hours,0.96,4.176541439519076
+10,9-18,constant margin per period (no deciles),other hours,0.97,4.154900346971742
+10,9-18,constant margin per period (no deciles),other hours,0.98,4.133259254424408
+10,9-18,constant margin per period (no deciles),other hours,0.99,4.111618161877075
+10,9-18,constant margin per period (no deciles),other hours,1.0,4.089977069329741
+10,9-18,fixed 90% (always),all hours,0.0,17.520624701498633
+10,9-18,fixed 90% (always),all hours,0.01,17.356745411424317
+10,9-18,fixed 90% (always),all hours,0.02,17.19286612135
+10,9-18,fixed 90% (always),all hours,0.03,17.028986831275688
+10,9-18,fixed 90% (always),all hours,0.04,16.865107541201372
+10,9-18,fixed 90% (always),all hours,0.05,16.70122825112706
+10,9-18,fixed 90% (always),all hours,0.06,16.537348961052743
+10,9-18,fixed 90% (always),all hours,0.07,16.37346967097843
+10,9-18,fixed 90% (always),all hours,0.08,16.209590380904114
+10,9-18,fixed 90% (always),all hours,0.09,16.045711090829798
+10,9-18,fixed 90% (always),all hours,0.1,15.881831800755485
+10,9-18,fixed 90% (always),all hours,0.11,15.717952510681169
+10,9-18,fixed 90% (always),all hours,0.12,15.554073220606856
+10,9-18,fixed 90% (always),all hours,0.13,15.39019393053254
+10,9-18,fixed 90% (always),all hours,0.14,15.226314640458225
+10,9-18,fixed 90% (always),all hours,0.15,15.06243535038391
+10,9-18,fixed 90% (always),all hours,0.16,14.898556060309595
+10,9-18,fixed 90% (always),all hours,0.17,14.73467677023528
+10,9-18,fixed 90% (always),all hours,0.18,14.570797480160968
+10,9-18,fixed 90% (always),all hours,0.19,14.406918190086651
+10,9-18,fixed 90% (always),all hours,0.2,14.243038900012337
+10,9-18,fixed 90% (always),all hours,0.21,14.079159609938023
+10,9-18,fixed 90% (always),all hours,0.22,13.915280319863708
+10,9-18,fixed 90% (always),all hours,0.23,13.751401029789392
+10,9-18,fixed 90% (always),all hours,0.24,13.587521739715077
+10,9-18,fixed 90% (always),all hours,0.25,13.423642449640761
+10,9-18,fixed 90% (always),all hours,0.26,13.259763159566447
+10,9-18,fixed 90% (always),all hours,0.27,13.095883869492132
+10,9-18,fixed 90% (always),all hours,0.28,12.932004579417816
+10,9-18,fixed 90% (always),all hours,0.29,12.768125289343502
+10,9-18,fixed 90% (always),all hours,0.3,12.604245999269187
+10,9-18,fixed 90% (always),all hours,0.31,12.440366709194873
+10,9-18,fixed 90% (always),all hours,0.32,12.276487419120556
+10,9-18,fixed 90% (always),all hours,0.33,12.112608129046242
+10,9-18,fixed 90% (always),all hours,0.34,11.948728838971926
+10,9-18,fixed 90% (always),all hours,0.35000000000000003,11.784849548897613
+10,9-18,fixed 90% (always),all hours,0.36,11.620970258823299
+10,9-18,fixed 90% (always),all hours,0.37,11.457090968748984
+10,9-18,fixed 90% (always),all hours,0.38,11.293211678674668
+10,9-18,fixed 90% (always),all hours,0.39,11.129332388600353
+10,9-18,fixed 90% (always),all hours,0.4,10.965453098526039
+10,9-18,fixed 90% (always),all hours,0.41000000000000003,10.801573808451725
+10,9-18,fixed 90% (always),all hours,0.42,10.63769451837741
+10,9-18,fixed 90% (always),all hours,0.43,10.473815228303096
+10,9-18,fixed 90% (always),all hours,0.44,10.309935938228781
+10,9-18,fixed 90% (always),all hours,0.45,10.146056648154467
+10,9-18,fixed 90% (always),all hours,0.46,9.98217735808015
+10,9-18,fixed 90% (always),all hours,0.47000000000000003,9.818298068005836
+10,9-18,fixed 90% (always),all hours,0.48,9.65441877793152
+10,9-18,fixed 90% (always),all hours,0.49,9.490539487857207
+10,9-18,fixed 90% (always),all hours,0.5,9.326660197782891
+10,9-18,fixed 90% (always),all hours,0.51,9.162780907708575
+10,9-18,fixed 90% (always),all hours,0.52,8.99890161763426
+10,9-18,fixed 90% (always),all hours,0.53,8.835022327559946
+10,9-18,fixed 90% (always),all hours,0.54,8.671143037485631
+10,9-18,fixed 90% (always),all hours,0.55,8.507263747411315
+10,9-18,fixed 90% (always),all hours,0.56,8.343384457337
+10,9-18,fixed 90% (always),all hours,0.5700000000000001,8.179505167262686
+10,9-18,fixed 90% (always),all hours,0.58,8.015625877188373
+10,9-18,fixed 90% (always),all hours,0.59,7.851746587114058
+10,9-18,fixed 90% (always),all hours,0.6,7.687867297039743
+10,9-18,fixed 90% (always),all hours,0.61,7.523988006965428
+10,9-18,fixed 90% (always),all hours,0.62,7.360108716891113
+10,9-18,fixed 90% (always),all hours,0.63,7.196229426816797
+10,9-18,fixed 90% (always),all hours,0.64,7.032350136742482
+10,9-18,fixed 90% (always),all hours,0.65,6.868470846668167
+10,9-18,fixed 90% (always),all hours,0.66,6.7045915565938525
+10,9-18,fixed 90% (always),all hours,0.67,6.540712266519537
+10,9-18,fixed 90% (always),all hours,0.68,6.376832976445223
+10,9-18,fixed 90% (always),all hours,0.6900000000000001,6.212953686370907
+10,9-18,fixed 90% (always),all hours,0.7000000000000001,6.049074396296593
+10,9-18,fixed 90% (always),all hours,0.71,5.885195106222279
+10,9-18,fixed 90% (always),all hours,0.72,5.721315816147964
+10,9-18,fixed 90% (always),all hours,0.73,5.55743652607365
+10,9-18,fixed 90% (always),all hours,0.74,5.393557235999334
+10,9-18,fixed 90% (always),all hours,0.75,5.22967794592502
+10,9-18,fixed 90% (always),all hours,0.76,5.065798655850704
+10,9-18,fixed 90% (always),all hours,0.77,4.90191936577639
+10,9-18,fixed 90% (always),all hours,0.78,4.738040075702075
+10,9-18,fixed 90% (always),all hours,0.79,4.574160785627759
+10,9-18,fixed 90% (always),all hours,0.8,4.410281495553444
+10,9-18,fixed 90% (always),all hours,0.81,4.2464022054791295
+10,9-18,fixed 90% (always),all hours,0.8200000000000001,4.082522915404814
+10,9-18,fixed 90% (always),all hours,0.8300000000000001,3.9186436253304997
+10,9-18,fixed 90% (always),all hours,0.84,3.754764335256186
+10,9-18,fixed 90% (always),all hours,0.85,3.5908850451818712
+10,9-18,fixed 90% (always),all hours,0.86,3.4270057551075563
+10,9-18,fixed 90% (always),all hours,0.87,3.2631264650332414
+10,9-18,fixed 90% (always),all hours,0.88,3.0992471749589265
+10,9-18,fixed 90% (always),all hours,0.89,2.935367884884611
+10,9-18,fixed 90% (always),all hours,0.9,2.7714885948102963
+10,9-18,fixed 90% (always),all hours,0.91,2.6076093047359814
+10,9-18,fixed 90% (always),all hours,0.92,2.443730014661666
+10,9-18,fixed 90% (always),all hours,0.93,2.2798507245873516
+10,9-18,fixed 90% (always),all hours,0.9400000000000001,2.1159714345130363
+10,9-18,fixed 90% (always),all hours,0.9500000000000001,1.9520921444387214
+10,9-18,fixed 90% (always),all hours,0.96,1.7882128543644082
+10,9-18,fixed 90% (always),all hours,0.97,1.6243335642900933
+10,9-18,fixed 90% (always),all hours,0.98,1.460454274215778
+10,9-18,fixed 90% (always),all hours,0.99,1.296574984141463
+10,9-18,fixed 90% (always),all hours,1.0,1.1326956940671482
+10,9-18,fixed 90% (always),window,0.0,16.357219051285963
+10,9-18,fixed 90% (always),window,0.01,16.204515703333946
+10,9-18,fixed 90% (always),window,0.02,16.051812355381934
+10,9-18,fixed 90% (always),window,0.03,15.899109007429916
+10,9-18,fixed 90% (always),window,0.04,15.7464056594779
+10,9-18,fixed 90% (always),window,0.05,15.593702311525885
+10,9-18,fixed 90% (always),window,0.06,15.440998963573868
+10,9-18,fixed 90% (always),window,0.07,15.288295615621852
+10,9-18,fixed 90% (always),window,0.08,15.13559226766984
+10,9-18,fixed 90% (always),window,0.09,14.982888919717823
+10,9-18,fixed 90% (always),window,0.1,14.830185571765806
+10,9-18,fixed 90% (always),window,0.11,14.677482223813792
+10,9-18,fixed 90% (always),window,0.12,14.524778875861776
+10,9-18,fixed 90% (always),window,0.13,14.37207552790976
+10,9-18,fixed 90% (always),window,0.14,14.219372179957745
+10,9-18,fixed 90% (always),window,0.15,14.066668832005728
+10,9-18,fixed 90% (always),window,0.16,13.913965484053714
+10,9-18,fixed 90% (always),window,0.17,13.761262136101697
+10,9-18,fixed 90% (always),window,0.18,13.608558788149683
+10,9-18,fixed 90% (always),window,0.19,13.455855440197668
+10,9-18,fixed 90% (always),window,0.2,13.30315209224565
+10,9-18,fixed 90% (always),window,0.21,13.150448744293636
+10,9-18,fixed 90% (always),window,0.22,12.997745396341621
+10,9-18,fixed 90% (always),window,0.23,12.845042048389605
+10,9-18,fixed 90% (always),window,0.24,12.692338700437588
+10,9-18,fixed 90% (always),window,0.25,12.539635352485572
+10,9-18,fixed 90% (always),window,0.26,12.386932004533557
+10,9-18,fixed 90% (always),window,0.27,12.234228656581541
+10,9-18,fixed 90% (always),window,0.28,12.081525308629525
+10,9-18,fixed 90% (always),window,0.29,11.92882196067751
+10,9-18,fixed 90% (always),window,0.3,11.776118612725496
+10,9-18,fixed 90% (always),window,0.31,11.623415264773477
+10,9-18,fixed 90% (always),window,0.32,11.470711916821463
+10,9-18,fixed 90% (always),window,0.33,11.318008568869447
+10,9-18,fixed 90% (always),window,0.34,11.165305220917432
+10,9-18,fixed 90% (always),window,0.35000000000000003,11.012601872965416
+10,9-18,fixed 90% (always),window,0.36,10.859898525013401
+10,9-18,fixed 90% (always),window,0.37,10.707195177061386
+10,9-18,fixed 90% (always),window,0.38,10.55449182910937
+10,9-18,fixed 90% (always),window,0.39,10.401788481157354
+10,9-18,fixed 90% (always),window,0.4,10.24908513320534
+10,9-18,fixed 90% (always),window,0.41000000000000003,10.096381785253323
+10,9-18,fixed 90% (always),window,0.42,9.943678437301308
+10,9-18,fixed 90% (always),window,0.43,9.790975089349294
+10,9-18,fixed 90% (always),window,0.44,9.638271741397277
+10,9-18,fixed 90% (always),window,0.45,9.485568393445261
+10,9-18,fixed 90% (always),window,0.46,9.332865045493246
+10,9-18,fixed 90% (always),window,0.47000000000000003,9.18016169754123
+10,9-18,fixed 90% (always),window,0.48,9.027458349589216
+10,9-18,fixed 90% (always),window,0.49,8.874755001637197
+10,9-18,fixed 90% (always),window,0.5,8.722051653685183
+10,9-18,fixed 90% (always),window,0.51,8.569348305733168
+10,9-18,fixed 90% (always),window,0.52,8.41664495778115
+10,9-18,fixed 90% (always),window,0.53,8.263941609829136
+10,9-18,fixed 90% (always),window,0.54,8.11123826187712
+10,9-18,fixed 90% (always),window,0.55,7.958534913925104
+10,9-18,fixed 90% (always),window,0.56,7.805831565973088
+10,9-18,fixed 90% (always),window,0.5700000000000001,7.653128218021073
+10,9-18,fixed 90% (always),window,0.58,7.500424870069059
+10,9-18,fixed 90% (always),window,0.59,7.347721522117043
+10,9-18,fixed 90% (always),window,0.6,7.1950181741650265
+10,9-18,fixed 90% (always),window,0.61,7.042314826213012
+10,9-18,fixed 90% (always),window,0.62,6.889611478260996
+10,9-18,fixed 90% (always),window,0.63,6.73690813030898
+10,9-18,fixed 90% (always),window,0.64,6.584204782356964
+10,9-18,fixed 90% (always),window,0.65,6.431501434404949
+10,9-18,fixed 90% (always),window,0.66,6.278798086452933
+10,9-18,fixed 90% (always),window,0.67,6.1260947385009175
+10,9-18,fixed 90% (always),window,0.68,5.973391390548901
+10,9-18,fixed 90% (always),window,0.6900000000000001,5.820688042596886
+10,9-18,fixed 90% (always),window,0.7000000000000001,5.66798469464487
+10,9-18,fixed 90% (always),window,0.71,5.515281346692856
+10,9-18,fixed 90% (always),window,0.72,5.36257799874084
+10,9-18,fixed 90% (always),window,0.73,5.209874650788825
+10,9-18,fixed 90% (always),window,0.74,5.057171302836808
+10,9-18,fixed 90% (always),window,0.75,4.904467954884793
+10,9-18,fixed 90% (always),window,0.76,4.7517646069327775
+10,9-18,fixed 90% (always),window,0.77,4.599061258980761
+10,9-18,fixed 90% (always),window,0.78,4.446357911028746
+10,9-18,fixed 90% (always),window,0.79,4.29365456307673
+10,9-18,fixed 90% (always),window,0.8,4.140951215124714
+10,9-18,fixed 90% (always),window,0.81,3.9882478671726984
+10,9-18,fixed 90% (always),window,0.8200000000000001,3.8355445192206825
+10,9-18,fixed 90% (always),window,0.8300000000000001,3.682841171268667
+10,9-18,fixed 90% (always),window,0.84,3.530137823316653
+10,9-18,fixed 90% (always),window,0.85,3.3774344753646375
+10,9-18,fixed 90% (always),window,0.86,3.2247311274126216
+10,9-18,fixed 90% (always),window,0.87,3.0720277794606057
+10,9-18,fixed 90% (always),window,0.88,2.9193244315085902
+10,9-18,fixed 90% (always),window,0.89,2.7666210835565743
+10,9-18,fixed 90% (always),window,0.9,2.6139177356045584
+10,9-18,fixed 90% (always),window,0.91,2.461214387652543
+10,9-18,fixed 90% (always),window,0.92,2.308511039700527
+10,9-18,fixed 90% (always),window,0.93,2.155807691748511
+10,9-18,fixed 90% (always),window,0.9400000000000001,2.0031043437964957
+10,9-18,fixed 90% (always),window,0.9500000000000001,1.85040099584448
+10,9-18,fixed 90% (always),window,0.96,1.697697647892466
+10,9-18,fixed 90% (always),window,0.97,1.5449942999404502
+10,9-18,fixed 90% (always),window,0.98,1.3922909519884343
+10,9-18,fixed 90% (always),window,0.99,1.2395876040364187
+10,9-18,fixed 90% (always),window,1.0,1.086884256084403
+10,9-18,fixed 90% (always),other hours,0.0,18.68429509797038
+10,9-18,fixed 90% (always),other hours,0.01,18.50923732256034
+10,9-18,fixed 90% (always),other hours,0.02,18.334179547150303
+10,9-18,fixed 90% (always),other hours,0.03,18.159121771740264
+10,9-18,fixed 90% (always),other hours,0.04,17.98406399633022
+10,9-18,fixed 90% (always),other hours,0.05,17.809006220920185
+10,9-18,fixed 90% (always),other hours,0.06,17.633948445510143
+10,9-18,fixed 90% (always),other hours,0.07,17.458890670100104
+10,9-18,fixed 90% (always),other hours,0.08,17.283832894690068
+10,9-18,fixed 90% (always),other hours,0.09,17.10877511928003
+10,9-18,fixed 90% (always),other hours,0.1,16.933717343869986
+10,9-18,fixed 90% (always),other hours,0.11,16.758659568459947
+10,9-18,fixed 90% (always),other hours,0.12,16.583601793049912
+10,9-18,fixed 90% (always),other hours,0.13,16.40854401763987
+10,9-18,fixed 90% (always),other hours,0.14,16.23348624222983
+10,9-18,fixed 90% (always),other hours,0.15,16.05842846681979
+10,9-18,fixed 90% (always),other hours,0.16,15.883370691409752
+10,9-18,fixed 90% (always),other hours,0.17,15.708312915999713
+10,9-18,fixed 90% (always),other hours,0.18,15.533255140589674
+10,9-18,fixed 90% (always),other hours,0.19,15.358197365179636
+10,9-18,fixed 90% (always),other hours,0.2,15.183139589769597
+10,9-18,fixed 90% (always),other hours,0.21,15.008081814359556
+10,9-18,fixed 90% (always),other hours,0.22,14.833024038949517
+10,9-18,fixed 90% (always),other hours,0.23,14.657966263539478
+10,9-18,fixed 90% (always),other hours,0.24,14.482908488129437
+10,9-18,fixed 90% (always),other hours,0.25,14.3078507127194
+10,9-18,fixed 90% (always),other hours,0.26,14.13279293730936
+10,9-18,fixed 90% (always),other hours,0.27,13.95773516189932
+10,9-18,fixed 90% (always),other hours,0.28,13.782677386489281
+10,9-18,fixed 90% (always),other hours,0.29,13.60761961107924
+10,9-18,fixed 90% (always),other hours,0.3,13.432561835669201
+10,9-18,fixed 90% (always),other hours,0.31,13.257504060259162
+10,9-18,fixed 90% (always),other hours,0.32,13.082446284849123
+10,9-18,fixed 90% (always),other hours,0.33,12.907388509439084
+10,9-18,fixed 90% (always),other hours,0.34,12.732330734029045
+10,9-18,fixed 90% (always),other hours,0.35000000000000003,12.557272958619004
+10,9-18,fixed 90% (always),other hours,0.36,12.382215183208968
+10,9-18,fixed 90% (always),other hours,0.37,12.207157407798928
+10,9-18,fixed 90% (always),other hours,0.38,12.032099632388888
+10,9-18,fixed 90% (always),other hours,0.39,11.85704185697885
+10,9-18,fixed 90% (always),other hours,0.4,11.681984081568809
+10,9-18,fixed 90% (always),other hours,0.41000000000000003,11.50692630615877
+10,9-18,fixed 90% (always),other hours,0.42,11.331868530748734
+10,9-18,fixed 90% (always),other hours,0.43,11.156810755338693
+10,9-18,fixed 90% (always),other hours,0.44,10.981752979928654
+10,9-18,fixed 90% (always),other hours,0.45,10.806695204518615
+10,9-18,fixed 90% (always),other hours,0.46,10.631637429108574
+10,9-18,fixed 90% (always),other hours,0.47000000000000003,10.456579653698537
+10,9-18,fixed 90% (always),other hours,0.48,10.281521878288496
+10,9-18,fixed 90% (always),other hours,0.49,10.106464102878457
+10,9-18,fixed 90% (always),other hours,0.5,9.931406327468418
+10,9-18,fixed 90% (always),other hours,0.51,9.756348552058377
+10,9-18,fixed 90% (always),other hours,0.52,9.581290776648338
+10,9-18,fixed 90% (always),other hours,0.53,9.406233001238299
+10,9-18,fixed 90% (always),other hours,0.54,9.23117522582826
+10,9-18,fixed 90% (always),other hours,0.55,9.05611745041822
+10,9-18,fixed 90% (always),other hours,0.56,8.881059675008181
+10,9-18,fixed 90% (always),other hours,0.5700000000000001,8.70600189959814
+10,9-18,fixed 90% (always),other hours,0.58,8.530944124188103
+10,9-18,fixed 90% (always),other hours,0.59,8.355886348778064
+10,9-18,fixed 90% (always),other hours,0.6,8.180828573368025
+10,9-18,fixed 90% (always),other hours,0.61,8.005770797957986
+10,9-18,fixed 90% (always),other hours,0.62,7.830713022547946
+10,9-18,fixed 90% (always),other hours,0.63,7.655655247137907
+10,9-18,fixed 90% (always),other hours,0.64,7.480597471727867
+10,9-18,fixed 90% (always),other hours,0.65,7.305539696317827
+10,9-18,fixed 90% (always),other hours,0.66,7.130481920907789
+10,9-18,fixed 90% (always),other hours,0.67,6.955424145497749
+10,9-18,fixed 90% (always),other hours,0.68,6.780366370087709
+10,9-18,fixed 90% (always),other hours,0.6900000000000001,6.60530859467767
+10,9-18,fixed 90% (always),other hours,0.7000000000000001,6.430250819267631
+10,9-18,fixed 90% (always),other hours,0.71,6.255193043857593
+10,9-18,fixed 90% (always),other hours,0.72,6.080135268447553
+10,9-18,fixed 90% (always),other hours,0.73,5.905077493037513
+10,9-18,fixed 90% (always),other hours,0.74,5.730019717627475
+10,9-18,fixed 90% (always),other hours,0.75,5.554961942217435
+10,9-18,fixed 90% (always),other hours,0.76,5.379904166807395
+10,9-18,fixed 90% (always),other hours,0.77,5.204846391397357
+10,9-18,fixed 90% (always),other hours,0.78,5.029788615987317
+10,9-18,fixed 90% (always),other hours,0.79,4.854730840577278
+10,9-18,fixed 90% (always),other hours,0.8,4.679673065167238
+10,9-18,fixed 90% (always),other hours,0.81,4.504615289757199
+10,9-18,fixed 90% (always),other hours,0.8200000000000001,4.32955751434716
+10,9-18,fixed 90% (always),other hours,0.8300000000000001,4.15449973893712
+10,9-18,fixed 90% (always),other hours,0.84,3.9794419635270826
+10,9-18,fixed 90% (always),other hours,0.85,3.8043841881170426
+10,9-18,fixed 90% (always),other hours,0.86,3.6293264127070035
+10,9-18,fixed 90% (always),other hours,0.87,3.4542686372969644
+10,9-18,fixed 90% (always),other hours,0.88,3.2792108618869245
+10,9-18,fixed 90% (always),other hours,0.89,3.1041530864768854
+10,9-18,fixed 90% (always),other hours,0.9,2.9290953110668454
+10,9-18,fixed 90% (always),other hours,0.91,2.7540375356568063
+10,9-18,fixed 90% (always),other hours,0.92,2.5789797602467672
+10,9-18,fixed 90% (always),other hours,0.93,2.4039219848367273
+10,9-18,fixed 90% (always),other hours,0.9400000000000001,2.228864209426688
+10,9-18,fixed 90% (always),other hours,0.9500000000000001,2.0538064340166486
+10,9-18,fixed 90% (always),other hours,0.96,1.8787486586066113
+10,9-18,fixed 90% (always),other hours,0.97,1.7036908831965718
+10,9-18,fixed 90% (always),other hours,0.98,1.5286331077865323
+10,9-18,fixed 90% (always),other hours,0.99,1.353575332376493
+10,9-18,fixed 90% (always),other hours,1.0,1.1785175569664534
+10,9-18,fixed 75% (always),all hours,0.0,8.643605268247297
+10,9-18,fixed 75% (always),all hours,0.01,8.582314680932912
+10,9-18,fixed 75% (always),all hours,0.02,8.521024093618525
+10,9-18,fixed 75% (always),all hours,0.03,8.459733506304142
+10,9-18,fixed 75% (always),all hours,0.04,8.398442918989756
+10,9-18,fixed 75% (always),all hours,0.05,8.337152331675371
+10,9-18,fixed 75% (always),all hours,0.06,8.275861744360984
+10,9-18,fixed 75% (always),all hours,0.07,8.214571157046601
+10,9-18,fixed 75% (always),all hours,0.08,8.153280569732216
+10,9-18,fixed 75% (always),all hours,0.09,8.09198998241783
+10,9-18,fixed 75% (always),all hours,0.1,8.030699395103445
+10,9-18,fixed 75% (always),all hours,0.11,7.96940880778906
+10,9-18,fixed 75% (always),all hours,0.12,7.908118220474676
+10,9-18,fixed 75% (always),all hours,0.13,7.84682763316029
+10,9-18,fixed 75% (always),all hours,0.14,7.785537045845905
+10,9-18,fixed 75% (always),all hours,0.15,7.724246458531519
+10,9-18,fixed 75% (always),all hours,0.16,7.662955871217134
+10,9-18,fixed 75% (always),all hours,0.17,7.601665283902749
+10,9-18,fixed 75% (always),all hours,0.18,7.540374696588365
+10,9-18,fixed 75% (always),all hours,0.19,7.4790841092739795
+10,9-18,fixed 75% (always),all hours,0.2,7.417793521959594
+10,9-18,fixed 75% (always),all hours,0.21,7.356502934645209
+10,9-18,fixed 75% (always),all hours,0.22,7.295212347330824
+10,9-18,fixed 75% (always),all hours,0.23,7.233921760016439
+10,9-18,fixed 75% (always),all hours,0.24,7.1726311727020535
+10,9-18,fixed 75% (always),all hours,0.25,7.1113405853876674
+10,9-18,fixed 75% (always),all hours,0.26,7.050049998073283
+10,9-18,fixed 75% (always),all hours,0.27,6.988759410758897
+10,9-18,fixed 75% (always),all hours,0.28,6.927468823444513
+10,9-18,fixed 75% (always),all hours,0.29,6.866178236130127
+10,9-18,fixed 75% (always),all hours,0.3,6.804887648815742
+10,9-18,fixed 75% (always),all hours,0.31,6.743597061501356
+10,9-18,fixed 75% (always),all hours,0.32,6.682306474186972
+10,9-18,fixed 75% (always),all hours,0.33,6.621015886872586
+10,9-18,fixed 75% (always),all hours,0.34,6.559725299558202
+10,9-18,fixed 75% (always),all hours,0.35000000000000003,6.4984347122438155
+10,9-18,fixed 75% (always),all hours,0.36,6.437144124929432
+10,9-18,fixed 75% (always),all hours,0.37,6.375853537615046
+10,9-18,fixed 75% (always),all hours,0.38,6.314562950300661
+10,9-18,fixed 75% (always),all hours,0.39,6.253272362986276
+10,9-18,fixed 75% (always),all hours,0.4,6.1919817756718905
+10,9-18,fixed 75% (always),all hours,0.41000000000000003,6.130691188357505
+10,9-18,fixed 75% (always),all hours,0.42,6.069400601043121
+10,9-18,fixed 75% (always),all hours,0.43,6.008110013728736
+10,9-18,fixed 75% (always),all hours,0.44,5.946819426414351
+10,9-18,fixed 75% (always),all hours,0.45,5.885528839099965
+10,9-18,fixed 75% (always),all hours,0.46,5.82423825178558
+10,9-18,fixed 75% (always),all hours,0.47000000000000003,5.762947664471195
+10,9-18,fixed 75% (always),all hours,0.48,5.70165707715681
+10,9-18,fixed 75% (always),all hours,0.49,5.640366489842425
+10,9-18,fixed 75% (always),all hours,0.5,5.579075902528039
+10,9-18,fixed 75% (always),all hours,0.51,5.517785315213653
+10,9-18,fixed 75% (always),all hours,0.52,5.456494727899269
+10,9-18,fixed 75% (always),all hours,0.53,5.395204140584883
+10,9-18,fixed 75% (always),all hours,0.54,5.333913553270499
+10,9-18,fixed 75% (always),all hours,0.55,5.2726229659561135
+10,9-18,fixed 75% (always),all hours,0.56,5.211332378641727
+10,9-18,fixed 75% (always),all hours,0.5700000000000001,5.150041791327342
+10,9-18,fixed 75% (always),all hours,0.58,5.088751204012958
+10,9-18,fixed 75% (always),all hours,0.59,5.027460616698573
+10,9-18,fixed 75% (always),all hours,0.6,4.9661700293841875
+10,9-18,fixed 75% (always),all hours,0.61,4.904879442069802
+10,9-18,fixed 75% (always),all hours,0.62,4.843588854755417
+10,9-18,fixed 75% (always),all hours,0.63,4.782298267441032
+10,9-18,fixed 75% (always),all hours,0.64,4.721007680126647
+10,9-18,fixed 75% (always),all hours,0.65,4.6597170928122615
+10,9-18,fixed 75% (always),all hours,0.66,4.598426505497876
+10,9-18,fixed 75% (always),all hours,0.67,4.537135918183491
+10,9-18,fixed 75% (always),all hours,0.68,4.475845330869106
+10,9-18,fixed 75% (always),all hours,0.6900000000000001,4.414554743554721
+10,9-18,fixed 75% (always),all hours,0.7000000000000001,4.353264156240336
+10,9-18,fixed 75% (always),all hours,0.71,4.29197356892595
+10,9-18,fixed 75% (always),all hours,0.72,4.230682981611565
+10,9-18,fixed 75% (always),all hours,0.73,4.16939239429718
+10,9-18,fixed 75% (always),all hours,0.74,4.108101806982795
+10,9-18,fixed 75% (always),all hours,0.75,4.04681121966841
+10,9-18,fixed 75% (always),all hours,0.76,3.9855206323540244
+10,9-18,fixed 75% (always),all hours,0.77,3.9242300450396392
+10,9-18,fixed 75% (always),all hours,0.78,3.862939457725254
+10,9-18,fixed 75% (always),all hours,0.79,3.801648870410869
+10,9-18,fixed 75% (always),all hours,0.8,3.7403582830964837
+10,9-18,fixed 75% (always),all hours,0.81,3.6790676957820985
+10,9-18,fixed 75% (always),all hours,0.8200000000000001,3.6177771084677133
+10,9-18,fixed 75% (always),all hours,0.8300000000000001,3.556486521153328
+10,9-18,fixed 75% (always),all hours,0.84,3.495195933838944
+10,9-18,fixed 75% (always),all hours,0.85,3.433905346524558
+10,9-18,fixed 75% (always),all hours,0.86,3.372614759210173
+10,9-18,fixed 75% (always),all hours,0.87,3.3113241718957878
+10,9-18,fixed 75% (always),all hours,0.88,3.2500335845814026
+10,9-18,fixed 75% (always),all hours,0.89,3.1887429972670174
+10,9-18,fixed 75% (always),all hours,0.9,3.127452409952632
+10,9-18,fixed 75% (always),all hours,0.91,3.066161822638247
+10,9-18,fixed 75% (always),all hours,0.92,3.0048712353238614
+10,9-18,fixed 75% (always),all hours,0.93,2.943580648009476
+10,9-18,fixed 75% (always),all hours,0.9400000000000001,2.882290060695091
+10,9-18,fixed 75% (always),all hours,0.9500000000000001,2.820999473380706
+10,9-18,fixed 75% (always),all hours,0.96,2.7597088860663215
+10,9-18,fixed 75% (always),all hours,0.97,2.6984182987519363
+10,9-18,fixed 75% (always),all hours,0.98,2.637127711437551
+10,9-18,fixed 75% (always),all hours,0.99,2.575837124123166
+10,9-18,fixed 75% (always),all hours,1.0,2.5145465368087807
+10,9-18,fixed 75% (always),window,0.0,8.07774894328722
+10,9-18,fixed 75% (always),window,0.01,8.021444076230416
+10,9-18,fixed 75% (always),window,0.02,7.9651392091736115
+10,9-18,fixed 75% (always),window,0.03,7.9088343421168075
+10,9-18,fixed 75% (always),window,0.04,7.852529475060003
+10,9-18,fixed 75% (always),window,0.05,7.7962246080031985
+10,9-18,fixed 75% (always),window,0.06,7.7399197409463945
+10,9-18,fixed 75% (always),window,0.07,7.68361487388959
+10,9-18,fixed 75% (always),window,0.08,7.627310006832786
+10,9-18,fixed 75% (always),window,0.09,7.571005139775983
+10,9-18,fixed 75% (always),window,0.1,7.514700272719178
+10,9-18,fixed 75% (always),window,0.11,7.458395405662374
+10,9-18,fixed 75% (always),window,0.12,7.40209053860557
+10,9-18,fixed 75% (always),window,0.13,7.345785671548765
+10,9-18,fixed 75% (always),window,0.14,7.289480804491961
+10,9-18,fixed 75% (always),window,0.15,7.233175937435157
+10,9-18,fixed 75% (always),window,0.16,7.176871070378352
+10,9-18,fixed 75% (always),window,0.17,7.120566203321548
+10,9-18,fixed 75% (always),window,0.18,7.064261336264744
+10,9-18,fixed 75% (always),window,0.19,7.00795646920794
+10,9-18,fixed 75% (always),window,0.2,6.951651602151136
+10,9-18,fixed 75% (always),window,0.21,6.895346735094331
+10,9-18,fixed 75% (always),window,0.22,6.839041868037527
+10,9-18,fixed 75% (always),window,0.23,6.782737000980723
+10,9-18,fixed 75% (always),window,0.24,6.726432133923918
+10,9-18,fixed 75% (always),window,0.25,6.670127266867115
+10,9-18,fixed 75% (always),window,0.26,6.613822399810311
+10,9-18,fixed 75% (always),window,0.27,6.557517532753506
+10,9-18,fixed 75% (always),window,0.28,6.501212665696702
+10,9-18,fixed 75% (always),window,0.29,6.444907798639898
+10,9-18,fixed 75% (always),window,0.3,6.388602931583093
+10,9-18,fixed 75% (always),window,0.31,6.332298064526289
+10,9-18,fixed 75% (always),window,0.32,6.275993197469484
+10,9-18,fixed 75% (always),window,0.33,6.21968833041268
+10,9-18,fixed 75% (always),window,0.34,6.163383463355876
+10,9-18,fixed 75% (always),window,0.35000000000000003,6.107078596299072
+10,9-18,fixed 75% (always),window,0.36,6.050773729242268
+10,9-18,fixed 75% (always),window,0.37,5.994468862185464
+10,9-18,fixed 75% (always),window,0.38,5.938163995128659
+10,9-18,fixed 75% (always),window,0.39,5.881859128071855
+10,9-18,fixed 75% (always),window,0.4,5.825554261015051
+10,9-18,fixed 75% (always),window,0.41000000000000003,5.769249393958246
+10,9-18,fixed 75% (always),window,0.42,5.712944526901444
+10,9-18,fixed 75% (always),window,0.43,5.65663965984464
+10,9-18,fixed 75% (always),window,0.44,5.600334792787835
+10,9-18,fixed 75% (always),window,0.45,5.544029925731031
+10,9-18,fixed 75% (always),window,0.46,5.487725058674226
+10,9-18,fixed 75% (always),window,0.47000000000000003,5.431420191617422
+10,9-18,fixed 75% (always),window,0.48,5.375115324560618
+10,9-18,fixed 75% (always),window,0.49,5.318810457503813
+10,9-18,fixed 75% (always),window,0.5,5.262505590447009
+10,9-18,fixed 75% (always),window,0.51,5.206200723390205
+10,9-18,fixed 75% (always),window,0.52,5.1498958563334
+10,9-18,fixed 75% (always),window,0.53,5.093590989276596
+10,9-18,fixed 75% (always),window,0.54,5.0372861222197916
+10,9-18,fixed 75% (always),window,0.55,4.9809812551629875
+10,9-18,fixed 75% (always),window,0.56,4.9246763881061835
+10,9-18,fixed 75% (always),window,0.5700000000000001,4.8683715210493785
+10,9-18,fixed 75% (always),window,0.58,4.812066653992575
+10,9-18,fixed 75% (always),window,0.59,4.7557617869357705
+10,9-18,fixed 75% (always),window,0.6,4.699456919878966
+10,9-18,fixed 75% (always),window,0.61,4.6431520528221615
+10,9-18,fixed 75% (always),window,0.62,4.586847185765357
+10,9-18,fixed 75% (always),window,0.63,4.530542318708553
+10,9-18,fixed 75% (always),window,0.64,4.474237451651749
+10,9-18,fixed 75% (always),window,0.65,4.417932584594945
+10,9-18,fixed 75% (always),window,0.66,4.36162771753814
+10,9-18,fixed 75% (always),window,0.67,4.305322850481336
+10,9-18,fixed 75% (always),window,0.68,4.249017983424532
+10,9-18,fixed 75% (always),window,0.6900000000000001,4.192713116367727
+10,9-18,fixed 75% (always),window,0.7000000000000001,4.136408249310923
+10,9-18,fixed 75% (always),window,0.71,4.08010338225412
+10,9-18,fixed 75% (always),window,0.72,4.023798515197315
+10,9-18,fixed 75% (always),window,0.73,3.967493648140511
+10,9-18,fixed 75% (always),window,0.74,3.911188781083707
+10,9-18,fixed 75% (always),window,0.75,3.8548839140269027
+10,9-18,fixed 75% (always),window,0.76,3.798579046970098
+10,9-18,fixed 75% (always),window,0.77,3.742274179913294
+10,9-18,fixed 75% (always),window,0.78,3.68596931285649
+10,9-18,fixed 75% (always),window,0.79,3.6296644457996856
+10,9-18,fixed 75% (always),window,0.8,3.573359578742881
+10,9-18,fixed 75% (always),window,0.81,3.517054711686077
+10,9-18,fixed 75% (always),window,0.8200000000000001,3.4607498446292726
+10,9-18,fixed 75% (always),window,0.8300000000000001,3.4044449775724686
+10,9-18,fixed 75% (always),window,0.84,3.3481401105156645
+10,9-18,fixed 75% (always),window,0.85,3.2918352434588605
+10,9-18,fixed 75% (always),window,0.86,3.235530376402056
+10,9-18,fixed 75% (always),window,0.87,3.179225509345252
+10,9-18,fixed 75% (always),window,0.88,3.122920642288448
+10,9-18,fixed 75% (always),window,0.89,3.0666157752316434
+10,9-18,fixed 75% (always),window,0.9,3.010310908174839
+10,9-18,fixed 75% (always),window,0.91,2.954006041118035
+10,9-18,fixed 75% (always),window,0.92,2.8977011740612304
+10,9-18,fixed 75% (always),window,0.93,2.841396307004426
+10,9-18,fixed 75% (always),window,0.9400000000000001,2.785091439947622
+10,9-18,fixed 75% (always),window,0.9500000000000001,2.7287865728908174
+10,9-18,fixed 75% (always),window,0.96,2.672481705834014
+10,9-18,fixed 75% (always),window,0.97,2.6161768387772097
+10,9-18,fixed 75% (always),window,0.98,2.5598719717204053
+10,9-18,fixed 75% (always),window,0.99,2.503567104663601
+10,9-18,fixed 75% (always),window,1.0,2.4472622376067967
+10,9-18,fixed 75% (always),other hours,0.0,9.209590360284604
+10,9-18,fixed 75% (always),other hours,0.01,9.143312918154983
+10,9-18,fixed 75% (always),other hours,0.02,9.07703547602536
+10,9-18,fixed 75% (always),other hours,0.03,9.010758033895739
+10,9-18,fixed 75% (always),other hours,0.04,8.944480591766117
+10,9-18,fixed 75% (always),other hours,0.05,8.878203149636496
+10,9-18,fixed 75% (always),other hours,0.06,8.811925707506873
+10,9-18,fixed 75% (always),other hours,0.07,8.745648265377252
+10,9-18,fixed 75% (always),other hours,0.08,8.679370823247632
+10,9-18,fixed 75% (always),other hours,0.09,8.61309338111801
+10,9-18,fixed 75% (always),other hours,0.1,8.546815938988388
+10,9-18,fixed 75% (always),other hours,0.11,8.480538496858765
+10,9-18,fixed 75% (always),other hours,0.12,8.414261054729144
+10,9-18,fixed 75% (always),other hours,0.13,8.347983612599522
+10,9-18,fixed 75% (always),other hours,0.14,8.281706170469901
+10,9-18,fixed 75% (always),other hours,0.15,8.215428728340278
+10,9-18,fixed 75% (always),other hours,0.16,8.149151286210657
+10,9-18,fixed 75% (always),other hours,0.17,8.082873844081035
+10,9-18,fixed 75% (always),other hours,0.18,8.016596401951414
+10,9-18,fixed 75% (always),other hours,0.19,7.950318959821792
+10,9-18,fixed 75% (always),other hours,0.2,7.884041517692171
+10,9-18,fixed 75% (always),other hours,0.21,7.817764075562549
+10,9-18,fixed 75% (always),other hours,0.22,7.751486633432927
+10,9-18,fixed 75% (always),other hours,0.23,7.685209191303305
+10,9-18,fixed 75% (always),other hours,0.24,7.618931749173684
+10,9-18,fixed 75% (always),other hours,0.25,7.552654307044062
+10,9-18,fixed 75% (always),other hours,0.26,7.4863768649144395
+10,9-18,fixed 75% (always),other hours,0.27,7.420099422784818
+10,9-18,fixed 75% (always),other hours,0.28,7.353821980655196
+10,9-18,fixed 75% (always),other hours,0.29,7.287544538525575
+10,9-18,fixed 75% (always),other hours,0.3,7.221267096395953
+10,9-18,fixed 75% (always),other hours,0.31,7.154989654266331
+10,9-18,fixed 75% (always),other hours,0.32,7.088712212136709
+10,9-18,fixed 75% (always),other hours,0.33,7.022434770007087
+10,9-18,fixed 75% (always),other hours,0.34,6.956157327877465
+10,9-18,fixed 75% (always),other hours,0.35000000000000003,6.8898798857478445
+10,9-18,fixed 75% (always),other hours,0.36,6.823602443618223
+10,9-18,fixed 75% (always),other hours,0.37,6.757325001488601
+10,9-18,fixed 75% (always),other hours,0.38,6.69104755935898
+10,9-18,fixed 75% (always),other hours,0.39,6.624770117229358
+10,9-18,fixed 75% (always),other hours,0.4,6.558492675099735
+10,9-18,fixed 75% (always),other hours,0.41000000000000003,6.492215232970114
+10,9-18,fixed 75% (always),other hours,0.42,6.425937790840494
+10,9-18,fixed 75% (always),other hours,0.43,6.359660348710872
+10,9-18,fixed 75% (always),other hours,0.44,6.293382906581249
+10,9-18,fixed 75% (always),other hours,0.45,6.227105464451628
+10,9-18,fixed 75% (always),other hours,0.46,6.160828022322006
+10,9-18,fixed 75% (always),other hours,0.47000000000000003,6.094550580192385
+10,9-18,fixed 75% (always),other hours,0.48,6.0282731380627625
+10,9-18,fixed 75% (always),other hours,0.49,5.961995695933141
+10,9-18,fixed 75% (always),other hours,0.5,5.895718253803519
+10,9-18,fixed 75% (always),other hours,0.51,5.829440811673897
+10,9-18,fixed 75% (always),other hours,0.52,5.763163369544276
+10,9-18,fixed 75% (always),other hours,0.53,5.6968859274146535
+10,9-18,fixed 75% (always),other hours,0.54,5.630608485285032
+10,9-18,fixed 75% (always),other hours,0.55,5.56433104315541
+10,9-18,fixed 75% (always),other hours,0.56,5.498053601025789
+10,9-18,fixed 75% (always),other hours,0.5700000000000001,5.431776158896167
+10,9-18,fixed 75% (always),other hours,0.58,5.365498716766546
+10,9-18,fixed 75% (always),other hours,0.59,5.299221274636924
+10,9-18,fixed 75% (always),other hours,0.6,5.232943832507303
+10,9-18,fixed 75% (always),other hours,0.61,5.166666390377681
+10,9-18,fixed 75% (always),other hours,0.62,5.100388948248058
+10,9-18,fixed 75% (always),other hours,0.63,5.034111506118437
+10,9-18,fixed 75% (always),other hours,0.64,4.967834063988815
+10,9-18,fixed 75% (always),other hours,0.65,4.901556621859193
+10,9-18,fixed 75% (always),other hours,0.66,4.8352791797295716
+10,9-18,fixed 75% (always),other hours,0.67,4.769001737599949
+10,9-18,fixed 75% (always),other hours,0.68,4.702724295470328
+10,9-18,fixed 75% (always),other hours,0.6900000000000001,4.636446853340706
+10,9-18,fixed 75% (always),other hours,0.7000000000000001,4.570169411211085
+10,9-18,fixed 75% (always),other hours,0.71,4.503891969081463
+10,9-18,fixed 75% (always),other hours,0.72,4.437614526951842
+10,9-18,fixed 75% (always),other hours,0.73,4.37133708482222
+10,9-18,fixed 75% (always),other hours,0.74,4.305059642692598
+10,9-18,fixed 75% (always),other hours,0.75,4.2387822005629765
+10,9-18,fixed 75% (always),other hours,0.76,4.172504758433355
+10,9-18,fixed 75% (always),other hours,0.77,4.106227316303733
+10,9-18,fixed 75% (always),other hours,0.78,4.039949874174111
+10,9-18,fixed 75% (always),other hours,0.79,3.973672432044489
+10,9-18,fixed 75% (always),other hours,0.8,3.9073949899148674
+10,9-18,fixed 75% (always),other hours,0.81,3.8411175477852457
+10,9-18,fixed 75% (always),other hours,0.8200000000000001,3.7748401056556244
+10,9-18,fixed 75% (always),other hours,0.8300000000000001,3.7085626635260027
+10,9-18,fixed 75% (always),other hours,0.84,3.6422852213963814
+10,9-18,fixed 75% (always),other hours,0.85,3.5760077792667593
+10,9-18,fixed 75% (always),other hours,0.86,3.5097303371371376
+10,9-18,fixed 75% (always),other hours,0.87,3.443452895007516
+10,9-18,fixed 75% (always),other hours,0.88,3.3771754528778946
+10,9-18,fixed 75% (always),other hours,0.89,3.310898010748273
+10,9-18,fixed 75% (always),other hours,0.9,3.2446205686186507
+10,9-18,fixed 75% (always),other hours,0.91,3.178343126489029
+10,9-18,fixed 75% (always),other hours,0.92,3.1120656843594077
+10,9-18,fixed 75% (always),other hours,0.93,3.0457882422297855
+10,9-18,fixed 75% (always),other hours,0.9400000000000001,2.9795108001001633
+10,9-18,fixed 75% (always),other hours,0.9500000000000001,2.913233357970542
+10,9-18,fixed 75% (always),other hours,0.96,2.8469559158409212
+10,9-18,fixed 75% (always),other hours,0.97,2.780678473711299
+10,9-18,fixed 75% (always),other hours,0.98,2.7144010315816773
+10,9-18,fixed 75% (always),other hours,0.99,2.6481235894520556
+10,9-18,fixed 75% (always),other hours,1.0,2.581846147322434
+10,9-18,"scheduled, calibrated per period",all hours,0.0,12.83786366988599
+10,9-18,"scheduled, calibrated per period",all hours,0.01,12.727908051270779
+10,9-18,"scheduled, calibrated per period",all hours,0.02,12.617952432655565
+10,9-18,"scheduled, calibrated per period",all hours,0.03,12.507996814040355
+10,9-18,"scheduled, calibrated per period",all hours,0.04,12.398041195425144
+10,9-18,"scheduled, calibrated per period",all hours,0.05,12.28808557680993
+10,9-18,"scheduled, calibrated per period",all hours,0.06,12.178129958194718
+10,9-18,"scheduled, calibrated per period",all hours,0.07,12.068174339579507
+10,9-18,"scheduled, calibrated per period",all hours,0.08,11.958218720964297
+10,9-18,"scheduled, calibrated per period",all hours,0.09,11.848263102349085
+10,9-18,"scheduled, calibrated per period",all hours,0.1,11.738307483733871
+10,9-18,"scheduled, calibrated per period",all hours,0.11,11.62835186511866
+10,9-18,"scheduled, calibrated per period",all hours,0.12,11.518396246503448
+10,9-18,"scheduled, calibrated per period",all hours,0.13,11.408440627888236
+10,9-18,"scheduled, calibrated per period",all hours,0.14,11.298485009273024
+10,9-18,"scheduled, calibrated per period",all hours,0.15,11.188529390657811
+10,9-18,"scheduled, calibrated per period",all hours,0.16,11.0785737720426
+10,9-18,"scheduled, calibrated per period",all hours,0.17,10.968618153427387
+10,9-18,"scheduled, calibrated per period",all hours,0.18,10.858662534812176
+10,9-18,"scheduled, calibrated per period",all hours,0.19,10.748706916196966
+10,9-18,"scheduled, calibrated per period",all hours,0.2,10.638751297581754
+10,9-18,"scheduled, calibrated per period",all hours,0.21,10.52879567896654
+10,9-18,"scheduled, calibrated per period",all hours,0.22,10.418840060351329
+10,9-18,"scheduled, calibrated per period",all hours,0.23,10.308884441736117
+10,9-18,"scheduled, calibrated per period",all hours,0.24,10.198928823120905
+10,9-18,"scheduled, calibrated per period",all hours,0.25,10.088973204505693
+10,9-18,"scheduled, calibrated per period",all hours,0.26,9.97901758589048
+10,9-18,"scheduled, calibrated per period",all hours,0.27,9.869061967275268
+10,9-18,"scheduled, calibrated per period",all hours,0.28,9.759106348660058
+10,9-18,"scheduled, calibrated per period",all hours,0.29,9.649150730044845
+10,9-18,"scheduled, calibrated per period",all hours,0.3,9.539195111429633
+10,9-18,"scheduled, calibrated per period",all hours,0.31,9.42923949281442
+10,9-18,"scheduled, calibrated per period",all hours,0.32,9.31928387419921
+10,9-18,"scheduled, calibrated per period",all hours,0.33,9.209328255583998
+10,9-18,"scheduled, calibrated per period",all hours,0.34,9.099372636968784
+10,9-18,"scheduled, calibrated per period",all hours,0.35000000000000003,8.989417018353572
+10,9-18,"scheduled, calibrated per period",all hours,0.36,8.87946139973836
+10,9-18,"scheduled, calibrated per period",all hours,0.37,8.769505781123149
+10,9-18,"scheduled, calibrated per period",all hours,0.38,8.659550162507937
+10,9-18,"scheduled, calibrated per period",all hours,0.39,8.549594543892725
+10,9-18,"scheduled, calibrated per period",all hours,0.4,8.439638925277514
+10,9-18,"scheduled, calibrated per period",all hours,0.41000000000000003,8.329683306662302
+10,9-18,"scheduled, calibrated per period",all hours,0.42,8.219727688047092
+10,9-18,"scheduled, calibrated per period",all hours,0.43,8.109772069431878
+10,9-18,"scheduled, calibrated per period",all hours,0.44,7.999816450816667
+10,9-18,"scheduled, calibrated per period",all hours,0.45,7.889860832201455
+10,9-18,"scheduled, calibrated per period",all hours,0.46,7.779905213586243
+10,9-18,"scheduled, calibrated per period",all hours,0.47000000000000003,7.6699495949710315
+10,9-18,"scheduled, calibrated per period",all hours,0.48,7.559993976355819
+10,9-18,"scheduled, calibrated per period",all hours,0.49,7.450038357740607
+10,9-18,"scheduled, calibrated per period",all hours,0.5,7.340082739125395
+10,9-18,"scheduled, calibrated per period",all hours,0.51,7.230127120510183
+10,9-18,"scheduled, calibrated per period",all hours,0.52,7.120171501894971
+10,9-18,"scheduled, calibrated per period",all hours,0.53,7.010215883279759
+10,9-18,"scheduled, calibrated per period",all hours,0.54,6.9002602646645474
+10,9-18,"scheduled, calibrated per period",all hours,0.55,6.790304646049335
+10,9-18,"scheduled, calibrated per period",all hours,0.56,6.680349027434123
+10,9-18,"scheduled, calibrated per period",all hours,0.5700000000000001,6.57039340881891
+10,9-18,"scheduled, calibrated per period",all hours,0.58,6.4604377902037005
+10,9-18,"scheduled, calibrated per period",all hours,0.59,6.350482171588488
+10,9-18,"scheduled, calibrated per period",all hours,0.6,6.240526552973276
+10,9-18,"scheduled, calibrated per period",all hours,0.61,6.130570934358063
+10,9-18,"scheduled, calibrated per period",all hours,0.62,6.020615315742853
+10,9-18,"scheduled, calibrated per period",all hours,0.63,5.91065969712764
+10,9-18,"scheduled, calibrated per period",all hours,0.64,5.800704078512428
+10,9-18,"scheduled, calibrated per period",all hours,0.65,5.6907484598972164
+10,9-18,"scheduled, calibrated per period",all hours,0.66,5.580792841282005
+10,9-18,"scheduled, calibrated per period",all hours,0.67,5.470837222666792
+10,9-18,"scheduled, calibrated per period",all hours,0.68,5.360881604051579
+10,9-18,"scheduled, calibrated per period",all hours,0.6900000000000001,5.250925985436368
+10,9-18,"scheduled, calibrated per period",all hours,0.7000000000000001,5.140970366821156
+10,9-18,"scheduled, calibrated per period",all hours,0.71,5.031014748205945
+10,9-18,"scheduled, calibrated per period",all hours,0.72,4.921059129590732
+10,9-18,"scheduled, calibrated per period",all hours,0.73,4.811103510975521
+10,9-18,"scheduled, calibrated per period",all hours,0.74,4.701147892360309
+10,9-18,"scheduled, calibrated per period",all hours,0.75,4.591192273745097
+10,9-18,"scheduled, calibrated per period",all hours,0.76,4.4812366551298854
+10,9-18,"scheduled, calibrated per period",all hours,0.77,4.371281036514674
+10,9-18,"scheduled, calibrated per period",all hours,0.78,4.261325417899461
+10,9-18,"scheduled, calibrated per period",all hours,0.79,4.151369799284248
+10,9-18,"scheduled, calibrated per period",all hours,0.8,4.041414180669037
+10,9-18,"scheduled, calibrated per period",all hours,0.81,3.931458562053825
+10,9-18,"scheduled, calibrated per period",all hours,0.8200000000000001,3.821502943438613
+10,9-18,"scheduled, calibrated per period",all hours,0.8300000000000001,3.711547324823401
+10,9-18,"scheduled, calibrated per period",all hours,0.84,3.6015917062081906
+10,9-18,"scheduled, calibrated per period",all hours,0.85,3.4916360875929784
+10,9-18,"scheduled, calibrated per period",all hours,0.86,3.381680468977766
+10,9-18,"scheduled, calibrated per period",all hours,0.87,3.2717248503625544
+10,9-18,"scheduled, calibrated per period",all hours,0.88,3.1617692317473423
+10,9-18,"scheduled, calibrated per period",all hours,0.89,3.05181361313213
+10,9-18,"scheduled, calibrated per period",all hours,0.9,2.9418579945169183
+10,9-18,"scheduled, calibrated per period",all hours,0.91,2.831902375901706
+10,9-18,"scheduled, calibrated per period",all hours,0.92,2.721946757286494
+10,9-18,"scheduled, calibrated per period",all hours,0.93,2.611991138671282
+10,9-18,"scheduled, calibrated per period",all hours,0.9400000000000001,2.50203552005607
+10,9-18,"scheduled, calibrated per period",all hours,0.9500000000000001,2.3920799014408582
+10,9-18,"scheduled, calibrated per period",all hours,0.96,2.2821242828256474
+10,9-18,"scheduled, calibrated per period",all hours,0.97,2.172168664210435
+10,9-18,"scheduled, calibrated per period",all hours,0.98,2.0622130455952234
+10,9-18,"scheduled, calibrated per period",all hours,0.99,1.9522574269800113
+10,9-18,"scheduled, calibrated per period",all hours,1.0,1.8423018083647993
+10,9-18,"scheduled, calibrated per period",window,0.0,16.59839470369825
+10,9-18,"scheduled, calibrated per period",window,0.01,16.443058914086755
+10,9-18,"scheduled, calibrated per period",window,0.02,16.28772312447526
+10,9-18,"scheduled, calibrated per period",window,0.03,16.132387334863765
+10,9-18,"scheduled, calibrated per period",window,0.04,15.977051545252268
+10,9-18,"scheduled, calibrated per period",window,0.05,15.82171575564077
+10,9-18,"scheduled, calibrated per period",window,0.06,15.666379966029277
+10,9-18,"scheduled, calibrated per period",window,0.07,15.511044176417782
+10,9-18,"scheduled, calibrated per period",window,0.08,15.355708386806286
+10,9-18,"scheduled, calibrated per period",window,0.09,15.200372597194791
+10,9-18,"scheduled, calibrated per period",window,0.1,15.045036807583296
+10,9-18,"scheduled, calibrated per period",window,0.11,14.889701017971799
+10,9-18,"scheduled, calibrated per period",window,0.12,14.734365228360303
+10,9-18,"scheduled, calibrated per period",window,0.13,14.579029438748808
+10,9-18,"scheduled, calibrated per period",window,0.14,14.423693649137311
+10,9-18,"scheduled, calibrated per period",window,0.15,14.268357859525816
+10,9-18,"scheduled, calibrated per period",window,0.16,14.113022069914322
+10,9-18,"scheduled, calibrated per period",window,0.17,13.957686280302825
+10,9-18,"scheduled, calibrated per period",window,0.18,13.802350490691332
+10,9-18,"scheduled, calibrated per period",window,0.19,13.647014701079836
+10,9-18,"scheduled, calibrated per period",window,0.2,13.49167891146834
+10,9-18,"scheduled, calibrated per period",window,0.21,13.336343121856844
+10,9-18,"scheduled, calibrated per period",window,0.22,13.181007332245349
+10,9-18,"scheduled, calibrated per period",window,0.23,13.025671542633852
+10,9-18,"scheduled, calibrated per period",window,0.24,12.870335753022356
+10,9-18,"scheduled, calibrated per period",window,0.25,12.714999963410863
+10,9-18,"scheduled, calibrated per period",window,0.26,12.559664173799366
+10,9-18,"scheduled, calibrated per period",window,0.27,12.40432838418787
+10,9-18,"scheduled, calibrated per period",window,0.28,12.248992594576375
+10,9-18,"scheduled, calibrated per period",window,0.29,12.093656804964878
+10,9-18,"scheduled, calibrated per period",window,0.3,11.938321015353383
+10,9-18,"scheduled, calibrated per period",window,0.31,11.782985225741887
+10,9-18,"scheduled, calibrated per period",window,0.32,11.62764943613039
+10,9-18,"scheduled, calibrated per period",window,0.33,11.472313646518895
+10,9-18,"scheduled, calibrated per period",window,0.34,11.3169778569074
+10,9-18,"scheduled, calibrated per period",window,0.35000000000000003,11.161642067295903
+10,9-18,"scheduled, calibrated per period",window,0.36,11.006306277684411
+10,9-18,"scheduled, calibrated per period",window,0.37,10.850970488072916
+10,9-18,"scheduled, calibrated per period",window,0.38,10.695634698461419
+10,9-18,"scheduled, calibrated per period",window,0.39,10.540298908849923
+10,9-18,"scheduled, calibrated per period",window,0.4,10.384963119238428
+10,9-18,"scheduled, calibrated per period",window,0.41000000000000003,10.22962732962693
+10,9-18,"scheduled, calibrated per period",window,0.42,10.074291540015437
+10,9-18,"scheduled, calibrated per period",window,0.43,9.918955750403942
+10,9-18,"scheduled, calibrated per period",window,0.44,9.763619960792445
+10,9-18,"scheduled, calibrated per period",window,0.45,9.608284171180951
+10,9-18,"scheduled, calibrated per period",window,0.46,9.452948381569456
+10,9-18,"scheduled, calibrated per period",window,0.47000000000000003,9.297612591957959
+10,9-18,"scheduled, calibrated per period",window,0.48,9.142276802346464
+10,9-18,"scheduled, calibrated per period",window,0.49,8.986941012734968
+10,9-18,"scheduled, calibrated per period",window,0.5,8.831605223123471
+10,9-18,"scheduled, calibrated per period",window,0.51,8.676269433511976
+10,9-18,"scheduled, calibrated per period",window,0.52,8.52093364390048
+10,9-18,"scheduled, calibrated per period",window,0.53,8.365597854288986
+10,9-18,"scheduled, calibrated per period",window,0.54,8.210262064677488
+10,9-18,"scheduled, calibrated per period",window,0.55,8.054926275065993
+10,9-18,"scheduled, calibrated per period",window,0.56,7.899590485454498
+10,9-18,"scheduled, calibrated per period",window,0.5700000000000001,7.744254695843002
+10,9-18,"scheduled, calibrated per period",window,0.58,7.588918906231508
+10,9-18,"scheduled, calibrated per period",window,0.59,7.433583116620012
+10,9-18,"scheduled, calibrated per period",window,0.6,7.278247327008517
+10,9-18,"scheduled, calibrated per period",window,0.61,7.12291153739702
+10,9-18,"scheduled, calibrated per period",window,0.62,6.967575747785524
+10,9-18,"scheduled, calibrated per period",window,0.63,6.81223995817403
+10,9-18,"scheduled, calibrated per period",window,0.64,6.656904168562534
+10,9-18,"scheduled, calibrated per period",window,0.65,6.501568378951038
+10,9-18,"scheduled, calibrated per period",window,0.66,6.346232589339542
+10,9-18,"scheduled, calibrated per period",window,0.67,6.190896799728046
+10,9-18,"scheduled, calibrated per period",window,0.68,6.035561010116551
+10,9-18,"scheduled, calibrated per period",window,0.6900000000000001,5.880225220505055
+10,9-18,"scheduled, calibrated per period",window,0.7000000000000001,5.724889430893559
+10,9-18,"scheduled, calibrated per period",window,0.71,5.569553641282065
+10,9-18,"scheduled, calibrated per period",window,0.72,5.4142178516705695
+10,9-18,"scheduled, calibrated per period",window,0.73,5.258882062059074
+10,9-18,"scheduled, calibrated per period",window,0.74,5.103546272447578
+10,9-18,"scheduled, calibrated per period",window,0.75,4.948210482836083
+10,9-18,"scheduled, calibrated per period",window,0.76,4.7928746932245865
+10,9-18,"scheduled, calibrated per period",window,0.77,4.637538903613091
+10,9-18,"scheduled, calibrated per period",window,0.78,4.482203114001595
+10,9-18,"scheduled, calibrated per period",window,0.79,4.3268673243901
+10,9-18,"scheduled, calibrated per period",window,0.8,4.1715315347786035
+10,9-18,"scheduled, calibrated per period",window,0.81,4.016195745167108
+10,9-18,"scheduled, calibrated per period",window,0.8200000000000001,3.8608599555556125
+10,9-18,"scheduled, calibrated per period",window,0.8300000000000001,3.7055241659441167
+10,9-18,"scheduled, calibrated per period",window,0.84,3.5501883763326227
+10,9-18,"scheduled, calibrated per period",window,0.85,3.394852586721127
+10,9-18,"scheduled, calibrated per period",window,0.86,3.2395167971096313
+10,9-18,"scheduled, calibrated per period",window,0.87,3.0841810074981355
+10,9-18,"scheduled, calibrated per period",window,0.88,2.9288452178866398
+10,9-18,"scheduled, calibrated per period",window,0.89,2.773509428275144
+10,9-18,"scheduled, calibrated per period",window,0.9,2.6181736386636487
+10,9-18,"scheduled, calibrated per period",window,0.91,2.462837849052153
+10,9-18,"scheduled, calibrated per period",window,0.92,2.307502059440657
+10,9-18,"scheduled, calibrated per period",window,0.93,2.152166269829161
+10,9-18,"scheduled, calibrated per period",window,0.9400000000000001,1.9968304802176655
+10,9-18,"scheduled, calibrated per period",window,0.9500000000000001,1.84149469060617
+10,9-18,"scheduled, calibrated per period",window,0.96,1.686158900994676
+10,9-18,"scheduled, calibrated per period",window,0.97,1.5308231113831803
+10,9-18,"scheduled, calibrated per period",window,0.98,1.3754873217716845
+10,9-18,"scheduled, calibrated per period",window,0.99,1.2201515321601888
+10,9-18,"scheduled, calibrated per period",window,1.0,1.064815742548693
+10,9-18,"scheduled, calibrated per period",other hours,0.0,9.076476884235863
+10,9-18,"scheduled, calibrated per period",other hours,0.01,9.01191176339376
+10,9-18,"scheduled, calibrated per period",other hours,0.02,8.947346642551658
+10,9-18,"scheduled, calibrated per period",other hours,0.03,8.882781521709555
+10,9-18,"scheduled, calibrated per period",other hours,0.04,8.818216400867453
+10,9-18,"scheduled, calibrated per period",other hours,0.05,8.75365128002535
+10,9-18,"scheduled, calibrated per period",other hours,0.06,8.689086159183248
+10,9-18,"scheduled, calibrated per period",other hours,0.07,8.624521038341145
+10,9-18,"scheduled, calibrated per period",other hours,0.08,8.559955917499044
+10,9-18,"scheduled, calibrated per period",other hours,0.09,8.495390796656942
+10,9-18,"scheduled, calibrated per period",other hours,0.1,8.43082567581484
+10,9-18,"scheduled, calibrated per period",other hours,0.11,8.366260554972737
+10,9-18,"scheduled, calibrated per period",other hours,0.12,8.301695434130634
+10,9-18,"scheduled, calibrated per period",other hours,0.13,8.237130313288532
+10,9-18,"scheduled, calibrated per period",other hours,0.14,8.172565192446429
+10,9-18,"scheduled, calibrated per period",other hours,0.15,8.108000071604327
+10,9-18,"scheduled, calibrated per period",other hours,0.16,8.043434950762224
+10,9-18,"scheduled, calibrated per period",other hours,0.17,7.9788698299201215
+10,9-18,"scheduled, calibrated per period",other hours,0.18,7.91430470907802
+10,9-18,"scheduled, calibrated per period",other hours,0.19,7.849739588235917
+10,9-18,"scheduled, calibrated per period",other hours,0.2,7.785174467393815
+10,9-18,"scheduled, calibrated per period",other hours,0.21,7.720609346551712
+10,9-18,"scheduled, calibrated per period",other hours,0.22,7.65604422570961
+10,9-18,"scheduled, calibrated per period",other hours,0.23,7.591479104867507
+10,9-18,"scheduled, calibrated per period",other hours,0.24,7.526913984025405
+10,9-18,"scheduled, calibrated per period",other hours,0.25,7.462348863183302
+10,9-18,"scheduled, calibrated per period",other hours,0.26,7.3977837423412
+10,9-18,"scheduled, calibrated per period",other hours,0.27,7.333218621499098
+10,9-18,"scheduled, calibrated per period",other hours,0.28,7.2686535006569954
+10,9-18,"scheduled, calibrated per period",other hours,0.29,7.204088379814892
+10,9-18,"scheduled, calibrated per period",other hours,0.3,7.1395232589727895
+10,9-18,"scheduled, calibrated per period",other hours,0.31,7.074958138130688
+10,9-18,"scheduled, calibrated per period",other hours,0.32,7.010393017288585
+10,9-18,"scheduled, calibrated per period",other hours,0.33,6.945827896446483
+10,9-18,"scheduled, calibrated per period",other hours,0.34,6.88126277560438
+10,9-18,"scheduled, calibrated per period",other hours,0.35000000000000003,6.816697654762278
+10,9-18,"scheduled, calibrated per period",other hours,0.36,6.752132533920175
+10,9-18,"scheduled, calibrated per period",other hours,0.37,6.687567413078073
+10,9-18,"scheduled, calibrated per period",other hours,0.38,6.623002292235972
+10,9-18,"scheduled, calibrated per period",other hours,0.39,6.558437171393869
+10,9-18,"scheduled, calibrated per period",other hours,0.4,6.493872050551767
+10,9-18,"scheduled, calibrated per period",other hours,0.41000000000000003,6.429306929709664
+10,9-18,"scheduled, calibrated per period",other hours,0.42,6.364741808867562
+10,9-18,"scheduled, calibrated per period",other hours,0.43,6.30017668802546
+10,9-18,"scheduled, calibrated per period",other hours,0.44,6.235611567183358
+10,9-18,"scheduled, calibrated per period",other hours,0.45,6.171046446341255
+10,9-18,"scheduled, calibrated per period",other hours,0.46,6.106481325499153
+10,9-18,"scheduled, calibrated per period",other hours,0.47000000000000003,6.04191620465705
+10,9-18,"scheduled, calibrated per period",other hours,0.48,5.9773510838149475
+10,9-18,"scheduled, calibrated per period",other hours,0.49,5.912785962972845
+10,9-18,"scheduled, calibrated per period",other hours,0.5,5.8482208421307424
+10,9-18,"scheduled, calibrated per period",other hours,0.51,5.78365572128864
+10,9-18,"scheduled, calibrated per period",other hours,0.52,5.719090600446537
+10,9-18,"scheduled, calibrated per period",other hours,0.53,5.654525479604435
+10,9-18,"scheduled, calibrated per period",other hours,0.54,5.589960358762332
+10,9-18,"scheduled, calibrated per period",other hours,0.55,5.52539523792023
+10,9-18,"scheduled, calibrated per period",other hours,0.56,5.460830117078127
+10,9-18,"scheduled, calibrated per period",other hours,0.5700000000000001,5.396264996236025
+10,9-18,"scheduled, calibrated per period",other hours,0.58,5.331699875393923
+10,9-18,"scheduled, calibrated per period",other hours,0.59,5.267134754551821
+10,9-18,"scheduled, calibrated per period",other hours,0.6,5.202569633709718
+10,9-18,"scheduled, calibrated per period",other hours,0.61,5.1380045128676155
+10,9-18,"scheduled, calibrated per period",other hours,0.62,5.073439392025513
+10,9-18,"scheduled, calibrated per period",other hours,0.63,5.00887427118341
+10,9-18,"scheduled, calibrated per period",other hours,0.64,4.944309150341308
+10,9-18,"scheduled, calibrated per period",other hours,0.65,4.879744029499205
+10,9-18,"scheduled, calibrated per period",other hours,0.66,4.815178908657103
+10,9-18,"scheduled, calibrated per period",other hours,0.67,4.750613787815
+10,9-18,"scheduled, calibrated per period",other hours,0.68,4.686048666972899
+10,9-18,"scheduled, calibrated per period",other hours,0.6900000000000001,4.621483546130796
+10,9-18,"scheduled, calibrated per period",other hours,0.7000000000000001,4.556918425288694
+10,9-18,"scheduled, calibrated per period",other hours,0.71,4.492353304446592
+10,9-18,"scheduled, calibrated per period",other hours,0.72,4.4277881836044894
+10,9-18,"scheduled, calibrated per period",other hours,0.73,4.363223062762387
+10,9-18,"scheduled, calibrated per period",other hours,0.74,4.298657941920284
+10,9-18,"scheduled, calibrated per period",other hours,0.75,4.234092821078182
+10,9-18,"scheduled, calibrated per period",other hours,0.76,4.169527700236079
+10,9-18,"scheduled, calibrated per period",other hours,0.77,4.104962579393977
+10,9-18,"scheduled, calibrated per period",other hours,0.78,4.040397458551874
+10,9-18,"scheduled, calibrated per period",other hours,0.79,3.975832337709772
+10,9-18,"scheduled, calibrated per period",other hours,0.8,3.91126721686767
+10,9-18,"scheduled, calibrated per period",other hours,0.81,3.8467020960255676
+10,9-18,"scheduled, calibrated per period",other hours,0.8200000000000001,3.782136975183465
+10,9-18,"scheduled, calibrated per period",other hours,0.8300000000000001,3.7175718543413625
+10,9-18,"scheduled, calibrated per period",other hours,0.84,3.6530067334992604
+10,9-18,"scheduled, calibrated per period",other hours,0.85,3.588441612657158
+10,9-18,"scheduled, calibrated per period",other hours,0.86,3.523876491815056
+10,9-18,"scheduled, calibrated per period",other hours,0.87,3.4593113709729533
+10,9-18,"scheduled, calibrated per period",other hours,0.88,3.3947462501308507
+10,9-18,"scheduled, calibrated per period",other hours,0.89,3.330181129288748
+10,9-18,"scheduled, calibrated per period",other hours,0.9,3.2656160084466457
+10,9-18,"scheduled, calibrated per period",other hours,0.91,3.201050887604543
+10,9-18,"scheduled, calibrated per period",other hours,0.92,3.1364857667624406
+10,9-18,"scheduled, calibrated per period",other hours,0.93,3.071920645920338
+10,9-18,"scheduled, calibrated per period",other hours,0.9400000000000001,3.0073555250782356
+10,9-18,"scheduled, calibrated per period",other hours,0.9500000000000001,2.942790404236133
+10,9-18,"scheduled, calibrated per period",other hours,0.96,2.878225283394032
+10,9-18,"scheduled, calibrated per period",other hours,0.97,2.8136601625519293
+10,9-18,"scheduled, calibrated per period",other hours,0.98,2.7490950417098268
+10,9-18,"scheduled, calibrated per period",other hours,0.99,2.6845299208677242
+10,9-18,"scheduled, calibrated per period",other hours,1.0,2.6199648000256217

@@ -1,0 +1,12 @@
+horizon_min,window,period,lam_from,lam_to,cheapest_approach
+10,9-18,all hours,0.0,0.66,STID point prediction (no confidence)
+10,9-18,all hours,0.67,0.86,fixed 75% (always)
+10,9-18,all hours,0.87,1.0,fixed 90% (always)
+10,9-18,window,0.0,0.65,STID point prediction (no confidence)
+10,9-18,window,0.66,0.85,fixed 75% (always)
+10,9-18,window,0.86,0.91,fixed 90% (always)
+10,9-18,window,0.92,1.0,"scheduled, calibrated per period"
+10,9-18,other hours,0.0,0.66,STID point prediction (no confidence)
+10,9-18,other hours,0.67,0.77,"scheduled, calibrated per period"
+10,9-18,other hours,0.78,0.87,fixed 75% (always)
+10,9-18,other hours,0.88,1.0,fixed 90% (always)
