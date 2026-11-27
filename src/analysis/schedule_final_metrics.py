@@ -20,6 +20,14 @@ Weighted cost (third bar chart):  J = lam * unmet + (1 - lam) * overprov,  lam i
     --lam 0.8 --lam_night 0.8. "all hours" combines the two periods with their share s of the true
     activity: J_all = s * J_window + (1 - s) * J_other (exact).
 
+Lambda sweep (--lam_sweep):  J(lam) for lam = 0 ... 1 with ONE lam common to all periods, for every approach.
+    It does not return "the best lam" (lam is the relative cost of unmet vs waste, a design choice): it shows
+    for which lam each approach is the cheapest and where the proposal stops/starts winning (exact crossovers).
+    Extra outputs: <base>_lamsweep.png (top: J(lam); bottom: J - J_proposal, >0 = proposal better),
+    schedule_final_metrics_lamsweep.csv (J on the lam grid), schedule_final_metrics_lamsweep_best.csv
+    (lam intervals where each approach is the cheapest) and schedule_final_metrics_lamsweep_cross.csv
+    (lam at which each approach crosses the proposal). --lam_points sets the grid size (default 101).
+
 Every (horizon, window) combination gives three figures, with the metrics for
 all hours / window hours / other hours. The model outputs are loaded once per horizon.
     - bars:   three bar charts side by side (unmet %, over-provisioning %, weighted cost J)
@@ -39,6 +47,7 @@ Usage (from the repository root; data/checkpoint options as in schedule_conforma
         --cal_data datasets/MILAN_val --cal_ckpts "checkpoints_eval/MILAN_val/seed*/*"
     python src/analysis/schedule_final_metrics.py --horizons 1 --windows 9-18   # a single combination
     python src/analysis/schedule_final_metrics.py --horizons 1 --windows 9-19 --lam 0.8 --lam_night 0.8
+    python src/analysis/schedule_final_metrics.py --horizons 1 --windows 9-18 --lam_sweep   # + lambda sweep
 
 --horizons are 1-based like --horizon (1 = 10 min, 2 = 20 min, 3 = 30 min). The per-run options of
 schedule_conformal.py (--horizon, --day_start, --day_end, --out*) are accepted but overridden here.
@@ -86,10 +95,14 @@ def parse_all():
                          "(1 = only QoS, 0 = only energy); default 1 - day_eps")
     ap.add_argument("--lam_night", type=float, default=None,
                     help="same, outside the window; default 1 - night_eps")
+    ap.add_argument("--lam_sweep", action="store_true",
+                    help="also compute J(lam) for lam in [0, 1] (figure + CSVs, see docstring)")
+    ap.add_argument("--lam_points", type=int, default=101, help="number of lam values in the sweep grid (>= 2)")
     extra, rest = ap.parse_known_args()
     args = sc.parse_args(rest)
     args.out_dir, args.horizons = extra.out_dir, extra.horizons
     args.windows = [parse_window(w) for w in extra.windows]
+    args.lam_sweep, args.lam_points = extra.lam_sweep, extra.lam_points
     args.lam = (1 - args.day_eps) if extra.lam is None else extra.lam
     args.lam_night = (1 - args.night_eps) if extra.lam_night is None else extra.lam_night
     return args
@@ -269,6 +282,101 @@ def figure_merged(res, args, path):
     print(f"Saved {path}")
 
 
+# ----------------------------------------------------------------------
+# Lambda sweep: J(lam) = lam * unmet + (1 - lam) * overprov with one lam common to every period
+# ----------------------------------------------------------------------
+def sweep_curves(res, lams):
+    """{approach: {period: J array over lams}}. J is linear in lam, and unmet / overprov of 'all hours'
+    are already the share-weighted sums of the two periods, so one common lam is exact for all three."""
+    return {n: {p: lams * per[p]["unmet_%"] + (1 - lams) * per[p]["overprov_%"] for p in PERIODS}
+            for n, per in res.items()}
+
+
+def best_intervals(curves, lams, period):
+    """[(lam_from, lam_to, approach)]: consecutive lam values where the same approach is the cheapest."""
+    names = list(curves)
+    win = np.argmin(np.vstack([curves[n][period] for n in names]), axis=0)
+    out, start = [], 0
+    for i in range(1, len(lams) + 1):
+        if i == len(lams) or win[i] != win[start]:
+            out.append((float(lams[start]), float(lams[i - 1]), names[win[start]]))
+            start = i
+    return out
+
+
+def crossovers(res, period, ref=None):
+    """Exact lam where approach b has the same J as the reference (default: the proposal).
+    J_b - J_ref = d_o + lam * d, with d_o = o_b - o_ref and d = (u_b - o_b) - (u_ref - o_ref).
+    Returns {b: (lam_cross or None, verdict)}; verdict says for which lam the reference is cheaper."""
+    ref = ref or sc.K_SCHED
+    r = res[ref][period]
+    out = {}
+    for b, per in res.items():
+        if b == ref:
+            continue
+        d_o = per[period]["overprov_%"] - r["overprov_%"]
+        d = (per[period]["unmet_%"] - per[period]["overprov_%"]) - (r["unmet_%"] - r["overprov_%"])
+        lam = None if d == 0 else -d_o / d
+        if lam is not None and 0 < lam < 1:
+            out[b] = (float(lam), "proposal cheaper for lam > lam*" if d > 0 else "proposal cheaper for lam < lam*")
+        else:
+            at0, at1 = d_o, d_o + d    # J_b - J_ref at lam = 0 and lam = 1
+            out[b] = (None, "proposal cheaper for every lam" if min(at0, at1) >= 0 and max(at0, at1) > 0
+                      else "proposal never cheaper" if max(at0, at1) <= 0 and min(at0, at1) < 0
+                      else "tie")
+    return out
+
+
+def figure_lam_sweep(res, args, path, lams):
+    """Row 1: J(lam) per approach. Row 2: J - J_proposal (> 0: proposal cheaper). One panel per period."""
+    names = list(res.keys())
+    colors = dict(zip(names, ["tab:blue", "tab:orange", "tab:green", "tab:purple", "tab:red"]))
+    curves = sweep_curves(res, lams)
+    ref = sc.K_SCHED
+    fig, axes = plt.subplots(2, 3, figsize=(18, 8.5), sharex=True)
+    for j, p in enumerate(PERIODS):
+        top, bot = axes[0, j], axes[1, j]
+        for n in names:
+            prop = n == ref
+            top.plot(lams, curves[n][p], color=colors[n], lw=3 if prop else 1.6, zorder=3 if prop else 2,
+                     label=SHORT.get(n, n.replace(" (always)", "")).replace("\n", " "))
+            if not prop and ref in curves:
+                bot.plot(lams, curves[n][p] - curves[ref][p], color=colors[n], lw=1.6)
+        bot.axhline(0, color="k", lw=1)
+        for ax in (top, bot):
+            ax.grid(alpha=0.3)
+            if p == "window":
+                ax.axvline(args.lam, color="gray", ls="--", lw=1)
+            elif p == "other hours":
+                ax.axvline(args.lam_night, color="gray", ls="--", lw=1)
+        lab = f"{args.day_start:g}-{args.day_end:g} h" if p == "window" else p
+        top.set_title(lab, fontsize=11)
+        bot.set_xlabel("$\\lambda$  (0 = only energy, 1 = only QoS)")
+        if j == 0:
+            top.set_ylabel("weighted cost J = $\\lambda\\cdot$unmet + (1-$\\lambda$)$\\cdot$overprov")
+            bot.set_ylabel("J - J(proposal)   (> 0: proposal cheaper)")
+    axes[0, 0].legend(fontsize=8, loc="upper left")
+    fig.suptitle(f"Lambda sweep - horizon {args.horizon * 10} min - window {args.day_start:g}-{args.day_end:g} h "
+                 f"- test set  (dashed: default lambda of the period)", fontsize=12)
+    plt.tight_layout(rect=(0, 0, 1, 0.95))
+    plt.savefig(path, dpi=150)
+    plt.close(fig)
+    print(f"Saved {path}")
+
+
+def print_sweep(res, lams):
+    """Console summary: cheapest approach by lam interval, and where the proposal crosses the others."""
+    curves = sweep_curves(res, lams)
+    print("\nlambda sweep: cheapest approach by lam interval (lam = 1: only QoS, 0: only energy)")
+    for p in PERIODS:
+        print(f"  [{p}]")
+        for a, b, n in best_intervals(curves, lams, p):
+            tag = "  <- proposal" if n == sc.K_SCHED else ""
+            print(f"    lam {a:4.2f} - {b:4.2f}: {n}{tag}")
+        for n, (lam, why) in crossovers(res, p).items():
+            print(f"    vs {n:40s}: " + (f"lam* = {lam:5.3f}, " if lam is not None else "no crossing, ") + why)
+
+
 def print_cost(res, args):
     """Print the weighted cost J = lam * unmet + (1 - lam) * overprov per approach and period."""
     cost = weighted_cost(res, args)
@@ -294,8 +402,12 @@ def main():
         raise SystemExit("--day_eps and --night_eps must be in (0, 1)")
     if not (0 <= args.lam <= 1 and 0 <= args.lam_night <= 1):
         raise SystemExit("--lam and --lam_night must be in [0, 1]")
+    if args.lam_points < 2:
+        raise SystemExit("--lam_points must be >= 2")
     os.makedirs(args.out_dir, exist_ok=True)
     all_res = []   # one {"horizon_min", "window", "results"} entry per combination
+    lams = np.linspace(0, 1, args.lam_points)
+    sweep_rows, best_rows, cross_rows = [], [], []
 
     for h in args.horizons:
         args.horizon = h
@@ -316,6 +428,18 @@ def main():
             figure(res, args, base + ".png")
             figure_stacked(res, args, base + "_stacked.png")
             figure_merged(res, args, base + "_merged.png")
+            if args.lam_sweep:
+                figure_lam_sweep(res, args, base + "_lamsweep.png", lams)
+                print_sweep(res, lams)
+                hw = (h * 10, f"{start:g}-{end:g}")
+                cv = sweep_curves(res, lams)
+                for n in res:
+                    for p in PERIODS:
+                        sweep_rows += [[*hw, n, p, float(l), float(v)] for l, v in zip(lams, cv[n][p])]
+                for p in PERIODS:
+                    best_rows += [[*hw, p, a, b, n] for a, b, n in best_intervals(cv, lams, p)]
+                    cross_rows += [[*hw, p, n, "" if lam is None else lam, why]
+                                   for n, (lam, why) in crossovers(res, p).items()]
             all_res.append({"horizon_min": h * 10, "window": f"{start:g}-{end:g}", "results": res,
                             "cost": weighted_cost(res, args)})
 
@@ -333,6 +457,19 @@ def main():
         json.dump({"eps_window": args.day_eps, "eps_outside": args.night_eps,
                    "lam_window": args.lam, "lam_outside": args.lam_night, "runs": all_res}, f, indent=2)
     print(f"\nSaved {csv_path}, {json_path} ({len(all_res)} combinations)")
+    if args.lam_sweep and sweep_rows:
+        for name, header, rows in (
+                ("lamsweep", ["horizon_min", "window", "approach", "period", "lam", "cost_J"], sweep_rows),
+                ("lamsweep_best", ["horizon_min", "window", "period", "lam_from", "lam_to", "cheapest_approach"],
+                 best_rows),
+                ("lamsweep_cross", ["horizon_min", "window", "period", "approach", "lam_cross_vs_proposal",
+                                    "verdict"], cross_rows)):
+            path = os.path.join(args.out_dir, f"schedule_final_metrics_{name}.csv")
+            with open(path, "w", newline="") as f:
+                w = csv.writer(f)
+                w.writerow(header)
+                w.writerows(rows)
+            print(f"Saved {path}")
 
 
 if __name__ == "__main__":
