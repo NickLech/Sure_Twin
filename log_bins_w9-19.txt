@@ -1,0 +1,155 @@
+nohup: ignoring input
+
+[evaluation] 10 run(s) from checkpoints/STID_MILAN/seed*/*
+[evaluation] windows evaluated: 709 of 709; max |targets - raw| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2679 vs 0.2679 (should agree within ~1%)
+  seed1: 0.2678 vs 0.2678 (should agree within ~1%)
+  seed2: 0.2685 vs 0.2685 (should agree within ~1%)
+  seed3: 0.2690 vs 0.2690 (should agree within ~1%)
+  seed4: 0.2717 vs 0.2717 (should agree within ~1%)
+  seed5: 0.2712 vs 0.2712 (should agree within ~1%)
+  seed6: 0.2681 vs 0.2681 (should agree within ~1%)
+  seed7: 0.2713 vs 0.2713 (should agree within ~1%)
+  seed8: 0.2680 vs 0.2680 (should agree within ~1%)
+  seed9: 0.2726 vs 0.2726 (should agree within ~1%)
+
+[calibration] 10 run(s) from checkpoints_eval/MILAN_val/seed*/*
+[calibration] windows evaluated: 709 of 709; max |targets - raw| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2956 vs 0.2956 (should agree within ~1%)
+  seed1: 0.2955 vs 0.2955 (should agree within ~1%)
+  seed2: 0.2959 vs 0.2959 (should agree within ~1%)
+  seed3: 0.2958 vs 0.2958 (should agree within ~1%)
+  seed4: 0.3011 vs 0.3011 (should agree within ~1%)
+  seed5: 0.2984 vs 0.2984 (should agree within ~1%)
+  seed6: 0.2952 vs 0.2952 (should agree within ~1%)
+  seed7: 0.2999 vs 0.2999 (should agree within ~1%)
+  seed8: 0.2957 vs 0.2957 (should agree within ~1%)
+  seed9: 0.3011 vs 0.3011 (should agree within ~1%)
+
+##### Horizon 10 min | cells 2500 | window 9-19 h
+
+== 1) GLOBALE, TUTTE LE CELLE, all hours (negativo = meglio della frontiera a margine scalato) ==
+approach                                cover   unmet%    over% | d_unmet@iso-over      CI95_unmet | d_over@iso-unmet       CI95_over
+STID point prediction (no confidence)   0.518     5.00     3.75 | 
+scheduled, calibrated per period        0.834     1.77    13.32 |           -0.000 [-0.000,-0.000] |           +0.000 [+0.000,+0.000]
+40 bins                                 0.834     1.70    13.39 |           -0.058 [-0.068,-0.051] |           -0.463 [-0.514,-0.420]
+deciles+top2                            0.834     1.73    13.32 |           -0.034 [-0.039,-0.030] |           -0.264 [-0.285,-0.238]
+deciles+top4                            0.834     1.72    13.37 |           -0.045 [-0.054,-0.038] |           -0.356 [-0.406,-0.314]
+deciles+top8                            0.834     1.71    13.38 |           -0.055 [-0.065,-0.047] |           -0.431 [-0.487,-0.382]
+
+== 2) PER TIER STATICO (media su train), all hours: unmet% / over% ==
+tier            act% | STID point p | scheduled, c |   40 bins    | deciles+top2 | deciles+top4 | deciles+top8
+cells 0%-50%    10.2 |  6.31/ 4.49 |  2.44/15.15 |  2.43/15.01 |  2.44/15.15 |  2.44/15.15 |  2.44/15.15
+cells 50%-75%   21.1 |  5.43/ 4.06 |  1.98/14.23 |  1.98/13.98 |  1.98/14.16 |  1.98/14.16 |  1.98/14.16
+cells 75%-90%   28.4 |  4.92/ 3.72 |  1.61/14.69 |  1.67/13.51 |  1.69/13.58 |  1.71/13.33 |  1.71/13.25
+cells 90%-97%   23.9 |  4.57/ 3.48 |  1.44/12.88 |  1.37/13.34 |  1.37/13.41 |  1.38/13.28 |  1.39/13.17
+cells 97%-100%  16.4 |  4.39/ 3.35 |  1.84/ 9.26 |  1.42/11.49 |  1.58/10.55 |  1.43/11.46 |  1.35/11.81
+Saved final_metrics/adaptive_bins_all/w9-19/adaptive_bins_h10_w9-19_frontier.png
+Saved final_metrics/adaptive_bins_all/w9-19/adaptive_bins_h10_w9-19_gain.png
+
+[evaluation] 10 run(s) from checkpoints/STID_MILAN/seed*/*
+[evaluation] windows evaluated: 709 of 709; max |targets - raw| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2679 vs 0.2679 (should agree within ~1%)
+  seed1: 0.2678 vs 0.2678 (should agree within ~1%)
+  seed2: 0.2685 vs 0.2685 (should agree within ~1%)
+  seed3: 0.2690 vs 0.2690 (should agree within ~1%)
+  seed4: 0.2717 vs 0.2717 (should agree within ~1%)
+  seed5: 0.2712 vs 0.2712 (should agree within ~1%)
+  seed6: 0.2681 vs 0.2681 (should agree within ~1%)
+  seed7: 0.2713 vs 0.2713 (should agree within ~1%)
+  seed8: 0.2680 vs 0.2680 (should agree within ~1%)
+  seed9: 0.2726 vs 0.2726 (should agree within ~1%)
+
+[calibration] 10 run(s) from checkpoints_eval/MILAN_val/seed*/*
+[calibration] windows evaluated: 709 of 709; max |targets - raw| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2956 vs 0.2956 (should agree within ~1%)
+  seed1: 0.2955 vs 0.2955 (should agree within ~1%)
+  seed2: 0.2959 vs 0.2959 (should agree within ~1%)
+  seed3: 0.2958 vs 0.2958 (should agree within ~1%)
+  seed4: 0.3011 vs 0.3011 (should agree within ~1%)
+  seed5: 0.2984 vs 0.2984 (should agree within ~1%)
+  seed6: 0.2952 vs 0.2952 (should agree within ~1%)
+  seed7: 0.2999 vs 0.2999 (should agree within ~1%)
+  seed8: 0.2957 vs 0.2957 (should agree within ~1%)
+  seed9: 0.3011 vs 0.3011 (should agree within ~1%)
+
+##### Horizon 20 min | cells 2500 | window 9-19 h
+
+== 1) GLOBALE, TUTTE LE CELLE, all hours (negativo = meglio della frontiera a margine scalato) ==
+approach                                cover   unmet%    over% | d_unmet@iso-over      CI95_unmet | d_over@iso-unmet       CI95_over
+STID point prediction (no confidence)   0.517     5.35     4.02 | 
+scheduled, calibrated per period        0.834     1.91    14.43 |           -0.000 [-0.000,-0.000] |           +0.000 [+0.000,+0.000]
+40 bins                                 0.834     1.84    14.52 |           -0.057 [-0.070,-0.048] |           -0.464 [-0.528,-0.410]
+deciles+top2                            0.834     1.87    14.49 |           -0.032 [-0.039,-0.027] |           -0.255 [-0.293,-0.221]
+deciles+top4                            0.834     1.85    14.51 |           -0.045 [-0.058,-0.036] |           -0.358 [-0.424,-0.300]
+deciles+top8                            0.834     1.84    14.53 |           -0.053 [-0.069,-0.042] |           -0.426 [-0.508,-0.353]
+
+== 2) PER TIER STATICO (media su train), all hours: unmet% / over% ==
+tier            act% | STID point p | scheduled, c |   40 bins    | deciles+top2 | deciles+top4 | deciles+top8
+cells 0%-50%    10.2 |  6.77/ 4.68 |  2.64/16.30 |  2.63/16.12 |  2.64/16.30 |  2.64/16.30 |  2.64/16.30
+cells 50%-75%   21.1 |  5.81/ 4.30 |  2.12/15.44 |  2.13/15.17 |  2.13/15.37 |  2.13/15.36 |  2.13/15.36
+cells 75%-90%   28.4 |  5.25/ 3.97 |  1.72/15.94 |  1.79/14.65 |  1.81/14.75 |  1.83/14.47 |  1.83/14.38
+cells 90%-97%   23.9 |  4.88/ 3.78 |  1.57/13.96 |  1.49/14.49 |  1.49/14.64 |  1.51/14.45 |  1.51/14.35
+cells 97%-100%  16.4 |  4.71/ 3.69 |  1.99/10.06 |  1.54/12.53 |  1.71/11.53 |  1.55/12.50 |  1.48/12.91
+Saved final_metrics/adaptive_bins_all/w9-19/adaptive_bins_h20_w9-19_frontier.png
+Saved final_metrics/adaptive_bins_all/w9-19/adaptive_bins_h20_w9-19_gain.png
+
+[evaluation] 10 run(s) from checkpoints/STID_MILAN/seed*/*
+[evaluation] windows evaluated: 709 of 709; max |targets - raw| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2679 vs 0.2679 (should agree within ~1%)
+  seed1: 0.2678 vs 0.2678 (should agree within ~1%)
+  seed2: 0.2685 vs 0.2685 (should agree within ~1%)
+  seed3: 0.2690 vs 0.2690 (should agree within ~1%)
+  seed4: 0.2717 vs 0.2717 (should agree within ~1%)
+  seed5: 0.2712 vs 0.2712 (should agree within ~1%)
+  seed6: 0.2681 vs 0.2681 (should agree within ~1%)
+  seed7: 0.2713 vs 0.2713 (should agree within ~1%)
+  seed8: 0.2680 vs 0.2680 (should agree within ~1%)
+  seed9: 0.2726 vs 0.2726 (should agree within ~1%)
+
+[calibration] 10 run(s) from checkpoints_eval/MILAN_val/seed*/*
+[calibration] windows evaluated: 709 of 709; max |targets - raw| = 0.0004883
+
+[check] normalized MAE: recomputed vs BasicTS test_metrics.json
+  seed0: 0.2956 vs 0.2956 (should agree within ~1%)
+  seed1: 0.2955 vs 0.2955 (should agree within ~1%)
+  seed2: 0.2959 vs 0.2959 (should agree within ~1%)
+  seed3: 0.2958 vs 0.2958 (should agree within ~1%)
+  seed4: 0.3011 vs 0.3011 (should agree within ~1%)
+  seed5: 0.2984 vs 0.2984 (should agree within ~1%)
+  seed6: 0.2952 vs 0.2952 (should agree within ~1%)
+  seed7: 0.2999 vs 0.2999 (should agree within ~1%)
+  seed8: 0.2957 vs 0.2957 (should agree within ~1%)
+  seed9: 0.3011 vs 0.3011 (should agree within ~1%)
+
+##### Horizon 30 min | cells 2500 | window 9-19 h
+
+== 1) GLOBALE, TUTTE LE CELLE, all hours (negativo = meglio della frontiera a margine scalato) ==
+approach                                cover   unmet%    over% | d_unmet@iso-over      CI95_unmet | d_over@iso-unmet       CI95_over
+STID point prediction (no confidence)   0.520     5.48     4.21 | 
+scheduled, calibrated per period        0.835     1.96    14.98 |           -0.000 [-0.000,-0.000] |           +0.000 [+0.000,+0.000]
+40 bins                                 0.835     1.89    15.10 |           -0.058 [-0.074,-0.047] |           -0.469 [-0.549,-0.403]
+deciles+top2                            0.835     1.92    15.05 |           -0.033 [-0.041,-0.027] |           -0.262 [-0.308,-0.223]
+deciles+top4                            0.835     1.90    15.09 |           -0.045 [-0.059,-0.035] |           -0.364 [-0.443,-0.299]
+deciles+top8                            0.835     1.89    15.08 |           -0.054 [-0.070,-0.042] |           -0.436 [-0.521,-0.362]
+
+== 2) PER TIER STATICO (media su train), all hours: unmet% / over% ==
+tier            act% | STID point p | scheduled, c |   40 bins    | deciles+top2 | deciles+top4 | deciles+top8
+cells 0%-50%    10.2 |  6.96/ 4.84 |  2.72/16.85 |  2.71/16.68 |  2.72/16.85 |  2.72/16.85 |  2.72/16.85
+cells 50%-75%   21.1 |  5.95/ 4.49 |  2.18/16.03 |  2.20/15.75 |  2.19/15.95 |  2.19/15.95 |  2.19/15.95
+cells 75%-90%   28.4 |  5.37/ 4.16 |  1.76/16.54 |  1.83/15.19 |  1.85/15.28 |  1.87/15.00 |  1.87/14.90
+cells 90%-97%   23.9 |  5.01/ 3.98 |  1.61/14.50 |  1.53/15.11 |  1.53/15.26 |  1.55/15.06 |  1.55/14.91
+cells 97%-100%  16.4 |  4.85/ 3.90 |  2.06/10.49 |  1.59/13.13 |  1.76/12.07 |  1.60/13.09 |  1.53/13.44
+Saved final_metrics/adaptive_bins_all/w9-19/adaptive_bins_h30_w9-19_frontier.png
+Saved final_metrics/adaptive_bins_all/w9-19/adaptive_bins_h30_w9-19_gain.png
+Saved final_metrics/adaptive_bins_all/w9-19/adaptive_bins_metrics.csv (324 rows)
