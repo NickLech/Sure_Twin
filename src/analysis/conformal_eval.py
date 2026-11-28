@@ -69,7 +69,8 @@ def spearman(a, b):
 
 
 def load_split(data_dir, ckpts, args, tag):
-    """Ensemble mean (pred), ensemble std (spread) and truth at one horizon, original units.
+    """Ensemble mean (pred), ensemble std (spread), truth and the two naive baselines (last, seasonal)
+    at one horizon, original units.
     Arrays are [windows, cells]; slot / day / dow give the clock slot, day index and weekday
     of the forecast target of each window."""
     IN, OUT, H = args.input_len, args.output_len, args.horizon - 1   # H = 0-based index
@@ -110,6 +111,8 @@ def load_split(data_dir, ckpts, args, tag):
 
     # test row forecast by each kept window, and its clock slot / day / weekday
     t = np.flatnonzero(keep) + IN + H
+    out["last"] = test[t - H - 1][:, cols].astype(np.float64)               # last observed value
+    out["seasonal"] = test[t - STEPS_PER_DAY][:, cols].astype(np.float64)   # same slot, 24 h earlier
     off = int(round(test_ts[0, 0] * STEPS_PER_DAY))      # clock slot of the first test row
     out["slot"] = (t + off) % STEPS_PER_DAY
     out["day"] = (t + off) // STEPS_PER_DAY
