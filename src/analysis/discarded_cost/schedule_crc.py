@@ -48,7 +48,7 @@ import costs
 import schedule_conformal as sc
 import schedule_costs as scost
 from analyse_result import STEPS_PER_DAY
-from schedule_hysteresis import ORACLE_LABEL, hysteresis
+from analysis.discarded_cost.schedule_hysteresis import ORACLE_LABEL, hysteresis
 
 CRC_C, CRC_L = "STID + CRC constant margin", "STID + CRC level-shaped margin"
 KEEP = {scost.point("STID"), scost.level("STID"), scost.point("last value"), scost.ORACLE}

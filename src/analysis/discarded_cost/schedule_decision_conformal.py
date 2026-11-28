@@ -54,7 +54,7 @@ import schedule_conformal as sc
 import schedule_costs as scost
 from analyse_result import STEPS_PER_DAY
 from conformal_eval import conf_q
-from schedule_hysteresis import ORACLE_LABEL, hysteresis
+from analysis.discarded_cost.schedule_hysteresis import ORACLE_LABEL, hysteresis
 
 DEC = "STID + decision margin"
 KEEP = {scost.point("STID"), scost.level("STID"), scost.point("last value"), scost.ORACLE}
